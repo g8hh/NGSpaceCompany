@@ -127,7 +127,7 @@ export const store = createStore({
         getFactionMultiplier: (state) => (id) => {
         
             var op = state.data[id].opinion
-            if (op >= 20 && op < 60) return 0.5
+            if (op >= 20) return 0.5
             else if (op >= -20 && op < 20) return 1
             else if (op >= -60 && op < -20) return 2
             else if (op < -60) return 3
@@ -1187,6 +1187,11 @@ export const store = createStore({
             state.data['upgradeFaction'] =  { id:'upgradeFaction',  unlocked:false, count:0, max:1, costType:'FIXED', baseCosts:[{ id:'darkmatter', count:49 }], notifs:['stargazeOverlordPane'], faction:'overlord', opinion:20, }
             /*----------------------------------------------------------------*/
             
+            // ULTRITE
+            /*----------------------------------------------------------------*/
+            state.data['ultrite'] = { id:'ultrite', unlocked:false, count:0, notifs:['ultritePane'], }
+            /*----------------------------------------------------------------*/
+            
             // ACHIEVEMENT LIST
             /*----------------------------------------------------------------*/
             state.achievements = [
@@ -1585,6 +1590,7 @@ export const store = createStore({
             state.resources.forEach(item => {
                 let tempBoost = boost
                 if (item.id == 'science' && state.data['boostScience'].unlocked && state.data['boostScience'].count > 0) tempBoost += 0.02 * state.data['boostScience'].count
+                if (temp[item.id].prod > 0 && temp[item.id].prod < 0.001) temp[item.id].prod = 0
                 commit('setDataProd', { id:item.id, prod:temp[item.id].prod })
                 commit('setDataBoost', { id:item.id, boost:(1 + tempBoost) * (1 + temp[item.id].boost) })
                 commit('setDataProduction', { id:item.id, production:temp[item.id].production })
@@ -1822,10 +1828,14 @@ export const store = createStore({
             }
             /*----------------------------------------------------------------*/
             else if (id == 'upgradeFaction') {
-                let list = ['carnelian', 'prasnian', 'hyacinite', 'kitrinos', 'moviton']
-                for (let i = 0; i < list.length; i++) {
-                    let item = state.data[list[i]]
-                    item.opinion += 20
+                let upgrade = state.data[id]
+                if (upgrade.count <= 1) {
+                    upgrade.count += 1
+                    let list = ['carnelian', 'prasnian', 'hyacinite', 'kitrinos', 'moviton']
+                    for (let i = 0; i < list.length; i++) {
+                        let item = state.data[list[i]]
+                        item.opinion += 20
+                    }
                 }
             }
             /*----------------------------------------------------------------*/
@@ -1936,7 +1946,7 @@ export const store = createStore({
                     if ('baseCosts' in item) commit('computeCosts', item.id)
                     
                     if ('unlocks' in item) item.unlocks.forEach(unlock => { dispatch('unlock', unlock) })
-                    if ('faction' in item && 'opinion' in item) state.data[item.faction].opinion += item.opinion
+                    if ('faction' in item && 'opinion' in item) { state.data[item.faction].opinion += item.opinion }
 
                     dispatch('onBuild', item.id)
                     
@@ -2072,7 +2082,7 @@ export const store = createStore({
                                 }
                             }
                             
-                            commit('computeCosts', i)
+                            commit('computeCosts', item.id)
                         }
                     }
                     

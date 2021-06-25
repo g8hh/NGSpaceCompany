@@ -118,6 +118,9 @@
                         <sidenav-item id="stargazeOverlordPane" icon="overlord.png" :unlocked="data['darkmatter'].unlocked" :opinion="data['overlord'].opinion" />
                     </sidenav-group>
 
+                    <sidenav-group id="enlightenmentHeading" :unlocked="data['ultrite'].unlocked">
+                        <sidenav-item id="ultritePane" icon="ultrite.png" :unlocked="data['ultrite'].unlocked" :count="data['ultrite'].count" :potential="getPotentialUL" />
+                    </sidenav-group>
                 </div>
             </inner-content>
         </div>
@@ -910,7 +913,7 @@
                             <div class="col-12 mt-2">
                                 <div class="row g-1">
                                     <div v-for="ach in resAchievements" :key="ach.id" class="col-12 col-md-4">
-                                        <div class="rounded px-3 py-2" :class="{ 'opacity-1':!ach.unlocked }" style="background-color:rgba(255,255,255,.125);">
+                                        <div class="rounded px-3 py-2" :class="{ 'opacity-1':!ach.unlocked }" style="background-color:rgba(255,255,255,.125);" role="heading">
                                             <div class="row g-1">
                                                 <div class="col-12 small">
                                                     <div class="row gx-2">
@@ -946,7 +949,7 @@
                             <div class="col-12 mt-2">
                                 <div class="row g-1">
                                     <div v-for="ach in prodAchievements" :key="ach.id" class="col-12 col-md-4">
-                                        <div class="rounded px-3 py-2" :class="{ 'opacity-1':!ach.unlocked }" style="background-color:rgba(255,255,255,.125);">
+                                        <div class="rounded px-3 py-2" :class="{ 'opacity-1':!ach.unlocked }" style="background-color:rgba(255,255,255,.125);" role="heading">
                                             <div class="row g-1">
                                                 <div class="col-12 small">
                                                     <div class="row gx-2">
@@ -1524,6 +1527,18 @@
                             <span class="h6 text-light">{{ $t('changeLog') }}</span>
                         </div>
                         <div class="col-12 border-top">
+                            <div class="text-light">v1.16.2 - 2021-06-25</div>
+                            <ul class="small">
+                                <li>FIX: negative resource production</li>
+                            </ul>
+                            <div class="text-light">v1.16.1 - 2021-06-25</div>
+                            <ul class="small">
+                                <li>FIX: power and defense star values</li>
+                                <li>FIX: +NAN/s value in resource production</li>
+                                <li>FIX: EMC negative value</li>
+                            </ul>
+                        </div>
+                        <div class="col-12 border-top">
                             <div class="text-light">v1.16.0 - 2021-06-24</div>
                             <ul class="small">
                                 <li>FIX: calculator computed values</li>
@@ -1778,8 +1793,7 @@ export default {
             hardResetModal: null,
             segmentModal: null,
             calcModal: null,
-
-            currentRelease: '1.16.0',
+            currentRelease: '1.16.2',
             ghLatestRelease: null,
 
             login: null,

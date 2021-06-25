@@ -56,11 +56,11 @@ export default {
             'data', 'emcAmount', 'autoResource'
         ]),
         sourceCount: function() {
-            if (this.emcAmount == 'max') return Math.floor((this.data[this.data[this.id].source].count - this.data[this.data[this.id].source].consumption) / this.data[this.id].rate) * this.data[this.id].rate
+            if (this.emcAmount == 'max') return Math.max(0, Math.floor((this.data[this.data[this.id].source].count - this.data[this.data[this.id].source].consumption) / this.data[this.id].rate) * this.data[this.id].rate)
             else return Math.min(this.emcAmount, Math.floor(this.data[this.data[this.id].source].count / this.data[this.id].rate)) * this.data[this.id].rate
         },
         destinationCount: function() {
-            if (this.emcAmount == 'max') return Math.floor((this.data[this.data[this.id].source].count - this.data[this.data[this.id].source].consumption) / this.data[this.id].rate)
+            if (this.emcAmount == 'max') return Math.max(0, Math.floor((this.data[this.data[this.id].source].count - this.data[this.data[this.id].source].consumption) / this.data[this.id].rate))
             else return Math.floor(Math.min(this.emcAmount, this.data[this.data[this.id].source].count / this.data[this.id].rate))
         },
     },
