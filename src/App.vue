@@ -1740,7 +1740,7 @@ import { Tooltip, Toast, Modal } from 'bootstrap'
 
 import ghApi from './apis/ghApi.js'
 
-import axios from 'axios'
+// import axios from 'axios'
 import moment from 'moment'
 
 export default {
@@ -1968,13 +1968,13 @@ export default {
 
                 if (this.token) {
 
-                    let data = {
-                        rank: this.rank,
-                    }
-                    axios.post('https://ngspacecompany.exileng.com/api/post/', data, { headers: { 'Authorization': 'Token ' +  this.token }})
+                    // let data = {
+                    //     rank: this.rank,
+                    // }
+                    // axios.post('https://ngspacecompany.exileng.com/api/post/', data, { headers: { 'Authorization': 'Token ' +  this.token }})
                 }
 
-                axios.get('https://ngspacecompany.exileng.com/api/ranks/').then((response) => { this.leaderboard_ranks = response.data })
+                // axios.get('https://ngspacecompany.exileng.com/api/ranks/').then((response) => { this.leaderboard_ranks = response.data })
             }
         },
         ghUpdate() {
@@ -2034,27 +2034,27 @@ export default {
             window.location.reload()
         },
         onConnect(login, pwd) {
-
-            if (login && login.trim().length > 4 && pwd && pwd.trim().length > 4)
-                axios.post('https://ngspacecompany.exileng.com/api/register/', { username:login.trim(), password:pwd.trim() })
-                    .then((response) => {
-
-                        this.setUsername(login.trim())
-                        this.setToken(response.data.token)
-                    })
-                    .catch(() => {
-
-                        axios.post('https://ngspacecompany.exileng.com/api/login/', { username:login.trim(), password:pwd.trim() })
-                            .then((response) => {
-
-                                this.setUsername(login.trim())
-                                this.setToken(response.data.token)
-                            })
-                            .catch((error) => {
-
-                                console.log(error.response.data)
-                            })
-                    })
+          console.log(login, pwd)
+            // if (login && login.trim().length > 4 && pwd && pwd.trim().length > 4)
+                // axios.post('https://ngspacecompany.exileng.com/api/register/', { username:login.trim(), password:pwd.trim() })
+                //     .then((response) => {
+                //
+                //         this.setUsername(login.trim())
+                //         this.setToken(response.data.token)
+                //     })
+                //     .catch(() => {
+                //
+                //         axios.post('https://ngspacecompany.exileng.com/api/login/', { username:login.trim(), password:pwd.trim() })
+                //             .then((response) => {
+                //
+                //                 this.setUsername(login.trim())
+                //                 this.setToken(response.data.token)
+                //             })
+                //             .catch((error) => {
+                //
+                //                 console.log(error.response.data)
+                //             })
+                //     })
         },
         onDisconnect() {
 
