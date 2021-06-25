@@ -1,13 +1,13 @@
 {
-    "donatingPane": "Donating",
+    "donatingPane": "捐赠",
     "donatingPane_desc1": "I didn't like the intrusiveness of ads on this game and felt that getting people to pay for an in-game boost wouldn't bode well in the community as it makes the game feel like a freemium or pay-to-win game.",
     "donatingPane_desc2": "However, I like the donation system because there is nothing forcing you to donate other than out of the goodness of people's hearts. If you like the game and want more content faster, I would be happy to put more time towards this game if I felt that it is paying off.",
     "donatingPane_desc3": "Make a donation",
     "donatingPane_desc4": "'ExileNG' is the name of my Paypal account.",
     
-    "achievementPane": "Achievements",
+    "achievementPane": "成就",
     "achievementPane_desc": "This is where you can see your rank and all of your achievements.",
-    "statistics": "Statistics",
+    "statistics": "统计",
     "startDate": "Game played since",
     "lastRebirthDate": "Last rebirth",
     "rebirthCount": "Rebirth Count",
@@ -203,8 +203,8 @@
     "oilT5": "Fossilator 9000",
     "oilT5_desc": "Much better than the 8000 version, this fossilator reverses the fossil fuel cycle. Instead of burning, it creates them from carbon in the air.",
 
-    "metal": "Metal",
-    "metalPane": "Metal",
+    "metal": "金属",
+    "metalPane": "金属",
     "metalPane_desc": "Metal is one of the primary resources. It is used for many things, including storage upgrades, machinery and most things in space.",
     "metalS1": "Upgrade Storage",
     "metalS1_desc": "Double your Metal storage size",
@@ -219,8 +219,8 @@
     "metalT5": "Multiverse Drill",
     "metalT5_desc": "Drills metal from alternate realities where metal is plentiful.",
     
-    "gem": "Gem",
-    "gemPane": "Gem",
+    "gem": "宝石",
+    "gemPane": "宝石",
     "gemPane_desc": "Gems are one of the primary resources. They are used for advanced machines and for powerful tools and components. They are more useful in later game.",
     "gemS1": "Upgrade Storage",
     "gemS1_desc": "Double your Gem storage size",

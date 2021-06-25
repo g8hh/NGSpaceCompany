@@ -158,11 +158,11 @@
                     </button>
                 </div>
 
-                <div class="col-auto cursor-hover position-relative" data-bs-toggle="tooltip" data-bs-placement="left" :title="$t('rankPane')">
-                    <button @click="setActivePane('rankPane')">
-                        <img :src="require('./assets/interface/rank.png')" width="16" height="16" />
-                    </button>
-                </div>
+<!--                <div class="col-auto cursor-hover position-relative" data-bs-toggle="tooltip" data-bs-placement="left" :title="$t('rankPane')">-->
+<!--                    <button @click="setActivePane('rankPane')">-->
+<!--                        <img :src="require('./assets/interface/rank.png')" width="16" height="16" />-->
+<!--                    </button>-->
+<!--                </div>-->
 
                 <div class="col-auto">
                     <button class="text-normal cursor-hover" data-bs-toggle="dropdown">
@@ -171,6 +171,12 @@
                         <span v-if="locale == 'fr'" class="flag-icon flag-icon-fr rounded"></span>
                     </button>
                     <ul class="dropdown-menu dropdown-menu-end">
+                      <li>
+                        <button class="dropdown-item cursor-hover" @click="changeLocale('chs')">
+                          <span class="flag-icon flag-icon-cn rounded me-2"></span>
+                          中文
+                        </button>
+                      </li>
                         <li>
                             <button class="dropdown-item cursor-hover" @click="changeLocale('en')">
                                 <span class="flag-icon flag-icon-gb rounded me-2"></span>
