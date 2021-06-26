@@ -4,6 +4,7 @@
     "donatingPane_desc2": "Cependant, j'aime le système de don car rien ne vous oblige à faire un don. Faire un don ne vous donnera rien dans le jeu: pas de boost, pas d'avantage. Vous pouvez faire un don si vous aimez le jeu et/ou pour vous assurer que le jeu sera maintenu le plus longtemps possible.",
     "donatingPane_desc3": "Faire un don",
     "donatingPane_desc4": "'ExileNG' est le nom de mon compte Paypal.",
+    "donatingPane_desc5": "Faire un don vous donnera droit à un rôle spécifique sur le serveur Discord, à être créditer dans le panneau des Donateurs dans le jeu et de renommer une Etoile comme vous voulez :)",
     
     "achievementPane": "Trophées",
     "achievementPane_desc": "C'est ici que vous voyez tous vos trophées et votre grade.",
@@ -101,6 +102,7 @@
     "about2": "Merci aux testeurs",
     "about3": "Icônes",
     "about3_desc1": "Toutes les icônes proviennent de ",
+    "about4": "Donateurs",
     
     "energyHeading": "Energie",
             
@@ -981,6 +983,22 @@
     "upgradeFaction": "Corruption",
     "upgradeFaction_desc": "Augmente les opinions de toutes les factions de 20. Améliore la relation de 20 points.",
     
+    "enlightenmentHeading": "Illumination",
+    
+    "ultritePane": "Ultrite",
+    "ultrite": "Ultrite",
+    "ultrite_desc": "Ici, vous pouvez voir combien d'ultrite vous recevrez lors de chaque illumination.",
+    "ulStars": "Etoiles colonisées",
+    "ulStars_desc": "Pour chaque étoile colonosée, vous gagnez 1 ultrite.",
+    "ulDarkmatter": "Matière noire non dépensée",
+    "ulDarkmatter_desc": "Toute la matière noire non-dépensée sera convertie en ultrite: 10 matière noire donneront 1 ultrite.",
+    "ulSpheres": "Sphères",
+    "ulSpheres_desc": "Pour chaque sphère construite, vous gagnez 1 ultrite.",
+    
+    "titansPane": "Titans",
+
+    "upgradesPane": "Améliorations",
+    
     "overview": "Aperçu",
     "upgradeStorage": "Stockage",
     "storage": "Stockage",
@@ -995,8 +1013,7 @@
     "changeLog": "Change Log",
     "notEnoughInputCount": "Pas de production, pas assez de",
     "notEnoughInputStorage": "Pas de production, stockage trop petit",
-
-    
+    "donorStar": "Etoile de donateur",
     "total": "Total",
     "totalProduction": "Production",
     "totalConsumption": "Consommation",

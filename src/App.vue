@@ -120,6 +120,8 @@
 
                     <sidenav-group id="enlightenmentHeading" :unlocked="data['ultrite'].unlocked">
                         <sidenav-item id="ultritePane" icon="ultrite.png" :unlocked="data['ultrite'].unlocked" :count="data['ultrite'].count" :potential="getPotentialUL" />
+                        <sidenav-item id="titansPane" icon="titans.png" :unlocked="data['ultrite'].unlocked" />
+                        <sidenav-item id="upgradesPane" icon="upgrades.png" :unlocked="data['ultrite'].unlocked" />
                     </sidenav-group>
                 </div>
             </inner-content>
@@ -793,9 +795,55 @@
                         <buildable id="upgradeFaction" btnText="activate" />
                     </pane>
 
+                    <!-- ULTRITE PANE -->
+                    <pane id="ultritePane" icon="ultrite.png">
+                        <div class="alert alert-danger" role="alert">
+                            <small>This part is still under development. Please do not use it. More info on Discord server.</small>
+                        </div>
+                        <card id="ultrite" :descs="['ultrite_desc']">
+                            <div class="col-12">
+                                <div class="heading-6">{{ $t('ulStars') }} <span class="text-light">{{ getULStars }}</span></div>
+                                <div class="small"><span>{{ $t('ulStars_desc') }}</span></div>
+                            </div>
+                            <div class="col-12">
+                                <div class="heading-6">{{ $t('ulDarkmatter') }} <span class="text-light">{{ getULDarkmatter }}</span></div>
+                                <div class="small"><span>{{ $t('ulDarkmatter_desc') }}</span></div>
+                            </div>
+                            <div class="col-12">
+                                <div class="heading-6">{{ $t('ulSpheres') }} <span class="text-light">{{ getULSpheres }}</span></div>
+                                <div class="small"><span>{{ $t('ulSpheres_desc') }}</span></div>
+                            </div>
+                        </card>
+                        <card id="enlighten" :descs="['enlighten_desc']">
+                            <div class="col-12">
+                                <div class="row g-1 justify-content-end">
+                                    <div class="col-auto">
+                                        <button class="btn btn-warning" @click="enlightenModal.show()">{{ $t('enlighten') }}</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </card>
+                    </pane>
+
+                    <!-- TITANS PANE -->
+                    <pane id="titansPane" icon="titans.png">
+                        <div class="alert alert-danger" role="alert">
+                            <small>This part is still under development. Please do not use it. More info on Discord server.</small>
+                        </div>
+                    </pane>
+
+                    <!-- UPGRADES PANE -->
+                    <pane id="upgradesPane" icon="upgrades.png">
+                        <div class="alert alert-danger" role="alert">
+                            <small>This part is still under development. Please do not use it. More info on Discord server.</small>
+                        </div>
+                    </pane>
                     <!-- DONATING PANE -->
                     <pane id="donatingPane" icon="donating.png" :descs="['donatingPane_desc1', 'donatingPane_desc2']">
                         <card id="donatingPane_desc3" checked="true">
+                            <div class="col-12 small">
+                                <span>{{ $t('donatingPane_desc5') }}</span>
+                            </div>
                             <div class="col-12">
                                 <form class="row g-2 justify-content-end align-items-end" action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_blank">
                                     <input type="hidden" name="cmd" value="_s-xclick">
@@ -1113,6 +1161,19 @@
                                 </ul>
                             </div>
                         </card>
+                        <card id="about4" checked="true">
+                            <div class="col-12">
+                                <div class="row gy-1 gx-3">
+                                    <div class="col-auto"><small class="text-donor">Beric01</small></div>
+                                    <div class="col-auto"><small class="text-donor">Malchron</small></div>
+                                    <div class="col-auto"><small class="text-donor">Nisse</small></div>
+                                    <div class="col-auto"><small class="text-donor">McFloppy</small></div>
+                                    <div class="col-auto"><small class="text-donor">Kirri</small></div>
+                                    <div class="col-auto"><small class="text-donor">Automaton_2000</small></div>
+                                    <div class="col-auto"><small class="text-donor">Gar the Blind Chipmunk</small></div>
+                                </div>
+                            </div>
+                        </card>
                         <card id="about2" checked="true">
                             <div class="col-12">
                                 <div class="row gy-1 gx-3">
@@ -1202,7 +1263,14 @@
             <!-- SAVING TOAST -->
             <div id="toastAutoSave" class="toast hide fade bg-info" role="alert">
                 <div class="toast-body text-dark">
-                    <div><strong>{{ $t('toastAutoSave_title') }}</strong></div>
+                    <div class="row">
+                        <div class="col">
+                            <strong>{{ $t('toastAutoSave_title') }}</strong>
+                        </div>
+                        <div class="col-auto">
+                            <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+                        </div>
+                    </div>
                     <div class="small">{{ $t('toastAutoSave_text') }}</div>
                 </div>
             </div>
@@ -1466,6 +1534,27 @@
         </div>
     </div>
 
+    <!-- ENLIGHTEN MODAL -->
+    <div v-if="loaded" id="enlightenModal" class="modal fade">
+        <div class="modal-dialog" role="dialog">
+            <div class="modal-content">
+                <div class="modal-body">
+                    <div class="row g-2">
+                        <div class="col-12">
+                            <span class="h6 text-light">{{ $t('enlighten') }}</span>
+                        </div>
+                        <div class="col-12 small">
+                            <span class="text-normal">{{ $t('enlighten_confirm') }}</span>
+                        </div>
+                        <div class="col-12 text-end">
+                            <button class="btn btn-warning" @click="onEnlighten()">{{ $t('enlighten') }}</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <!-- HARD RESET MODAL -->
     <div v-if="loaded" id="hardResetModal" class="modal fade">
         <div class="modal-dialog modal-dialog-scrollable" role="dialog">
@@ -1533,10 +1622,20 @@
                             <span class="h6 text-light">{{ $t('changeLog') }}</span>
                         </div>
                         <div class="col-12 border-top">
+                            <div class="text-light">v1.17.0 - 2021-06-26</div>
+                            <ul class="small">
+                                <li>NEW: donor card + star</li>
+                                <li>NEW: ultrite pane + titans pane + upgrades pane (not finalized)</li>
+                                <li>NEW: make notifications closeable</li>
+                            </ul>
+                        </div>
+                        <div class="col-12 border-top">
                             <div class="text-light">v1.16.2 - 2021-06-25</div>
                             <ul class="small">
                                 <li>FIX: negative resource production</li>
                             </ul>
+                        </div>
+                        <div class="col-12 border-top">
                             <div class="text-light">v1.16.1 - 2021-06-25</div>
                             <ul class="small">
                                 <li>FIX: power and defense star values</li>
@@ -1799,7 +1898,8 @@ export default {
             hardResetModal: null,
             segmentModal: null,
             calcModal: null,
-            currentRelease: '1.16.2',
+            enlightenModal: null,
+            currentRelease: '1.17.0',
             ghLatestRelease: null,
 
             login: null,
@@ -1826,6 +1926,7 @@ export default {
             'isNotif', 'hasNotif',
             'getThreat', 'getSpyChance', 'getInvadeChance', 'getStarPower', 'getStarDefense', 'getStarSpeed',
             'getDMWonders', 'getDMSpheres', 'getDMResearches', 'getDMRank', 'getDMSwarms', 'getPotentialDM',
+            'getULStars', 'getULDarkmatter', 'getULSpheres', 'getPotentialUL',
         ]),
     },
     created() {
@@ -1927,6 +2028,9 @@ export default {
 
                 element = document.getElementById('calcModal')
                 this.calcModal = new Modal(element)
+
+                element = document.getElementById('enlightenModal')
+                this.enlightenModal = new Modal(element)
             })
         },
         fastUpdate() {
@@ -2095,7 +2199,7 @@ export default {
         delete this.hardResetModal
         delete this.segmentModal
         delete this.calcModal
-
+        delete this.enlightenModal
         clearInterval(this.fastInterval)
         clearInterval(this.slowInterval)
         clearInterval(this.ghInterval)

@@ -4,6 +4,7 @@
     "donatingPane_desc2": "However, I like the donation system because there is nothing forcing you to donate other than out of the goodness of people's hearts. If you like the game and want more content faster, I would be happy to put more time towards this game if I felt that it is paying off.",
     "donatingPane_desc3": "Make a donation",
     "donatingPane_desc4": "'ExileNG' is the name of my Paypal account.",
+    "donatingPane_desc5": "To make a donation will allow to have a specific role on Discord server, to be credit in Donators pane in the game and to call a Star as you want :)",
     
     "achievementPane": "Achievements",
     "achievementPane_desc": "This is where you can see your rank and all of your achievements.",
@@ -101,6 +102,7 @@
     "about2": "Thanks to the testers",
     "about3": "Icons",
     "about3_desc1": "All icons come from ",
+    "about4": "Donors",
     
     "energyHeading": "Energy",
             
@@ -985,6 +987,22 @@
     "upgradeFaction": "Bribery",
     "upgradeFaction_desc": "Increases All Factions' Relationship by 20. Improves relationship by 20.",
     
+    "enlightenmentHeading": "Enlightenment",
+    
+    "ultritePane": "Ultrite",
+    "ultrite": "Ultrite",
+    "ultrite_desc": "Here, you can see how much Ultrite you could acquire upon enlighten.",
+    "ulStars": "Owned Stars",
+    "ulStars_desc": "You get Ultrite for the Stars that you owned. For every owned Star, you gain 1 ultrite.",
+    "ulDarkmatter": "Not Spent Dark Matter",
+    "ulDarkmatter_desc": "Your not spent Dark Matter will be convertes into Ultrite: 10 darkmatter give you 1 ultrite.",
+    "ulSpheres": "Spheres",
+    "ulSpheres_desc": "For every Dyson Sphere built, you gain 1 ultrite.",
+    
+    "titansPane": "Titans",
+
+    "upgradesPane": "Upgrades",
+
     "overview": "Overview",
     "upgradeStorage": "Upgrade Storage",
     "storage": "Storage",
@@ -999,7 +1017,7 @@
     "changeLog": "Change Log",
     "notEnoughInputCount": "No production, not enough input count",
     "notEnoughInputStorage": "No production, not enough input storage",
-    
+    "donorStar": "Donor Star",
     "total": "Total",
     "totalProduction": "Production",
     "totalConsumption": "Consumption",
