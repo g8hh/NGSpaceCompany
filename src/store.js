@@ -2146,10 +2146,21 @@ export const store = createStore({
             }
         },
         /*--------------------------------------------------------------------*/
+
         absorb({ state, dispatch }, id) {
+            let star = state.data[id]
+            let faction = state.data[star.faction]
+            if (faction.opinion >= 60) {
+
+                faction.opinion -= 5
+                star.status = 'owned'
+                state.data['dysonT3'].max += 1
+                state.data['antimatter'].storage += 100000
+
+                state.stats.starOwned.current += 1
+                state.stats.starOwned.allTime += 1
 
                 dispatch('checkUltrite')
-
                 return true
             }
 
