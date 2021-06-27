@@ -721,7 +721,7 @@
     "star217101": "EZ 水瓶座",
     "star181901": "南河三",
     "star213301": "61 Cygni",
-    "star207601": "A",
+    "star207601": "The Village",
     "star166701": "GX 仙女座",
     "star224601": "SIPS 1259-",
     "star58601": "DX 坎克里",
@@ -768,7 +768,7 @@
     "star39101": "Ross 47",
     "star123401": "L 205-128",
     "star56501": "L 674-15",
-    "star200001": "A",
+    "star200001": "Myriostoma",
     "star107001": "CD -40°971",
     "star167801": "Eta Cassiopeiae",
     "star204801": "36 Ophiuchi",
@@ -924,7 +924,7 @@
     "techEnergyStorage6": "Tier 6 Batteries",
     "techEnergyStorage6_desc": "Unlock Void Batteries. Improves relationship by 15.",
     "upgradeStorage3": "Dimensional Rift",
-    "upgradeStorage3_desc": "Opens a rift in the fabric of the multiverse, allowing you to store your resources in another dimension past your default capacity, up to 10x, at a 95% decrease in production after filling up. Improves relationship by 26.",
+    "upgradeStorage3_desc": "Opens a rift in the fabric of the multiverse, allowing you to store your resources in another dimension past your default capacity, up to 10x. Improves relationship by 26.",
     
     "stargazePrasnianPane": "Prasnian Empire",
     "stargazePrasnianPane_desc": "The current leader in the galaxy and the faction most focused on keeping things as they are. Opposed to change, they have an authoritarian regime and offer mainly upgrades concerning structures such as the Dysons or Wonders",
@@ -990,6 +990,7 @@
     "enlightenmentHeading": "启蒙",
     
     "ultritePane": "Ultrite",
+    "ultritePane_desc": "'You have come far, little one, but the end is not yet here. You have been playing a child's game and now you are ready to open your eyes to your true potential. You will know what it means, to truly feel, to truly be enlightened. You will understand the universe, not as it is, but instead as you wish it to be. The immense power which I shall regale upon you knows no bounds as you come close to matching even me. The Ultrite found within this dimension was cosmically created, and is the source of my being, and now I am entrusting some of that to you - for you have been loyal a long time, and for this, little one, you are rewarded.'",
     "ultrite": "Ultrite",
     "ultrite_desc": "在这里，您可以看到启蒙后可以获得多少 Ultrite。",
     "ulStars": "拥有星星",
@@ -998,7 +999,9 @@
     "ulDarkmatter_desc": "您未消耗的暗物质将转化为 Ultralite：10 个暗物质给您 1 个 Ultralite。",
     "ulSpheres": "球",
     "ulSpheres_desc": "每制造一个戴森球，你就会获得 1 个 ultrite。",
-    
+    "enlighten": "Enlighten",
+    "enlighten_desc": "",
+
     "titansPane": "泰坦",
 
     "upgradesPane": "升级",
