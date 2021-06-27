@@ -796,7 +796,7 @@
                     </pane>
 
                     <!-- ULTRITE PANE -->
-                    <pane id="ultritePane" icon="ultrite.png">
+                    <pane id="ultritePane" icon="ultrite.png" :descs="['ultritePane_desc']">
                         <div class="alert alert-danger" role="alert">
                             <small>This part is still under development. Please do not use it. More info on Discord server.</small>
                         </div>
@@ -1171,6 +1171,7 @@
                                     <div class="col-auto"><small class="text-donor">Kirri</small></div>
                                     <div class="col-auto"><small class="text-donor">Automaton_2000</small></div>
                                     <div class="col-auto"><small class="text-donor">Gar the Blind Chipmunk</small></div>
+                                    <div class="col-auto"><small class="text-donor">Aegis</small></div>
                                 </div>
                             </div>
                         </card>
@@ -1622,6 +1623,13 @@
                             <span class="h6 text-light">{{ $t('changeLog') }}</span>
                         </div>
                         <div class="col-12 border-top">
+                            <div class="text-light">v1.17.1 - 2021-06-27</div>
+                            <ul class="small">
+                                <li>FIX: change description on 'Dimensional Rift'</li>
+                                <li>FIX: reset auto-EMC resource after rebirth</li>
+                            </ul>
+                        </div>
+                        <div class="col-12 border-top">
                             <div class="text-light">v1.17.0 - 2021-06-26</div>
                             <ul class="small">
                                 <li>NEW: donor card + star</li>
@@ -1899,7 +1907,7 @@ export default {
             segmentModal: null,
             calcModal: null,
             enlightenModal: null,
-            currentRelease: '1.17.0',
+            currentRelease: '1.17.1',
             ghLatestRelease: null,
 
             login: null,

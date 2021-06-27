@@ -717,7 +717,7 @@
     "star217101": "EZ Aquarii",
     "star181901": "Procyon",
     "star213301": "61 Cygni",
-    "star207601": "A",
+    "star207601": "The Village",
     "star166701": "GX Andromedae",
     "star224601": "SIPS 1259-",
     "star58601": "DX Cancri",
@@ -764,7 +764,7 @@
     "star39101": "Ross 47",
     "star123401": "L 205-128",
     "star56501": "L 674-15",
-    "star200001": "A",
+    "star200001": "Myriostoma",
     "star107001": "CD -40°971",
     "star167801": "Eta Cassiopeiae",
     "star204801": "36 Ophiuchi",
@@ -986,6 +986,7 @@
     "enlightenmentHeading": "Illumination",
     
     "ultritePane": "Ultrite",
+    "ultritePane_desc": "'Tu as fait du chemin, petite chose, mais la fin n'est pas encore là. Vous avez joué à un jeu d'enfant et vous êtes maintenant prêt à ouvrir les yeux sur votre véritable potentiel. Vous saurez ce que signifie vraiment ressentir, être vraiment illuminé. Vous comprendrez l'univers, non pas tel qu'il est, mais tel que vous souhaitez qu'il soit. L'immense pouvoir dont je vais vous régaler n'a pas de limite. L'Ultrite trouvé dans cette dimension a été créé cosmiquement et est la source de mon être, et maintenant je vous en confie une partie - car vous avez été fidèle pendant longtemps, et pour cela, petite chose, vous êtes récompensé.'",
     "ultrite": "Ultrite",
     "ultrite_desc": "Ici, vous pouvez voir combien d'ultrite vous recevrez lors de chaque illumination.",
     "ulStars": "Etoiles colonisées",
@@ -994,6 +995,8 @@
     "ulDarkmatter_desc": "Toute la matière noire non-dépensée sera convertie en ultrite: 10 matière noire donneront 1 ultrite.",
     "ulSpheres": "Sphères",
     "ulSpheres_desc": "Pour chaque sphère construite, vous gagnez 1 ultrite.",
+    "enlighten": "Illuminer",
+    "enlighten_desc": "",
     
     "titansPane": "Titans",
 

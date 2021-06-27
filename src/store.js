@@ -994,7 +994,7 @@ export const store = createStore({
             /*----------------------------------------------------------------*/
             state.data['star401'] =    { id:'star401',    unlocked:false, status:'new', donor:false, count:0, spy:0, distance:7.8,   planets:1, faction:'prasnian', resource1:'lunarite', resource2:'gem',       stats:{ 'power':86,   'defense':71,   'speed':8  }, costType:'FIXED', baseCosts:[{ id:'antimatter', count:78000  }], notifs:['interstellarPrasnianPane'], }
             state.data['star25101'] =  { id:'star25101',  unlocked:false, status:'new', donor:false, count:0, spy:0, distance:10.5,  planets:5, faction:'prasnian', resource1:'hydrogen', resource2:'metal',     stats:{ 'power':293,  'defense':112,  'speed':13 }, costType:'FIXED', baseCosts:[{ id:'antimatter', count:105000 }], notifs:['interstellarPrasnianPane'], }
-            state.data['star207601'] = { id:'star207601', unlocked:false, status:'new', donor:false, count:0, spy:0, distance:11.64, planets:1, faction:'prasnian', resource1:'helium',   resource2:'lunarite',  stats:{ 'power':203,  'defense':238,  'speed':7  }, costType:'FIXED', baseCosts:[{ id:'antimatter', count:116400 }], notifs:['interstellarPrasnianPane'], }
+            state.data['star207601'] = { id:'star207601', unlocked:false, status:'new', donor:true,  count:0, spy:0, distance:11.64, planets:1, faction:'prasnian', resource1:'helium',   resource2:'lunarite',  stats:{ 'power':203,  'defense':238,  'speed':7  }, costType:'FIXED', baseCosts:[{ id:'antimatter', count:116400 }], notifs:['interstellarPrasnianPane'], }
             state.data['star223901'] = { id:'star223901', unlocked:false, status:'new', donor:false, count:0, spy:0, distance:12.4,  planets:4, faction:'prasnian', resource1:'silver',   resource2:'meteorite', stats:{ 'power':530,  'defense':337,  'speed':14 }, costType:'FIXED', baseCosts:[{ id:'antimatter', count:124000 }], notifs:['interstellarPrasnianPane'], }
             state.data['star121101'] = { id:'star121101', unlocked:false, status:'new', donor:false, count:0, spy:0, distance:14.8,  planets:1, faction:'prasnian', resource1:'methane',  resource2:'hydrogen',  stats:{ 'power':750,  'defense':567,  'speed':14 }, costType:'FIXED', baseCosts:[{ id:'antimatter', count:148000 }], notifs:['interstellarPrasnianPane'], }
             state.data['star136701'] = { id:'star136701', unlocked:false, status:'new', donor:false, count:0, spy:0, distance:16.77, planets:1, faction:'prasnian', resource1:'methane',  resource2:'metal',     stats:{ 'power':559,  'defense':388,  'speed':6  }, costType:'FIXED', baseCosts:[{ id:'antimatter', count:167700 }], notifs:['interstellarPrasnianPane'], }
@@ -1038,7 +1038,7 @@ export const store = createStore({
             state.data['star179501'] = { id:'star179501', unlocked:false, status:'new', donor:false, count:0, spy:0, distance:13.47, planets:1, faction:'hyacinite', resource1:'carbon',    resource2:'lava',      stats:{ 'power':430,  'defense':411,  'speed':7  }, costType:'FIXED', baseCosts:[{ id:'antimatter', count:134700 }], notifs:['interstellarHyacinitePane'], }
             state.data['star6501'] =   { id:'star6501',   unlocked:false, status:'new', donor:false, count:0, spy:0, distance:14.13, planets:1, faction:'hyacinite', resource1:'gold',      resource2:'silicon',   stats:{ 'power':588,  'defense':522,  'speed':8  }, costType:'FIXED', baseCosts:[{ id:'antimatter', count:141300 }], notifs:['interstellarHyacinitePane'], }
             state.data['star222401'] = { id:'star222401', unlocked:false, status:'new', donor:false, count:0, spy:0, distance:14.65, planets:1, faction:'hyacinite', resource1:'lava',      resource2:'methane',   stats:{ 'power':527,  'defense':239,  'speed':6  }, costType:'FIXED', baseCosts:[{ id:'antimatter', count:146500 }], notifs:['interstellarHyacinitePane'], }
-            state.data['star200001'] = { id:'star200001', unlocked:false, status:'new', donor:false, count:0, spy:0, distance:19.26, planets:4, faction:'hyacinite', resource1:'gold',      resource2:'meteorite', stats:{ 'power':1176, 'defense':612,  'speed':10 }, costType:'FIXED', baseCosts:[{ id:'antimatter', count:192600 }], notifs:['interstellarHyacinitePane'], }
+            state.data['star200001'] = { id:'star200001', unlocked:false, status:'new', donor:true,  count:0, spy:0, distance:19.26, planets:4, faction:'hyacinite', resource1:'gold',      resource2:'meteorite', stats:{ 'power':1176, 'defense':612,  'speed':10 }, costType:'FIXED', baseCosts:[{ id:'antimatter', count:192600 }], notifs:['interstellarHyacinitePane'], }
             state.data['star24201'] =  { id:'star24201',  unlocked:false, status:'new', donor:false, count:0, spy:0, distance:19.77, planets:5, faction:'hyacinite', resource1:'gold',      resource2:'lunarite',  stats:{ 'power':595,  'defense':956,  'speed':14 }, costType:'FIXED', baseCosts:[{ id:'antimatter', count:197700 }], notifs:['interstellarHyacinitePane'], }
             state.data['star224202'] = { id:'star224202', unlocked:false, status:'new', donor:false, count:0, spy:0, distance:22.37, planets:2, faction:'hyacinite', resource1:'titanium',  resource2:'hydrogen',  stats:{ 'power':1841, 'defense':1155, 'speed':10 }, costType:'FIXED', baseCosts:[{ id:'antimatter', count:223700 }], notifs:['interstellarHyacinitePane'], }
             state.data['star92801'] =  { id:'star92801',  unlocked:false, status:'new', donor:false, count:0, spy:0, distance:24.88, planets:3, faction:'hyacinite', resource1:'methane',   resource2:'carbon',    stats:{ 'power':2461, 'defense':1301, 'speed':7  }, costType:'FIXED', baseCosts:[{ id:'antimatter', count:248800 }], notifs:['interstellarHyacinitePane'], }
@@ -1424,6 +1424,8 @@ export const store = createStore({
                     if ('spy' in item) state.data[i].spy = item.spy
                 }
             }
+
+            if (state.data['autoEmc'].unlocked == false) state.autoResource = null
 
             let ownedStarCount = 0
 
@@ -2175,6 +2177,10 @@ export const store = createStore({
             state.stats.allTimeDarkmatter += getters.getPotentialDM
 
             state.collapsed = []
+
+            state.emcAmount = 'max'
+            state.autoResource = null
+            state.autoEmcInterval = 1 * 1000
 
             let exludedList = [
                 'darkmatter',
