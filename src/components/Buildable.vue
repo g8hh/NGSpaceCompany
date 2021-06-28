@@ -208,7 +208,7 @@
                                         <div v-if="multibuy == true && data[id].count < 75" class="col-auto"><button class="btn" @click="build({id:id, upto:75})">= 75</button></div>
                                         <div v-if="multibuy == true && data[id].count < 150" class="col-auto"><button class="btn" @click="build({id:id, upto:150})">= 150</button></div>
                                         <div v-if="multibuy == true && data[id].count < 250" class="col-auto"><button class="btn" @click="build({id:id, upto:250})">= 250</button></div>
-                                        <div class="col-auto"><button class="btn" @click="build({id:id, count:1})">{{ $t(btnText) }} 1</button></div>
+                                        <div class="col-auto"><button class="btn" @click="build({id:id, count:1})">{{ $t(btnText) }}<span v-if="data[id].max != 1"> 1</span></button></div>
                                     </div>
                                     <div v-if="id == 'segment'" class="row g-1 justify-content-end">
                                         <div class="col-auto"><button class="btn" @click="build({id:id, upto:50})">= 50</button></div>

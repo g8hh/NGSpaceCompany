@@ -10,7 +10,9 @@
     "achievementPane_desc": "This is where you can see your rank and all of your achievements.",
     "statistics": "Statistics",
     "startDate": "Game played since",
-    "lastRebirthDate": "Last rebirth",
+    "lastEnlightenDate": "Last Enlighten",
+    "lastRebirthDate": "Last Rebirth",
+    "enlightenCount": "Enlighten Count",
     "rebirthCount": "Rebirth Count",
     "manualGain": "Manual Gain",
     "machineT1": "Machine T1",
@@ -983,7 +985,7 @@
     "boostDarkmatter": "Dark Matter Boost",
     "boostDarkmatter_desc": "This adds a 1% boost to all resources (including science) for each Dark Matter you have not spent. Improves relationship by 20.",
     "techNanoswarm0": "Nanoswarms",
-    "techNanoswarm0_desc": "Imagine bedbugs, but worse. These critters amplify your production by double every ten nanoswarms! They are capable of copying other machines' forms and taking up their role in resource production. You can select one resource to be amplified, and change it at any time. NB: Shows up in the Sol Center when unlocked. Improves relationship by 17.",
+    "techNanoswarm0_desc": "Imagine bedbugs, but worse. These critters amplify your production by double every ten nanoswarms! They are capable of copying other machines' forms and taking up their role in resource production. You can select one resource to be amplified, and change it at any time. NB: Shows up in the Sol Center when unlocked.",
     "upgradeFaction": "Bribery",
     "upgradeFaction_desc": "Increases All Factions' Relationship by 20. Improves relationship by 20.",
     
@@ -1000,9 +1002,14 @@
     "ulSpheres": "Spheres",
     "ulSpheres_desc": "For every Dyson Sphere built, you gain 1 ultrite.",
     "enlighten": "Enlighten",
-    "enlighten_desc": "",
+    "enlighten_desc": "NB: You cannot enlighten without 10 owned stars at least, even on second runs.",
+    "enlighten_confirm": "Are you sure? This is non-reversible after you reset and save.",
+    "titanChoice": "Choice the Titan you want to activate",
+    "alreadyActivated": "(Already activated)",
     
     "titansPane": "Titans",
+    "titansPane_desc": "These are mystical beings, almost rivalling that of the Overlord. Enlightening for a titan will decrease the cost of a single resource, on every machine, upgrade, wonder and building by 90%, rounded down to the nearest integer.",
+    "titans": "Activated Titans",
 
     "upgradesPane": "Upgrades",
 

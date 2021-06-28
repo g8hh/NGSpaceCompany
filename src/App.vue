@@ -10,8 +10,7 @@
 
     <div v-if="loaded" id="gameScreen">
         <div id="sidebar" :class="{ 'open':sidebarOpen }" role="navigation">
-            <top-header>
-
+            <top-header class="px-2">
                 <div class="col-auto">
                     <img :src="require('./assets/whiteLogo.png')" width="42" height="42" alt="Game logo" />
                 </div>
@@ -797,10 +796,7 @@
 
                     <!-- ULTRITE PANE -->
                     <pane id="ultritePane" icon="ultrite.png" :descs="['ultritePane_desc']">
-                        <div class="alert alert-danger" role="alert">
-                            <small>This part is still under development. Please do not use it. More info on Discord server.</small>
-                        </div>
-                        <card id="ultrite" :descs="['ultrite_desc']">
+                        <card id="ultrite" :descs="['ultrite_desc']" checked="true">
                             <div class="col-12">
                                 <div class="heading-6">{{ $t('ulStars') }} <span class="text-light">{{ getULStars }}</span></div>
                                 <div class="small"><span>{{ $t('ulStars_desc') }}</span></div>
@@ -814,7 +810,7 @@
                                 <div class="small"><span>{{ $t('ulSpheres_desc') }}</span></div>
                             </div>
                         </card>
-                        <card id="enlighten" :descs="['enlighten_desc']">
+                        <card id="enlighten" :descs="['enlighten_desc']" checked="true">
                             <div class="col-12">
                                 <div class="row g-1 justify-content-end">
                                     <div class="col-auto">
@@ -826,17 +822,30 @@
                     </pane>
 
                     <!-- TITANS PANE -->
-                    <pane id="titansPane" icon="titans.png">
-                        <div class="alert alert-danger" role="alert">
-                            <small>This part is still under development. Please do not use it. More info on Discord server.</small>
-                        </div>
+                    <pane id="titansPane" icon="titans.png" :descs="['titansPane_desc']">
+                        <card id="titans" checked="true">
+                            <div class="col-12 mt-2">
+                                <div class="row g-1">
+                                    <div v-for="res in resources" :key="res.id" class="col-4 col-md-2">
+                                        <div class="rounded py-2" :class="{ 'opacity-1':!res.titan }" style="background-color:rgba(255,255,255,.125);" role="heading">
+                                            <div class="row g-1">
+                                                <div class="col-12 text-center">
+                                                    <img :src="require(`./assets/interface/${res.id}.png`)" width="24" height="24" />
+                                                </div>
+                                                <div class="col-12 small text-center">
+                                                    <span class="text-light">{{ $t(res.id) }}</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </card>
                     </pane>
 
                     <!-- UPGRADES PANE -->
                     <pane id="upgradesPane" icon="upgrades.png">
-                        <div class="alert alert-danger" role="alert">
-                            <small>This part is still under development. Please do not use it. More info on Discord server.</small>
-                        </div>
+                        <buildable id="techNanoswarm0" btnText="activate" />
                     </pane>
                     <!-- DONATING PANE -->
                     <pane id="donatingPane" icon="donating.png" :descs="['donatingPane_desc1', 'donatingPane_desc2']">
@@ -889,6 +898,14 @@
                                             <td class="text-end"><small class="text-light">{{ momentFormat(stats.startDate, 'YYYY-MM-DD') }}</small></td>
                                         </tr>
                                         <tr>
+                                            <td><small class="text-normal">{{ $t('lastEnlightenDate') }}</small></td>
+                                            <td class="text-end"><small class="text-light">{{ momentFormat(stats.lastEnlightenDate, 'YYYY-MM-DD') }}</small></td>
+                                        </tr>
+                                        <tr>
+                                            <td><small class="text-normal">{{ $t('enlightenCount') }}</small></td>
+                                            <td class="text-end"><small class="text-light">{{ numeralFormat(stats.enlightenCount, '0a') }}</small></td>
+                                        </tr>
+                                        <tr>
                                             <td><small class="text-normal">{{ $t('lastRebirthDate') }}</small></td>
                                             <td class="text-end"><small class="text-light">{{ momentFormat(stats.lastRebirthDate, 'YYYY-MM-DD') }}</small></td>
                                         </tr>
@@ -910,54 +927,59 @@
                                     </thead>
                                     <tbody>
                                         <tr>
+                                            <td><small class="text-normal">{{ $t('ultrite') }}</small></td>
+                                            <td class="text-end"><small class="text-light text-uppercase">{{ numeralFormat(data['ultrite'].count.toPrecision(4), '0.[000]a') }}</small></td>
+                                            <td class="text-end"><small class="text-light text-uppercase">{{ numeralFormat(stats.allTimeUltrite.toPrecision(4), '0.[000]a') }}</small></td>
+                                        </tr>
+                                        <tr>
                                             <td><small class="text-normal">{{ $t('darkmatter') }}</small></td>
-                                            <td class="text-end"><small class="text-light">{{ numeralFormat(data['darkmatter'].count.toPrecision(4), '0.[000]a') }}</small></td>
-                                            <td class="text-end"><small class="text-light">{{ numeralFormat(stats.allTimeDarkmatter.toPrecision(4), '0.[000]a') }}</small></td>
+                                            <td class="text-end"><small class="text-light text-uppercase">{{ numeralFormat(data['darkmatter'].count.toPrecision(4), '0.[000]a') }}</small></td>
+                                            <td class="text-end"><small class="text-light text-uppercase">{{ numeralFormat(stats.allTimeDarkmatter.toPrecision(4), '0.[000]a') }}</small></td>
                                         </tr>
                                         <tr>
                                             <td><small class="text-normal">{{ $t('manualGain') }}</small></td>
-                                            <td class="text-end"><small class="text-light">{{ numeralFormat(stats.manualGain.current.toPrecision(4), '0.[000]a') }}</small></td>
-                                            <td class="text-end"><small class="text-light">{{ numeralFormat(stats.manualGain.allTime.toPrecision(4), '0.[000]a') }}</small></td>
+                                            <td class="text-end"><small class="text-light text-uppercase">{{ numeralFormat(stats.manualGain.current.toPrecision(4), '0.[000]a') }}</small></td>
+                                            <td class="text-end"><small class="text-light text-uppercase">{{ numeralFormat(stats.manualGain.allTime.toPrecision(4), '0.[000]a') }}</small></td>
                                         </tr>
                                         <tr>
                                             <td><small class="text-normal">{{ $t('machineT1') }}</small></td>
-                                            <td class="text-end"><small class="text-light">{{ numeralFormat(stats.machineT1.current.toPrecision(4), '0.[000]a') }}</small></td>
-                                            <td class="text-end"><small class="text-light">{{ numeralFormat(stats.machineT1.allTime.toPrecision(4), '0.[000]a') }}</small></td>
+                                            <td class="text-end"><small class="text-light text-uppercase">{{ numeralFormat(stats.machineT1.current.toPrecision(4), '0.[000]a') }}</small></td>
+                                            <td class="text-end"><small class="text-light text-uppercase">{{ numeralFormat(stats.machineT1.allTime.toPrecision(4), '0.[000]a') }}</small></td>
                                         </tr>
                                         <tr>
                                             <td><small class="text-normal">{{ $t('machineT2') }}</small></td>
-                                            <td class="text-end"><small class="text-light">{{ numeralFormat(stats.machineT2.current.toPrecision(4), '0.[000]a') }}</small></td>
-                                            <td class="text-end"><small class="text-light">{{ numeralFormat(stats.machineT2.allTime.toPrecision(4), '0.[000]a') }}</small></td>
+                                            <td class="text-end"><small class="text-light text-uppercase">{{ numeralFormat(stats.machineT2.current.toPrecision(4), '0.[000]a') }}</small></td>
+                                            <td class="text-end"><small class="text-light text-uppercase">{{ numeralFormat(stats.machineT2.allTime.toPrecision(4), '0.[000]a') }}</small></td>
                                         </tr>
                                         <tr>
                                             <td><small class="text-normal">{{ $t('machineT3') }}</small></td>
-                                            <td class="text-end"><small class="text-light">{{ numeralFormat(stats.machineT3.current.toPrecision(4), '0.[000]a') }}</small></td>
-                                            <td class="text-end"><small class="text-light">{{ numeralFormat(stats.machineT3.allTime.toPrecision(4), '0.[000]a') }}</small></td>
+                                            <td class="text-end"><small class="text-light text-uppercase">{{ numeralFormat(stats.machineT3.current.toPrecision(4), '0.[000]a') }}</small></td>
+                                            <td class="text-end"><small class="text-light text-uppercase">{{ numeralFormat(stats.machineT3.allTime.toPrecision(4), '0.[000]a') }}</small></td>
                                         </tr>
                                         <tr>
                                             <td><small class="text-normal">{{ $t('machineT4') }}</small></td>
-                                            <td class="text-end"><small class="text-light">{{ numeralFormat(stats.machineT4.current.toPrecision(4), '0.[000]a') }}</small></td>
-                                            <td class="text-end"><small class="text-light">{{ numeralFormat(stats.machineT4.allTime.toPrecision(4), '0.[000]a') }}</small></td>
+                                            <td class="text-end"><small class="text-light text-uppercase">{{ numeralFormat(stats.machineT4.current.toPrecision(4), '0.[000]a') }}</small></td>
+                                            <td class="text-end"><small class="text-light text-uppercase">{{ numeralFormat(stats.machineT4.allTime.toPrecision(4), '0.[000]a') }}</small></td>
                                         </tr>
                                         <tr>
                                             <td><small class="text-normal">{{ $t('machineT5') }}</small></td>
-                                            <td class="text-end"><small class="text-light">{{ numeralFormat(stats.machineT5.current.toPrecision(4), '0.[000]a') }}</small></td>
-                                            <td class="text-end"><small class="text-light">{{ numeralFormat(stats.machineT5.allTime.toPrecision(4), '0.[000]a') }}</small></td>
+                                            <td class="text-end"><small class="text-light text-uppercase">{{ numeralFormat(stats.machineT5.current.toPrecision(4), '0.[000]a') }}</small></td>
+                                            <td class="text-end"><small class="text-light text-uppercase">{{ numeralFormat(stats.machineT5.allTime.toPrecision(4), '0.[000]a') }}</small></td>
                                         </tr>
                                         <tr>
                                             <td><small class="text-normal">{{ $t('machineT6') }}</small></td>
-                                            <td class="text-end"><small class="text-light">{{ numeralFormat(stats.machineT6.current.toPrecision(4), '0.[000]a') }}</small></td>
-                                            <td class="text-end"><small class="text-light">{{ numeralFormat(stats.machineT6.allTime.toPrecision(4), '0.[000]a') }}</small></td>
+                                            <td class="text-end"><small class="text-light text-uppercase">{{ numeralFormat(stats.machineT6.current.toPrecision(4), '0.[000]a') }}</small></td>
+                                            <td class="text-end"><small class="text-light text-uppercase">{{ numeralFormat(stats.machineT6.allTime.toPrecision(4), '0.[000]a') }}</small></td>
                                         </tr>
                                         <tr>
                                             <td><small class="text-normal">{{ $t('ships') }}</small></td>
-                                            <td class="text-end"><small class="text-light">{{ numeralFormat(stats.ships.current.toPrecision(4), '0.[000]a') }}</small></td>
-                                            <td class="text-end"><small class="text-light">{{ numeralFormat(stats.ships.allTime.toPrecision(4), '0.[000]a') }}</small></td>
+                                            <td class="text-end"><small class="text-light text-uppercase">{{ numeralFormat(stats.ships.current.toPrecision(4), '0.[000]a') }}</small></td>
+                                            <td class="text-end"><small class="text-light text-uppercase">{{ numeralFormat(stats.ships.allTime.toPrecision(4), '0.[000]a') }}</small></td>
                                         </tr>
                                         <tr>
                                             <td><small class="text-normal">{{ $t('starOwned') }}</small></td>
-                                            <td class="text-end"><small class="text-light">{{ numeralFormat(stats.starOwned.current.toPrecision(4), '0.[000]a') }}</small></td>
-                                            <td class="text-end"><small class="text-light">{{ numeralFormat(stats.starOwned.allTime.toPrecision(4), '0.[000]a') }}</small></td>
+                                            <td class="text-end"><small class="text-light text-uppercase">{{ numeralFormat(stats.starOwned.current.toPrecision(4), '0.[000]a') }}</small></td>
+                                            <td class="text-end"><small class="text-light text-uppercase">{{ numeralFormat(stats.starOwned.allTime.toPrecision(4), '0.[000]a') }}</small></td>
                                         </tr>
                                     </tbody>
                                 </table>
@@ -1279,7 +1301,14 @@
             <!-- ACHIEVEMENT TOAST -->
             <div id="toastAchievement" class="toast hide fade bg-success cursor-hover" @click="setActivePane('achievementPane')" role="alert">
                 <div class="toast-body text-light">
-                    <div><strong>{{ $t('toastAchievement_title') }}</strong></div>
+                    <div class="row">
+                        <div class="col">
+                            <strong>{{ $t('toastAchievement_title') }}</strong>
+                        </div>
+                        <div class="col-auto">
+                            <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+                        </div>
+                    </div>
                     <div class="small">{{ $t('toastAchievement_text') }}</div>
                 </div>
             </div>
@@ -1287,13 +1316,27 @@
             <!-- SPY TOAST -->
             <div id="toastSpySuccess" class="toast hide fade bg-success" role="alert">
                 <div class="toast-body text-light">
-                    <div><strong>{{ $t('toastSpySuccess_title') }}</strong></div>
+                    <div class="row">
+                        <div class="col">
+                            <strong>{{ $t('toastSpySuccess_title') }}</strong>
+                        </div>
+                        <div class="col-auto">
+                            <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+                        </div>
+                    </div>
                     <div class="small">{{ $t('toastSpySuccess_text') }}</div>
                 </div>
             </div>
             <div id="toastSpyFailed" class="toast hide fade bg-danger" role="alert">
                 <div class="toast-body text-light">
-                    <div><strong>{{ $t('toastSpyFailed_title') }}</strong></div>
+                    <div class="row">
+                        <div class="col">
+                            <strong>{{ $t('toastSpyFailed_title') }}</strong>
+                        </div>
+                        <div class="col-auto">
+                            <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+                        </div>
+                    </div>
                     <div class="small">{{ $t('toastSpyFailed_text') }}</div>
                 </div>
             </div>
@@ -1301,13 +1344,27 @@
             <!-- INVADE TOAST -->
             <div id="toastInvadeSuccess" class="toast hide fade bg-success" role="alert">
                 <div class="toast-body text-light">
-                    <div><strong>{{ $t('toastInvadeSuccess_title') }}</strong></div>
+                    <div class="row">
+                        <div class="col">
+                            <strong>{{ $t('toastInvadeSuccess_title') }}</strong>
+                        </div>
+                        <div class="col-auto">
+                            <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+                        </div>
+                    </div>
                     <div class="small">{{ $t('toastInvadeSuccess_text') }}</div>
                 </div>
             </div>
             <div id="toastInvadeFailed" class="toast hide fade bg-danger" role="alert">
                 <div class="toast-body text-light">
-                    <div><strong>{{ $t('toastInvadeFailed_title') }}</strong></div>
+                    <div class="row">
+                        <div class="col">
+                            <strong>{{ $t('toastInvadeFailed_title') }}</strong>
+                        </div>
+                        <div class="col-auto">
+                            <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+                        </div>
+                    </div>
                     <div class="small">{{ $t('toastInvadeFailed_text') }}</div>
                 </div>
             </div>
@@ -1315,7 +1372,14 @@
             <!-- ABSORB TOAST -->
             <div id="toastAbsorbSuccess" class="toast hide fade bg-success" role="alert">
                 <div class="toast-body text-light">
-                    <div><strong>{{ $t('toastAbsorbSuccess_title') }}</strong></div>
+                    <div class="row">
+                        <div class="col">
+                            <strong>{{ $t('toastAbsorbSuccess_title') }}</strong>
+                        </div>
+                        <div class="col-auto">
+                            <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+                        </div>
+                    </div>
                     <div class="small">{{ $t('toastAbsorbSuccess_text') }}</div>
                 </div>
             </div>
@@ -1544,6 +1608,12 @@
                         <div class="col-12">
                             <span class="h6 text-light">{{ $t('enlighten') }}</span>
                         </div>
+                        <div class="col-12">
+                            <small>{{ $t('titanChoice') }}</small>
+                            <select class="form-control" v-model="enlightenSelected">
+                                <option v-for="res in resources" :key="res.id" :value="res.id">{{ $t(res.id) }} <span v-if="res.titan == true" >{{ $t('alreadyActivated') }}</span></option>
+                            </select>
+                        </div>
                         <div class="col-12 small">
                             <span class="text-normal">{{ $t('enlighten_confirm') }}</span>
                         </div>
@@ -1623,10 +1693,9 @@
                             <span class="h6 text-light">{{ $t('changeLog') }}</span>
                         </div>
                         <div class="col-12 border-top">
-                            <div class="text-light">v1.17.1 - 2021-06-27</div>
+                            <div class="text-light">v1.18.0 - 2021-06-28</div>
                             <ul class="small">
-                                <li>FIX: change description on 'Dimensional Rift'</li>
-                                <li>FIX: reset auto-EMC resource after rebirth</li>
+                                <li>NEW: initial implementation of 'Enlightenment' = second layer of prestige</li>
                             </ul>
                         </div>
                         <div class="col-12 border-top">
@@ -1907,7 +1976,8 @@ export default {
             segmentModal: null,
             calcModal: null,
             enlightenModal: null,
-            currentRelease: '1.17.1',
+            enlightenSelected: null,
+            currentRelease: '1.18.0',
             ghLatestRelease: null,
 
             login: null,
@@ -1927,7 +1997,7 @@ export default {
             'notifAutoSave', 'notifAchievement', 'displayLockedItems',
             'username', 'token',
             'emcAmount', 'autoEmcInterval', 'timeSinceAutoEmc',
-            'stats',
+            'stats', 'resources',
         ]),
         ...mapGetters([
 
@@ -1951,7 +2021,7 @@ export default {
             'initialize', 'load',
             'computeProdValues', 'produceResources', 'updateTimers', 'checkBoosts', 'updateAchievements', 'save',
             'setActiveShip', 'spy', 'invade', 'absorb',
-            'rebirth', 'performAutoEmc',
+            'rebirth', 'performAutoEmc', 'enlighten',
         ]),
         momentFormat(date, fmt) {
             return moment(date).format(fmt)
@@ -2080,8 +2150,10 @@ export default {
 
                 if (this.token) {
 
+
                     // let data = {
                     //     rank: this.rank,
+                    //     stats: this.stats,
                     // }
                     // axios.post('https://ngspacecompany.exileng.com/api/post/', data, { headers: { 'Authorization': 'Token ' +  this.token }})
                 }
@@ -2185,6 +2257,16 @@ export default {
             this.save()
             this.setTimeSinceAutoSave(1)
             if (this.showToastAutoSave) this.toastAutoSave.show()
+        },
+        onEnlighten() {
+
+            this.enlighten(this.enlightenSelected).then(result => {
+                if (result == true) {
+                    this.loaded = true
+                    this.enlightenSelected = null
+                    window.location.reload()
+                }
+            })
         },
     },
     beforeUnmount() {

@@ -10,7 +10,9 @@
     "achievementPane_desc": "C'est ici que vous voyez tous vos trophées et votre grade.",
     "statistics": "Statistiques",
     "startDate": "Durée de jeu",
+    "lastEnlightenDate": "Dernière illumination",
     "lastRebirthDate": "Dernière renaissance",
+    "enlightenCount": "Illuminations",
     "rebirthCount": "Renaissances",
     "manualGain": "Manuel",
     "machineT1": "Machines T1",
@@ -979,7 +981,7 @@
     "boostDarkmatter": "Boost de la matière noire",
     "boostDarkmatter_desc": "Ajoute un boost de 1% a toutes les ressources pour chaque unité de matière noire non dépensée. Améliore la relation de 20 points.",
     "techNanoswarm0": "Nanoswarm",
-    "techNanoswarm0_desc": "Imaginez des punaises de lit, mais en pire. Ces bestioles amplifient votre production en doublant tous les dix nanoswarms ! Ils sont capables de copier les autres machines et d'assumer leur rôle dans la production de ressources. Vous pouvez sélectionner une ressource à amplifier et la modifier à tout moment. Améliore la relation de 17 points.",
+    "techNanoswarm0_desc": "Imaginez des punaises de lit, mais en pire. Ces bestioles amplifient votre production en doublant tous les dix nanoswarms ! Ils sont capables de copier les autres machines et d'assumer leur rôle dans la production de ressources. Vous pouvez sélectionner une ressource à amplifier et la modifier à tout moment.",
     "upgradeFaction": "Corruption",
     "upgradeFaction_desc": "Augmente les opinions de toutes les factions de 20. Améliore la relation de 20 points.",
     
@@ -996,9 +998,13 @@
     "ulSpheres": "Sphères",
     "ulSpheres_desc": "Pour chaque sphère construite, vous gagnez 1 ultrite.",
     "enlighten": "Illuminer",
-    "enlighten_desc": "",
+    "enlighten_desc": "NB: Vous ne pouvez pas être illuminé avant d'avoir conquis au moins 10 étoiles, même au second tour.",
+    "enlighten_confirm": "Êtes-vous sûr ? Cette action est irréversible.",
+    "titanChoice": "Choisissez le Titan que vous voulez activer",
+    "alreadyActivated": "(Déjà activé)",
     
     "titansPane": "Titans",
+    "titans": "Titans activés",
 
     "upgradesPane": "Améliorations",
     
@@ -1088,10 +1094,14 @@
     "invade_desc": "Ici, vous pouvez activer des vaisseaux au sein de votre flotte et tenter d'envahir le système stellaire de la faction. Votre réputation affecte leur degré de préparation à une éventuelle invasion. Les statistiques de la flotte ennemie en tiennent déjà compte, donc aucun calcul supplémentaire n'est nécessaire. L'invasion a un mauvais effet sur votre réputation auprès de la faction en question, la réduisant de 10 pour une invasion réussie. Cependant, en raison de leur grand ego, ils ont pitié des tentatives infructueuses et la réputation n'est pas modifiée lors d'une invasion échouée.",
     "absorb_desc": "Absorber est le moyen le plus simple de conquérir un système stellaire. Malheureusement, vous devez être en bons termes avec la faction qui contrôle l'étoile: avoir plus de 60 points de réputation avec eux. Lors de l'absorption, vous perdrez 5 points de réputation, soit la moitié du montant que vous perdriez lors d'une invasion.",
         
-    "calcModal": "Machine calculateur de coûts",
-    
-    "segmentModal": "Segment Dyson calculateur de coûts",
+    "costTo5": "Coûts jusque 5",
+    "costTo25": "Coûts jusque 25",
     "costTo50": "Coûts jusque 50",
+    "costTo75": "Coûts jusque 75",
     "costTo100": "Coûts jusque 100",
-    "costTo250": "Coûts jusque 250"
+    "costTo150": "Coûts jusque 150",
+    "costTo250": "Coûts jusque 250",
+    
+    "calcModal": "Machine calculateur de coûts",
+    "segmentModal": "Segment Dyson calculateur de coûts"
 }

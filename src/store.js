@@ -82,6 +82,9 @@ export const store = createStore({
             /*----------------------------------------------------------------*/
             stats: {
                 startDate: new Date().getTime(),
+                lastEnlightenDate: new Date().getTime(),
+                enlightenCount: 0,
+                allTimeUltrite: 0,
                 lastRebirthDate: new Date().getTime(),
                 rebirthCount : 0,
                 allTimeDarkmatter: 0,
@@ -316,6 +319,8 @@ export const store = createStore({
                 if (item.costType == 'EXPONENTIAL') cost.count = Math.floor(cost.count * Math.pow(1.1, item.count))
                 else if (item.costType == 'DYSON') cost.count = Math.floor(cost.count * Math.pow(1.02, item.count))
                 else if (item.costType == 'DOUBLE') cost.count = cost.count * Math.pow(2.0, item.count) * state.storagePrice
+
+                if (state.data[cost.id].titan == true) cost.count *= 0.1
             })
         },
         /*--------------------------------------------------------------------*/
@@ -493,7 +498,7 @@ export const store = createStore({
 
             // ENERGY
             /*----------------------------------------------------------------*/
-            state.data['energy'] = { id:'energy', unlocked:false, count:0, prod:0, production:0, consumption:0, baseStorage:100000, toggle:'on', notifs:['energyPane', 'batteryPane'], }
+            state.data['energy'] = { id:'energy', unlocked:false, titan:false, count:0, prod:0, production:0, consumption:0, baseStorage:100000, toggle:'on', notifs:['energyPane', 'batteryPane'], }
             /*----------------------------------------------------------------*/
             state.data['energyT1'] = { id:'energyT1', unlocked:false, count:0, active:0, destroyable:true, costType:'EXPONENTIAL', baseCosts:[{ id:'metal',    count:50    }, { id:'gem',      count:25    }],                                outputs:[{ id:'energy', count:2   }], inputs:[{ id:'carbon',   count:1  }],                            notifs:['energyPane'], }
             state.data['energyT2'] = { id:'energyT2', unlocked:false, count:0, active:0, destroyable:true, costType:'EXPONENTIAL', baseCosts:[{ id:'metal',    count:30    }, { id:'gem',      count:35    }],                                outputs:[{ id:'energy', count:1.5 }],                                                                  notifs:['energyPane'], }
@@ -512,7 +517,7 @@ export const store = createStore({
 
             // PLASMA
             /*----------------------------------------------------------------*/
-            state.data['plasma'] = { id:'plasma', unlocked:false, count:0, prod:0, production:0, consumption:0, gain:1, baseStorage:100000, toggle:'on', costType:'FIXED', baseCosts:[{ id:'energy', count:1000 }, { id:'hydrogen', count:10 }], notifs:['plasmaPane'], }
+            state.data['plasma'] = { id:'plasma', unlocked:false, titan:false, count:0, prod:0, production:0, consumption:0, gain:1, baseStorage:100000, toggle:'on', costType:'FIXED', baseCosts:[{ id:'energy', count:1000 }, { id:'hydrogen', count:10 }], notifs:['plasmaPane'], }
             /*----------------------------------------------------------------*/
             state.data['plasmaT1'] = { id:'plasmaT1', unlocked:false, count:0, active:0, destroyable:true, costType:'EXPONENTIAL', baseCosts:[{ id:'lunarite', count:75000    }, { id:'gem',      count:68000    }, { id:'silicon',   count:59000  }], outputs:[{ id:'plasma', count:1    }], inputs:[{ id:'energy', count:1000   }, { id:'hydrogen', count:10   }],                                notifs:['plasmaPane'], }
             state.data['plasmaT2'] = { id:'plasmaT2', unlocked:false, count:0, active:0, destroyable:true, costType:'EXPONENTIAL', baseCosts:[{ id:'lunarite', count:810000   }, { id:'silicon',  count:720000   }, { id:'meteorite', count:970    }], outputs:[{ id:'plasma', count:13   }], inputs:[{ id:'energy', count:8500   }, { id:'helium',   count:85   }],                                notifs:['plasmaPane'], }
@@ -526,7 +531,7 @@ export const store = createStore({
 
             // METEORITE
             /*----------------------------------------------------------------*/
-            state.data['meteorite'] = { id:'meteorite', unlocked:false, count:0, prod:0, production:0, consumption:0, gain:1, baseStorage:50, toggle:'on', costType:'FIXED', baseCosts:[{ id:'plasma', count:3 }], notifs:['meteoritePane'], }
+            state.data['meteorite'] = { id:'meteorite', unlocked:false, titan:false, count:0, prod:0, production:0, consumption:0, gain:1, baseStorage:50, toggle:'on', costType:'FIXED', baseCosts:[{ id:'plasma', count:3 }], notifs:['meteoritePane'], }
             /*----------------------------------------------------------------*/
             state.data['meteoriteS1'] = { id:'meteoriteS1', unlocked:false, count:0, storage:{ id:'meteorite', type:'DOUBLE' }, costType:'DOUBLE', baseCosts:[{ id:'meteorite', count:50 }, { id:'lunarite', count:4 }], notifs:['meteoritePane'], }
             /*----------------------------------------------------------------*/
@@ -538,7 +543,7 @@ export const store = createStore({
 
             // CARBON
             /*----------------------------------------------------------------*/
-            state.data['carbon'] = { id:'carbon', unlocked:false, count:0, prod:0, production:0, consumption:0, gain:1, baseStorage:50, toggle:'on', costType:'FIXED', baseCosts:[{ id:'wood', count:2 }], notifs:['carbonPane'], }
+            state.data['carbon'] = { id:'carbon', unlocked:false, titan:false, count:0, prod:0, production:0, consumption:0, gain:1, baseStorage:50, toggle:'on', costType:'FIXED', baseCosts:[{ id:'wood', count:2 }], notifs:['carbonPane'], }
             /*----------------------------------------------------------------*/
             state.data['carbonS1'] = { id:'carbonS1', unlocked:false, count:0, storage:{ id:'carbon', type:'DOUBLE' }, costType:'DOUBLE', baseCosts:[{ id:'carbon', count:50 }, { id:'metal', count:20 }], notifs:['carbonPane'], }
             /*----------------------------------------------------------------*/
@@ -551,7 +556,7 @@ export const store = createStore({
 
             // OIL
             /*----------------------------------------------------------------*/
-            state.data['oil'] = { id:'oil', unlocked:false, count:0, prod:0, production:0, consumption:0, gain:1, baseStorage:50, notifs:['oilPane'], }
+            state.data['oil'] = { id:'oil', unlocked:false, titan:false, count:0, prod:0, production:0, consumption:0, gain:1, baseStorage:50, notifs:['oilPane'], }
             /*----------------------------------------------------------------*/
             state.data['oilS1'] = { id:'oilS1', unlocked:false, count:0, storage:{ id:'oil', type:'DOUBLE' }, costType:'DOUBLE', baseCosts:[{ id:'oil', count:50 }, { id:'metal', count:20 }], notifs:['oilPane'], }
             /*----------------------------------------------------------------*/
@@ -564,7 +569,7 @@ export const store = createStore({
 
             // METAL
             /*----------------------------------------------------------------*/
-            state.data['metal'] = { id:'metal', unlocked:true, count:0, prod:0, production:0, consumption:0, gain:1, baseStorage:50, notifs:['metalPane'], }
+            state.data['metal'] = { id:'metal', unlocked:true, titan:false, count:0, prod:0, production:0, consumption:0, gain:1, baseStorage:50, notifs:['metalPane'], }
             /*----------------------------------------------------------------*/
             state.data['metalS1'] = { id:'metalS1', unlocked:false, count:0, storage:{ id:'metal', type:'DOUBLE' }, costType:'DOUBLE', baseCosts:[{ id:'metal', count:50 }], notifs:['metalPane'], }
             /*----------------------------------------------------------------*/
@@ -577,7 +582,7 @@ export const store = createStore({
 
             // GEM
             /*----------------------------------------------------------------*/
-            state.data['gem'] = { id:'gem', unlocked:true, count:0, prod:0, production:0, consumption:0, gain:1, baseStorage:50, notifs:['gemPane'], }
+            state.data['gem'] = { id:'gem', unlocked:true, titan:false, count:0, prod:0, production:0, consumption:0, gain:1, baseStorage:50, notifs:['gemPane'], }
             /*----------------------------------------------------------------*/
             state.data['gemS1'] = { id:'gemS1', unlocked:false, count:0, storage:{ id:'gem', type:'DOUBLE' }, costType:'DOUBLE', baseCosts:[{ id:'gem', count:50 }, { id:'metal', count:20 }], notifs:['gemPane'], }
             /*----------------------------------------------------------------*/
@@ -590,7 +595,7 @@ export const store = createStore({
 
             // WOOD
             /*----------------------------------------------------------------*/
-            state.data['wood'] = { id:'wood', unlocked:true, count:0, prod:0, production:0, consumption:0, gain:1, baseStorage:50, notifs:['woodPane'], }
+            state.data['wood'] = { id:'wood', unlocked:true, titan:false, count:0, prod:0, production:0, consumption:0, gain:1, baseStorage:50, notifs:['woodPane'], }
             /*----------------------------------------------------------------*/
             state.data['woodS1'] = { id:'woodS1', unlocked:false, count:0, storage:{ id:'wood', type:'DOUBLE' }, costType:'DOUBLE', baseCosts:[{ id:'wood', count:50 }, { id:'metal', count:20 }], notifs:['woodPane'], }
             /*----------------------------------------------------------------*/
@@ -603,7 +608,7 @@ export const store = createStore({
 
             // SILICON
             /*----------------------------------------------------------------*/
-            state.data['silicon'] = { id:'silicon', unlocked:false, count:0, prod:0, production:0, consumption:0, gain:1, baseStorage:50, notifs:['siliconPane'], }
+            state.data['silicon'] = { id:'silicon', unlocked:false, titan:false, count:0, prod:0, production:0, consumption:0, gain:1, baseStorage:50, notifs:['siliconPane'], }
             /*----------------------------------------------------------------*/
             state.data['siliconS1'] = { id:'siliconS1', unlocked:false, count:0, storage:{ id:'silicon', type:'DOUBLE' }, costType:'DOUBLE', baseCosts:[{ id:'silicon', count:50 }, { id:'lunarite', count:20 }], notifs:['siliconPane'], }
             /*----------------------------------------------------------------*/
@@ -616,7 +621,7 @@ export const store = createStore({
 
             // URANIUM
             /*----------------------------------------------------------------*/
-            state.data['uranium'] = { id:'uranium', unlocked:false, count:0, prod:0, production:0, consumption:0, gain:1, baseStorage:50, notifs:['uraniumPane'], }
+            state.data['uranium'] = { id:'uranium', unlocked:false, titan:false, count:0, prod:0, production:0, consumption:0, gain:1, baseStorage:50, notifs:['uraniumPane'], }
             /*----------------------------------------------------------------*/
             state.data['uraniumS1'] = { id:'uraniumS1', unlocked:false, count:0, storage:{ id:'uranium', type:'DOUBLE' }, costType:'DOUBLE', baseCosts:[{ id:'uranium', count:50 }, { id:'lunarite', count:20 }], notifs:['uraniumPane'], }
             /*----------------------------------------------------------------*/
@@ -629,7 +634,7 @@ export const store = createStore({
 
             // LAVA
             /*----------------------------------------------------------------*/
-            state.data['lava'] = { id:'lava', unlocked:false, count:0, prod:0, production:0, consumption:0, gain:1, baseStorage:50, notifs:['lavaPane'], }
+            state.data['lava'] = { id:'lava', unlocked:false, titan:false, count:0, prod:0, production:0, consumption:0, gain:1, baseStorage:50, notifs:['lavaPane'], }
             /*----------------------------------------------------------------*/
             state.data['lavaS1'] = { id:'lavaS1', unlocked:false, count:0, storage:{ id:'lava', type:'DOUBLE' }, costType:'DOUBLE', baseCosts:[{ id:'lava', count:50 }, { id:'lunarite', count:20 }], notifs:['lavaPane'], }
             /*----------------------------------------------------------------*/
@@ -642,7 +647,7 @@ export const store = createStore({
 
             // LUNARITE
             /*----------------------------------------------------------------*/
-            state.data['lunarite'] = { id:'lunarite', unlocked:false, count:0, prod:0, production:0, consumption:0, gain:1, baseStorage:50, notifs:['lunaritePane'], }
+            state.data['lunarite'] = { id:'lunarite', unlocked:false, titan:false, count:0, prod:0, production:0, consumption:0, gain:1, baseStorage:50, notifs:['lunaritePane'], }
             /*----------------------------------------------------------------*/
             state.data['lunariteS1'] = { id:'lunariteS1', unlocked:false, count:0, storage:{ id:'lunarite', type:'DOUBLE' }, costType:'DOUBLE', baseCosts:[{ id:'lunarite', count:50 }, { id:'metal', count:400 }], notifs:['lunaritePane'], }
             /*----------------------------------------------------------------*/
@@ -655,7 +660,7 @@ export const store = createStore({
 
             // METHANE
             /*----------------------------------------------------------------*/
-            state.data['methane'] = { id:'methane', unlocked:false, count:0, prod:0, production:0, consumption:0, gain:1, baseStorage:50, notifs:['methanePane'], }
+            state.data['methane'] = { id:'methane', unlocked:false, titan:false, count:0, prod:0, production:0, consumption:0, gain:1, baseStorage:50, notifs:['methanePane'], }
             /*----------------------------------------------------------------*/
             state.data['methaneS1'] = { id:'methaneS1', unlocked:false, count:0, storage:{ id:'methane', type:'DOUBLE' }, costType:'DOUBLE', baseCosts:[{ id:'methane', count:50 }, { id:'lunarite', count:20  }], notifs:['methanePane'], }
             /*----------------------------------------------------------------*/
@@ -668,7 +673,7 @@ export const store = createStore({
 
             // TITANIUM
             /*----------------------------------------------------------------*/
-            state.data['titanium'] = { id:'titanium', unlocked:false, count:0, prod:0, production:0, consumption:0, gain:1, baseStorage:50, notifs:['titaniumPane'], }
+            state.data['titanium'] = { id:'titanium', unlocked:false, titan:false, count:0, prod:0, production:0, consumption:0, gain:1, baseStorage:50, notifs:['titaniumPane'], }
             /*----------------------------------------------------------------*/
             state.data['titaniumS1'] = { id:'titaniumS1', unlocked:false, count:0, storage:{ id:'titanium', type:'DOUBLE' }, costType:'DOUBLE', baseCosts:[{ id:'titanium', count:50 }, { id:'lunarite', count:20 }], notifs:['titaniumPane'], }
             /*----------------------------------------------------------------*/
@@ -681,7 +686,7 @@ export const store = createStore({
 
             // GOLD
             /*----------------------------------------------------------------*/
-            state.data['gold'] = { id:'gold', unlocked:false, count:0, prod:0, production:0, consumption:0, gain:1, baseStorage:50, notifs:['goldPane'], }
+            state.data['gold'] = { id:'gold', unlocked:false, titan:false, count:0, prod:0, production:0, consumption:0, gain:1, baseStorage:50, notifs:['goldPane'], }
             /*----------------------------------------------------------------*/
             state.data['goldS1'] = { id:'goldS1', unlocked:false, count:0, storage:{ id:'gold', type:'DOUBLE' }, costType:'DOUBLE', baseCosts:[{ id:'gold', count:50 }, { id:'lunarite', count:20 }], notifs:['goldPane'], }
             /*----------------------------------------------------------------*/
@@ -694,7 +699,7 @@ export const store = createStore({
 
             // SILVER
             /*----------------------------------------------------------------*/
-            state.data['silver'] = { id:'silver', unlocked:false, count:0, prod:0, production:0, consumption:0, gain:1, baseStorage:50, notifs:['silverPane'], }
+            state.data['silver'] = { id:'silver', unlocked:false, titan:false, count:0, prod:0, production:0, consumption:0, gain:1, baseStorage:50, notifs:['silverPane'], }
             /*----------------------------------------------------------------*/
             state.data['silverS1'] = { id:'silverS1', unlocked:false, count:0, storage:{ id:'silver', type:'DOUBLE' }, costType:'DOUBLE', baseCosts:[{ id:'silver', count:50 }, { id:'lunarite', count:20 }], notifs:['silverPane'], }
             /*----------------------------------------------------------------*/
@@ -707,7 +712,7 @@ export const store = createStore({
 
             // HYDROGEN
             /*----------------------------------------------------------------*/
-            state.data['hydrogen'] = { id:'hydrogen', unlocked:false, count:0, prod:0, production:0, consumption:0, gain:1, baseStorage:50, notifs:['hydrogenPane'], }
+            state.data['hydrogen'] = { id:'hydrogen', unlocked:false, titan:false, count:0, prod:0, production:0, consumption:0, gain:1, baseStorage:50, notifs:['hydrogenPane'], }
             /*----------------------------------------------------------------*/
             state.data['hydrogenS1'] = { id:'hydrogenS1',  unlocked:false, count:0, storage:{ id:'hydrogen', type:'DOUBLE' }, costType:'DOUBLE', baseCosts:[{ id:'hydrogen', count:50 }, { id:'lunarite', count:20 }], notifs:['hydrogenPane'], }
             /*----------------------------------------------------------------*/
@@ -720,7 +725,7 @@ export const store = createStore({
 
             // HELIUM
             /*----------------------------------------------------------------*/
-            state.data['helium'] = { id:'helium', unlocked:false, count:0, prod:0, production:0, consumption:0, gain:1, baseStorage:50, notifs:['heliumPane'], }
+            state.data['helium'] = { id:'helium', unlocked:false, titan:false, count:0, prod:0, production:0, consumption:0, gain:1, baseStorage:50, notifs:['heliumPane'], }
             /*----------------------------------------------------------------*/
             state.data['heliumS1'] = { id:'heliumS1', unlocked:false, count:0, storage:{ id:'helium', type:'DOUBLE' }, costType:'DOUBLE', baseCosts:[{ id:'helium', count:50 }, { id:'lunarite', count:20 }], notifs:['heliumPane'], }
             /*----------------------------------------------------------------*/
@@ -733,7 +738,7 @@ export const store = createStore({
 
             // ICE
             /*----------------------------------------------------------------*/
-            state.data['ice'] = { id:'ice', unlocked:false, count:0, prod:0, production:0, consumption:0, gain:1, baseStorage:50, notifs:['icePane'], }
+            state.data['ice'] = { id:'ice', unlocked:false, titan:false, count:0, prod:0, production:0, consumption:0, gain:1, baseStorage:50, notifs:['icePane'], }
             /*----------------------------------------------------------------*/
             state.data['iceS1'] = { id:'iceS1', unlocked:false, count:0, storage:{ id:'ice', type:'DOUBLE' }, costType:'DOUBLE', baseCosts:[{ id:'ice', count:50 }, { id:'lunarite', count:20 }], notifs:['icePane'], }
             /*----------------------------------------------------------------*/
@@ -746,7 +751,7 @@ export const store = createStore({
 
             // SCIENCE
             /*----------------------------------------------------------------*/
-            state.data['science'] = { id:'science', unlocked:false, count:0, prod:0, production:0, consumption:0, notifs:['sciencePane'], }
+            state.data['science'] = { id:'science', unlocked:false, titan:false, count:0, prod:0, production:0, consumption:0, notifs:['sciencePane'], }
             /*----------------------------------------------------------------*/
             state.data['scienceT1'] = { id:'scienceT1', unlocked:false, count:0, active:0, destroyable:true, costType:'EXPONENTIAL', baseCosts:[{ id:'metal', count:20       }, { id:'gem', count:15      }, { id:'wood', count:10       }], outputs:[{ id:'science', count:0.1  }], notifs:['sciencePane'], }
             state.data['scienceT2'] = { id:'scienceT2', unlocked:false, count:0, active:0, destroyable:true, costType:'EXPONENTIAL', baseCosts:[{ id:'metal', count:1000     }, { id:'gem', count:200     }, { id:'wood', count:500      }], outputs:[{ id:'science', count:1    }], notifs:['sciencePane'], }
@@ -797,7 +802,7 @@ export const store = createStore({
 
             // FUEL
             /*----------------------------------------------------------------*/
-            state.data['fuel'] = { id:'fuel', unlocked:false, count:0, prod:0, production:0, consumption:0, toggle:'on', notifs:['fuelPane'], }
+            state.data['fuel'] = { id:'fuel', unlocked:false, titan:false, count:0, prod:0, production:0, consumption:0, toggle:'on', notifs:['fuelPane'], }
             /*----------------------------------------------------------------*/
             state.data['fuelT1'] = { id:'fuelT1', unlocked:false, count:0, active:0, destroyable:true, costType:'EXPONENTIAL', baseCosts:[{ id:'metal',    count:1000   }, { id:'gem',     count:750   }, { id:'wood', count:500   }], outputs:[{ id:'fuel', count:0.2 }], inputs:[{ id:'carbon',  count:20  }, { id:'oil', count:20  }], notifs:['fuelPane'], }
             state.data['fuelT2'] = { id:'fuelT2', unlocked:false, count:0, active:0, destroyable:true, costType:'EXPONENTIAL', baseCosts:[{ id:'metal',    count:12000  }, { id:'gem',     count:8300  }, { id:'wood', count:6800  }], outputs:[{ id:'fuel', count:1.5 }], inputs:[{ id:'carbon',  count:100 }, { id:'oil', count:100 }], notifs:['fuelPane'], }
@@ -912,7 +917,7 @@ export const store = createStore({
 
             // ANTIMATTER
             /*----------------------------------------------------------------*/
-            state.data['antimatter'] = { id:'antimatter', unlocked:false, count:0, prod:0, production:0, consumption:0, baseStorage:100000, toggle:'on', notifs:['antimatterPane'], }
+            state.data['antimatter'] = { id:'antimatter', unlocked:false, titan:false, count:0, prod:0, production:0, consumption:0, baseStorage:100000, toggle:'on', notifs:['antimatterPane'], }
             /*----------------------------------------------------------------*/
             state.data['antimatterT1'] = { id:'antimatterT1', unlocked:false, count:0, active:0, destroyable:true, costType:'EXPONENTIAL', baseCosts:[{ id:'silver', count:163000000 }, { id:'oil', count:712000000 }, { id:'meteorite', count:12300000 }], outputs:[{ id:'antimatter', count:0.5 }], inputs:[{ id:'plasma', count:100 }, { id:'ice', count:12000 }], notifs:['antimatterPane'], }
             /*----------------------------------------------------------------*/
@@ -1210,13 +1215,17 @@ export const store = createStore({
             // DM OVERLORD
             /*----------------------------------------------------------------*/
             state.data['boostDarkmatter'] = { id:'boostDarkmatter', unlocked:false, count:0, max:1, costType:'FIXED', baseCosts:[{ id:'darkmatter', count:30 }], notifs:['stargazeOverlordPane'], faction:'overlord', opinion:20, }
-            state.data['techNanoswarm0'] =  { id:'techNanoswarm0',  unlocked:false, count:0, max:1, costType:'FIXED', baseCosts:[{ id:'darkmatter', count:32 }], notifs:['stargazeOverlordPane'], faction:'overlord', opinion:17, unlocks:['techNanoswarm1'], }
             state.data['upgradeFaction'] =  { id:'upgradeFaction',  unlocked:false, count:0, max:1, costType:'FIXED', baseCosts:[{ id:'darkmatter', count:49 }], notifs:['stargazeOverlordPane'], faction:'overlord', opinion:20, }
             /*----------------------------------------------------------------*/
 
             // ULTRITE
             /*----------------------------------------------------------------*/
             state.data['ultrite'] = { id:'ultrite', unlocked:false, count:0, notifs:['ultritePane'], }
+            /*----------------------------------------------------------------*/
+
+            // UPGRADES
+            /*----------------------------------------------------------------*/
+            state.data['techNanoswarm0'] =  { id:'techNanoswarm0',  unlocked:false, count:0, max:1, costType:'FIXED', baseCosts:[{ id:'ultrite', count:1000 }], notifs:['upgradesPane'], unlocks:['techNanoswarm1'], }
             /*----------------------------------------------------------------*/
 
             // ACHIEVEMENT LIST
@@ -1410,6 +1419,8 @@ export const store = createStore({
                 state.collapsed = data.collapsed || []
 
                 if (data.stats) state.stats = data.stats
+                if (!(data.stats.enlightenCount)) data.stats.enlightenCount = 0
+                if (!(data.stats.allTimeUltrite)) data.stats.allTimeUltrite = 0
 
                 for (let i in data.entries) {
                     let item = data.entries[i]
@@ -1422,10 +1433,24 @@ export const store = createStore({
                     if ('opinion' in item) state.data[i].opinion = item.opinion
                     if ('status' in item) state.data[i].status = item.status
                     if ('spy' in item) state.data[i].spy = item.spy
+                    if ('titan' in item) state.data[i].titan = item.titan
                 }
             }
 
             if (state.data['autoEmc'].unlocked == false) state.autoResource = null
+
+            if (state.data['ultrite'].unlocked == false) {
+
+                state.data['techNanoswarm0'].unlocked = false
+                state.data['techNanoswarm0'].count = 0
+
+                state.data['techNanoswarm1'].unlocked = false
+                state.data['techNanoswarm1'].count = 0
+
+                state.data['nanoswarm'].unlocked = false
+                state.data['nanoswarm'].count = 0
+                state.data['nanoswarm'].resource = null
+            }
 
             let ownedStarCount = 0
 
@@ -1504,7 +1529,7 @@ export const store = createStore({
 
             for (let i in state.data) {
                 let item = state.data[i]
-                if (item.unlocked == true) {
+                if (item.unlocked == true || ('titan' in item && item.titan == true)) {
                     saveddata.entries[i] = {}
 
                     if ('unlocked' in item && item.unlocked != false) saveddata.entries[i].unlocked = item.unlocked
@@ -1515,6 +1540,7 @@ export const store = createStore({
                     if ('opinion' in item && item.opinion != 0) saveddata.entries[i].opinion = item.opinion
                     if ('status' in item && item.status != 'new') saveddata.entries[i].status = item.status
                     if ('spy' in item && item.spy != 0) saveddata.entries[i].spy = item.spy
+                    if ('titan' in item && item.titan == true) saveddata.entries[i].titan = item.titan
                 }
             }
 
@@ -2190,7 +2216,7 @@ export const store = createStore({
                 'kitrinos', 'upgradeTier1', 'techEnergyStorage5', 'multiBuy', 'boostCapital', 'techTier5',
                 'moviton', 'upgradeFuel1', 'upgradeSpaceship', 'techMeteorite3', 'techMeteorite4',
                 'overlord', 'boostDarkmatter', 'upgradeFaction',
-                'ultrite',
+                'ultrite', 'techNanoswarm0',
             ]
 
             for (let i in state.data) {
@@ -2240,5 +2266,70 @@ export const store = createStore({
                 if (state.data[id].count > 0) faction.opinion += state.data[id].opinion
             })
         },
+        /*--------------------------------------------------------------------*/
+        enlighten({ state, getters, dispatch }, payload) {
+
+            let ownedStarCount = 0
+            for (let i in state.stars) {
+                let star = state.stars[i]
+                if (star.status == 'owned') ownedStarCount += 1
+            }
+            if (ownedStarCount < 10) return false
+
+            console.log(payload)
+            if (state.data[payload].titan == true) return false
+            state.data[payload].titan = true
+
+            state.data['ultrite'].count += getters.getPotentialUL
+            state.stats.allTimeUltrite += getters.getPotentialUL
+
+            state.collapsed = []
+
+            state.emcAmount = 'max'
+            state.autoResource = null
+            state.autoEmcInterval = 1 * 1000
+
+            let exludedList = [
+                'ultrite', 'techNanoswarm0',
+            ]
+
+            for (let i in state.data) {
+                let item = state.data[i]
+                if (!(exludedList.includes(i))) {
+
+                    if ('unlocked' in item) item.unlocked = false
+                    if ('count' in item) item.count = 0
+                    if ('active' in item) item.active = 0
+                    if ('toggle' in item) item.toggleState = 'on'
+                    if ('resource' in item) item.resource = null
+                    if ('status' in item) item.status = 'new'
+                    if ('spy' in item) item.spy = 0
+                }
+            }
+
+            state.stats.lastEnlightenDate = new Date().getTime()
+            state.stats.enlightenCount += 1
+            state.stats.manualGain.current = 0
+            state.stats.machineT1.current = 0
+            state.stats.machineT2.current = 0
+            state.stats.machineT3.current = 0
+            state.stats.machineT4.current = 0
+            state.stats.machineT5.current = 0
+            state.stats.machineT6.current = 0
+            state.stats.ships.current = 0
+            state.stats.starOwned.current = 0
+
+            dispatch('rebirthFaction', { id:'carnelian', items:['upgradeGain', 'upgradeStorage1', 'upgradeStorage2', 'techEnergyStorage6', 'upgradeStorage3'] })
+            dispatch('rebirthFaction', { id:'prasnian', items:['techPlasma3', 'upgradeWonder1', 'upgradeWonder2', 'upgradeWonder3', 'autoEmc', 'techPlasma4', 'techPlasmaStorage3'] })
+            dispatch('rebirthFaction', { id:'hyacinite', items:['upgradeScience1', 'upgradeScience2', 'techScience5', 'upgradeEnergyBoost'] })
+            dispatch('rebirthFaction', { id:'kitrinos', items:['upgradeTier1', 'techEnergyStorage5', 'multiBuy', 'boostCapital', 'techTier5'] })
+            dispatch('rebirthFaction', { id:'moviton', items:['upgradeFuel1', 'upgradeSpaceship', 'techMeteorite3', 'techMeteorite4'] })
+            dispatch('rebirthFaction', { id:'overlord', items:['boostDarkmatter', 'upgradeFaction'] })
+
+            dispatch('save')
+
+            return true
+        },
+        /*--------------------------------------------------------------------*/
     },
 })
