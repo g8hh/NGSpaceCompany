@@ -1693,6 +1693,12 @@
                             <span class="h6 text-light">{{ $t('changeLog') }}</span>
                         </div>
                         <div class="col-12 border-top">
+                            <div class="text-light">v1.18.1 - 2021-06-28</div>
+                            <ul class="small">
+                                <li>FIX: stats loading</li>
+                            </ul>
+                        </div>
+                        <div class="col-12 border-top">
                             <div class="text-light">v1.18.0 - 2021-06-28</div>
                             <ul class="small">
                                 <li>NEW: initial implementation of 'Enlightenment' = second layer of prestige</li>
@@ -1977,7 +1983,7 @@ export default {
             calcModal: null,
             enlightenModal: null,
             enlightenSelected: null,
-            currentRelease: '1.18.0',
+            currentRelease: '1.18.1',
             ghLatestRelease: null,
 
             login: null,

@@ -1418,10 +1418,12 @@ export const store = createStore({
                 state.autoEmcInterval = data.autoEmcInterval || 1 * 1000
                 state.collapsed = data.collapsed || []
 
-                if (data.stats) state.stats = data.stats
-                if (!(data.stats.enlightenCount)) data.stats.enlightenCount = 0
-                if (!(data.stats.allTimeUltrite)) data.stats.allTimeUltrite = 0
-
+                if (data.stats) {
+                    state.stats = data.stats
+                    if (!(state.stats.enlightenCount)) state.stats.enlightenCount = 0
+                    if (!(state.stats.allTimeUltrite)) state.stats.allTimeUltrite = 0
+                }
+                
                 for (let i in data.entries) {
                     let item = data.entries[i]
 
