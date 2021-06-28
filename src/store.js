@@ -61,7 +61,7 @@ export const store = createStore({
             /*----------------------------------------------------------------*/
             locale: 'chs',
             activePane: 'metalPane',
-            companyName: 'NG Space',
+            companyName: 'NG太空',
             notifications: [],
             newAchievement: false,
             notifAutoSave: true,

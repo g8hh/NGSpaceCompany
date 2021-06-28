@@ -2,9 +2,9 @@
 
     <div v-if="!loaded" id="loadScreen">
         <div class="row row-cols-1 g-2 justify-content-center">
-            <div class="col text-center"><h1 class="text-light">NG Space Company</h1></div>
+            <div class="col text-center"><h1 class="text-light">太空公司NG</h1></div>
             <div class="col text-center"><img id="loadLogo" style="width:25%; height:auto;" :src="require('./assets/whiteLogo.png')" /></div>
-            <div class="col text-center"><h5 class="text-light">Reticulating Splines...</h5></div>
+            <div class="col text-center"><h5 class="text-light">网状样条...</h5></div>
         </div>
     </div>
 
@@ -17,7 +17,7 @@
                 </div>
 
                 <div class="col text-truncate px-0">
-                    <span class="h5 text-light mb-0">{{ companyName }} Company</span>
+                    <span class="h5 text-light mb-0">{{ companyName }} 公司</span>
                 </div>
 
                 <div class="col-auto px-0">
