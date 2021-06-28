@@ -2045,11 +2045,11 @@ export default {
             this.selectedEmcAmount = this.emcAmount
             this.selectedAutoEmcInterval = this.autoEmcInterval / 1000
 
-            this.ghUpdate()
+            // this.ghUpdate()
 
             this.fastInterval = setInterval(() => { this.fastUpdate() }, 100)
             this.slowInterval = setInterval(() => { this.slowUpdate() }, 1000)
-            this.ghInterval = setInterval(() => { this.ghUpdate() }, 3600000)
+            // this.ghInterval = setInterval(() => { this.ghUpdate() }, 3600000)
 
             this.loaded = true
 
