@@ -56,6 +56,10 @@
     "rankPane_desc": "这是当前的玩家排名。 要成为其中的一部分，您只需注册一个帐户，然后一切都会自动化。",
     "rankPane_nodata": "等待下一次自动保存以查看排名。",
     
+    "statsUltrite": "所有时间Ultrite",
+    "statsDarkmatter": "所有时间暗物质",
+    "statsXP": "当前经验",
+    
     "helpPane": "帮助",
     "helpPane_desc": "本指南将引导您从开始游戏到激活您的第一个奇迹，并将有助于掌握您需要做的一切。",
     "help1": "第一步",
@@ -77,7 +81,8 @@
     "import": "导入存档",
     "copy": "复制到剪切板",
     "importExport_desc": "将其复制并粘贴到某个文件中，以便您以后可以将其导入游戏。 您还可以使用它通过分别存储多个实例来创建游戏的多个“保存文件”。",
-    "notifications": "通知",
+    "notifications": "显示",
+    "showPinnedItems": "激活和显示固定窗格",
     "showLockedItems": "显示未解锁项目",
     "showToastAutoSave": "显示自动保存通知",
     "showToastAchievement": "显示成就通知",
@@ -105,6 +110,7 @@
     "about3": "图标",
     "about3_desc1": "所有图标均来自 ",
     "about4": "捐助者",
+    "pinnedHeading": "固定",
     
     "energyHeading": "能源",
             
@@ -1012,6 +1018,8 @@
     "titans": "激活泰坦",
 
     "upgradesPane": "升级",
+    "techAutoStorageUpgrade": "自动存储升级",
+    "techAutoStorageUpgrade_desc": "这解锁了打开/关闭每个资源上升级存储自动化的能力。 注意：等离子体、能源、科学、燃料和反物质不受影响。",
 
     "overview": "概览",
     "upgradeStorage": "升级存储空间",
@@ -1057,6 +1065,10 @@
     "spy": "间谍",
     "invade": "入侵",
     "absorb": "吸收",
+    
+    "btnDysonT1": "= 50 + 环",
+    "btnDysonT2": "= 100 + 虫群",
+    "btnDysonT3": "= 250 + 球",
     
     "toastAchievement_title": "新成就",
     "toastAchievement_text": "你取得了新的成就。",
