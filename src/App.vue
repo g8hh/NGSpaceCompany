@@ -35,6 +35,10 @@
             <inner-content data-simplebar>
                 <div class="row gx-2 gy-3 row-cols-1">
 
+                    <sidenav-group id="pinnedHeading" :unlocked="displayPinnedItems == true">
+                        <sidenav-item v-for="pane in pinned" :key="pane.id" :id="pane.id" :icon="pane.icon" unlocked="true" :prod="data[pane.resId].prod" :count="data[pane.resId].count" :storage="data[pane.resId].storage" :problem="data[pane.resId].problem" />
+                    </sidenav-group>
+
                     <sidenav-group id="energyHeading" :unlocked="data['energy'].unlocked">
                         <sidenav-item id="energyPane" icon="energy.png" :unlocked="data['energy'].unlocked" :prod="data['energy'].prod" :problem="data['energy'].problem" />
                         <sidenav-item id="batteryPane" icon="battery.png" :unlocked="data['energy'].unlocked" :count="data['energy'].count" :storage="data['energy'].storage" />
@@ -231,7 +235,7 @@
                 <div class="tab-content" style="padding-bottom: 65px;">
 
                     <!-- ENERGY PANE -->
-                    <pane id="energyPane" icon="energy.png" :descs="['energyPane_desc']">
+                    <pane id="energyPane" icon="energy.png" :descs="['energyPane_desc']" pinnable="energy">
                         <resource id="energy" />
                         <buildable id="energyT1" btnText="build" collapse="true" :multibuy="data['multiBuy'].count > 0" calc="true" />
                         <buildable id="energyT2" btnText="build" collapse="true" :multibuy="data['multiBuy'].count > 0" calc="true" unlocker="techEnergy2" />
@@ -252,7 +256,7 @@
                     </pane>
 
                     <!-- PLASMA PANE -->
-                    <pane id="plasmaPane" icon="plasma.png" :descs="['plasmaPane_desc']">
+                    <pane id="plasmaPane" icon="plasma.png" :descs="['plasmaPane_desc']" pinnable="plasma">
                         <resource id="plasma" />
                         <buildable id="plasmaT1" btnText="build" collapse="true" :multibuy="data['multiBuy'].count > 0" calc="true" unlocker="techPlasma1" />
                         <buildable id="plasmaT2" btnText="build" collapse="true" :multibuy="data['multiBuy'].count > 0" calc="true" unlocker="techPlasma2" />
@@ -264,7 +268,7 @@
                     </pane>
 
                     <!-- METEORITE PANE -->
-                    <pane id="meteoritePane" icon="meteorite.png" :descs="['meteoritePane_desc']">
+                    <pane id="meteoritePane" icon="meteorite.png" :descs="['meteoritePane_desc']" pinnable="meteorite">
                         <resource id="meteorite" />
                         <buildable id="meteoriteS1" btnText="upgrade" collapse="true" />
                         <buildable id="meteoriteT1" btnText="build" collapse="true" :multibuy="data['multiBuy'].count > 0" calc="true" unlocker="techMeteorite1" />
@@ -274,7 +278,7 @@
                     </pane>
 
                     <!-- CARBON PANE -->
-                    <pane id="carbonPane" icon="carbon.png" :descs="['carbonPane_desc']">
+                    <pane id="carbonPane" icon="carbon.png" :descs="['carbonPane_desc']" pinnable="carbon">
                         <resource id="carbon" />
                         <buildable id="carbonS1" btnText="upgrade" collapse="true" unlocker="techStorage" />
                         <buildable id="carbonT1" btnText="build" collapse="true" :multibuy="data['multiBuy'].count > 0" calc="true" />
@@ -285,7 +289,7 @@
                     </pane>
 
                     <!-- OIL PANE -->
-                    <pane id="oilPane" icon="oil.png" :descs="['oilPane_desc']">
+                    <pane id="oilPane" icon="oil.png" :descs="['oilPane_desc']" pinnable="oil">
                         <resource id="oil" />
                         <buildable id="oilS1" btnText="upgrade" collapse="true" unlocker="techStorage" />
                         <buildable id="oilT1" btnText="build" collapse="true" :multibuy="data['multiBuy'].count > 0" calc="true" />
@@ -296,9 +300,9 @@
                     </pane>
 
                     <!-- METAL PANE -->
-                    <pane id="metalPane" icon="metal.png" :descs="['metalPane_desc']">
+                    <pane id="metalPane" icon="metal.png" :descs="['metalPane_desc']" pinnable="metal">
                         <resource id="metal" />
-                        <buildable id="metalS1" btnText="upgrade" collapse="true" unlocker="techStorage" />
+                        <buildable id="metalS1" btnText="upgrade" collapse="true" unlocker="techStorage" autoUpgradeStorage="true" />
                         <buildable id="metalT1" btnText="build" collapse="true" :multibuy="data['multiBuy'].count > 0" calc="true" />
                         <buildable id="metalT2" btnText="build" collapse="true" :multibuy="data['multiBuy'].count > 0" calc="true" unlocker="techTier2" />
                         <buildable id="metalT3" btnText="build" collapse="true" :multibuy="data['multiBuy'].count > 0" calc="true" unlocker="wonderTechnological1" />
@@ -307,7 +311,7 @@
                     </pane>
 
                     <!-- GEM PANE -->
-                    <pane id="gemPane" icon="gem.png" :descs="['gemPane_desc']">
+                    <pane id="gemPane" icon="gem.png" :descs="['gemPane_desc']" pinnable="gem">
                         <resource id="gem" />
                         <buildable id="gemS1" btnText="upgrade" collapse="true" unlocker="techStorage" />
                         <buildable id="gemT1" btnText="build" collapse="true" :multibuy="data['multiBuy'].count > 0" calc="true" />
@@ -318,7 +322,7 @@
                     </pane>
 
                     <!-- WOOD PANE -->
-                    <pane id="woodPane" icon="wood.png" :descs="['woodPane_desc']">
+                    <pane id="woodPane" icon="wood.png" :descs="['woodPane_desc']" pinnable="wood">
                         <resource id="wood" />
                         <buildable id="woodS1" btnText="upgrade" collapse="true" unlocker="techStorage" />
                         <buildable id="woodT1" btnText="build" collapse="true" :multibuy="data['multiBuy'].count > 0" calc="true" />
@@ -329,7 +333,7 @@
                     </pane>
 
                     <!-- SILICON PANE -->
-                    <pane id="siliconPane" icon="silicon.png" :descs="['siliconPane_desc']">
+                    <pane id="siliconPane" icon="silicon.png" :descs="['siliconPane_desc']" pinnable="silicon">
                         <resource id="silicon" />
                         <buildable id="siliconS1" btnText="upgrade" collapse="true" unlocker="techStorage" />
                         <buildable id="siliconT1" btnText="build" collapse="true" :multibuy="data['multiBuy'].count > 0" calc="true" />
@@ -340,7 +344,7 @@
                     </pane>
 
                     <!-- URANIUM PANE -->
-                    <pane id="uraniumPane" icon="uranium.png" :descs="['uraniumPane_desc']">
+                    <pane id="uraniumPane" icon="uranium.png" :descs="['uraniumPane_desc']" pinnable="uranium">
                         <resource id="uranium" />
                         <buildable id="uraniumS1" btnText="upgrade" collapse="true" unlocker="techStorage" />
                         <buildable id="uraniumT1" btnText="build" collapse="true" :multibuy="data['multiBuy'].count > 0" calc="true" />
@@ -351,7 +355,7 @@
                     </pane>
 
                     <!-- LAVA PANE -->
-                    <pane id="lavaPane" icon="lava.png" :descs="['lavaPane_desc']">
+                    <pane id="lavaPane" icon="lava.png" :descs="['lavaPane_desc']" pinnable="lava">
                         <resource id="lava" />
                         <buildable id="lavaS1" btnText="upgrade" collapse="true" unlocker="techStorage" />
                         <buildable id="lavaT1" btnText="build" collapse="true" :multibuy="data['multiBuy'].count > 0" calc="true" />
@@ -362,7 +366,7 @@
                     </pane>
 
                     <!-- LUNARITE PANE -->
-                    <pane id="lunaritePane" icon="lunarite.png" :descs="['lunaritePane_desc']">
+                    <pane id="lunaritePane" icon="lunarite.png" :descs="['lunaritePane_desc']" pinnable="lunarite">
                         <resource id="lunarite" />
                         <buildable id="lunariteS1" btnText="upgrade" collapse="true" unlocker="techStorage" />
                         <buildable id="lunariteT1" btnText="build" collapse="true" :multibuy="data['multiBuy'].count > 0" calc="true" />
@@ -373,7 +377,7 @@
                     </pane>
 
                     <!-- METHANE PANE -->
-                    <pane id="methanePane" icon="methane.png" :descs="['methanePane_desc']">
+                    <pane id="methanePane" icon="methane.png" :descs="['methanePane_desc']" pinnable="methane">
                         <resource id="methane" />
                         <buildable id="methaneS1" btnText="upgrade" collapse="true" unlocker="techStorage" />
                         <buildable id="methaneT1" btnText="build" collapse="true" :multibuy="data['multiBuy'].count > 0" calc="true" />
@@ -384,7 +388,7 @@
                     </pane>
 
                     <!-- TITANIUM PANE -->
-                    <pane id="titaniumPane" icon="titanium.png" :descs="['titaniumPane_desc']">
+                    <pane id="titaniumPane" icon="titanium.png" :descs="['titaniumPane_desc']" pinnable="titanium">
                         <resource id="titanium" />
                         <buildable id="titaniumS1" btnText="upgrade" collapse="true" unlocker="techStorage" />
                         <buildable id="titaniumT1" btnText="build" collapse="true" :multibuy="data['multiBuy'].count > 0" calc="true" />
@@ -395,7 +399,7 @@
                     </pane>
 
                     <!-- GOLD PANE -->
-                    <pane id="goldPane" icon="gold.png" :descs="['goldPane_desc']">
+                    <pane id="goldPane" icon="gold.png" :descs="['goldPane_desc']" pinnable="gold">
                         <resource id="gold" />
                         <buildable id="goldS1" btnText="upgrade" collapse="true" unlocker="techStorage" />
                         <buildable id="goldT1" btnText="build" collapse="true" :multibuy="data['multiBuy'].count > 0" calc="true" />
@@ -406,7 +410,7 @@
                     </pane>
 
                     <!-- SILVER PANE -->
-                    <pane id="silverPane" icon="silver.png" :descs="['silverPane_desc']">
+                    <pane id="silverPane" icon="silver.png" :descs="['silverPane_desc']" pinnable="silver">
                         <resource id="silver" />
                         <buildable id="silverS1" btnText="upgrade" collapse="true" unlocker="techStorage" />
                         <buildable id="silverT1" btnText="build" collapse="true" :multibuy="data['multiBuy'].count > 0" calc="true" />
@@ -417,7 +421,7 @@
                     </pane>
 
                     <!-- HYDROGEN PANE -->
-                    <pane id="hydrogenPane" icon="hydrogen.png" :descs="['hydrogenPane_desc']">
+                    <pane id="hydrogenPane" icon="hydrogen.png" :descs="['hydrogenPane_desc']" pinnable="hydrogen">
                         <resource id="hydrogen" />
                         <buildable id="hydrogenS1" btnText="upgrade" collapse="true" unlocker="techStorage" />
                         <buildable id="hydrogenT1" btnText="build" collapse="true" :multibuy="data['multiBuy'].count > 0" calc="true" />
@@ -428,7 +432,7 @@
                     </pane>
 
                     <!-- HELIUM PANE -->
-                    <pane id="heliumPane" icon="helium.png" :descs="['heliumPane_desc']">
+                    <pane id="heliumPane" icon="helium.png" :descs="['heliumPane_desc']" pinnable="helium">
                         <resource id="helium" />
                         <buildable id="heliumS1" btnText="upgrade" collapse="true" unlocker="techStorage" />
                         <buildable id="heliumT1" btnText="build" collapse="true" :multibuy="data['multiBuy'].count > 0" calc="true" />
@@ -439,7 +443,7 @@
                     </pane>
 
                     <!-- ICE PANE -->
-                    <pane id="icePane" icon="ice.png" :descs="['icePane_desc']">
+                    <pane id="icePane" icon="ice.png" :descs="['icePane_desc']" pinnable="ice">
                         <resource id="ice" />
                         <buildable id="iceS1" btnText="upgrade" collapse="true" unlocker="techStorage" />
                         <buildable id="iceT1" btnText="build" collapse="true" :multibuy="data['multiBuy'].count > 0" calc="true" />
@@ -450,7 +454,7 @@
                     </pane>
 
                     <!-- SCIENCE PANE -->
-                    <pane id="sciencePane" icon="science.png" :descs="['sciencePane_desc']">
+                    <pane id="sciencePane" icon="science.png" :descs="['sciencePane_desc']" pinnable="science">
                         <buildable id="scienceT1" btnText="build" collapse="true" :multibuy="data['multiBuy'].count > 0" calc="true" />
                         <buildable id="scienceT2" btnText="build" collapse="true" :multibuy="data['multiBuy'].count > 0" calc="true" unlocker="techScience2" />
                         <buildable id="scienceT3" btnText="build" collapse="true" :multibuy="data['multiBuy'].count > 0" calc="true" unlocker="techScience3" />
@@ -497,7 +501,7 @@
                     </pane>
 
                     <!-- FUEL PANE -->
-                    <pane id="fuelPane" icon="fuel.png" :descs="['fuelPane_desc']">
+                    <pane id="fuelPane" icon="fuel.png" :descs="['fuelPane_desc']" pinnable="fuel">
                         <resource id="fuel" />
                         <buildable id="fuelT1" btnText="build" collapse="true" :multibuy="data['multiBuy'].count > 0" calc="true" />
                         <buildable id="fuelT2" btnText="build" collapse="true" :multibuy="data['multiBuy'].count > 0" calc="true" unlocker="techFuel2" />
@@ -629,7 +633,7 @@
                     </pane>
 
                     <!-- ANTIMATTER PANE -->
-                    <pane id="antimatterPane" icon="antimatter.png" :descs="['antimatterPane_desc']">
+                    <pane id="antimatterPane" icon="antimatter.png" :descs="['antimatterPane_desc']" pinnable="antimatter">
                         <buildable id="antimatterT1" btnText="build" />
                     </pane>
 
@@ -846,6 +850,7 @@
                     <!-- UPGRADES PANE -->
                     <pane id="upgradesPane" icon="upgrades.png">
                         <buildable id="techNanoswarm0" btnText="activate" />
+                        <buildable id="techAutoStorageUpgrade" btnText="activate" />
                     </pane>
                     <!-- DONATING PANE -->
                     <pane id="donatingPane" icon="donating.png" :descs="['donatingPane_desc1', 'donatingPane_desc2']">
@@ -1102,6 +1107,10 @@
                         <card id="notifications" checked="true">
                             <div class="col-12">
                                 <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" id="checkPinnedItems" v-model="showPinnedItems" @click="setDisplayPinnedItems(!showPinnedItems)" />
+                                    <label class="form-check-label small" for="checkPinnedItems">{{ $t('showPinnedItems') }}</label>
+                                </div>
+                                <div class="form-check">
                                     <input class="form-check-input" type="checkbox" id="checkHideLocked" v-model="showLockedItems" @click="setDisplayLockedItems(!showLockedItems)" />
                                     <label class="form-check-label small" for="checkHideLocked">{{ $t('showLockedItems') }}</label>
                                 </div>
@@ -1254,22 +1263,48 @@
                         </card>
                         <card v-if="leaderboard_ranks" :checked="token != null">
                             <div class="row g-1">
-                                <div v-for="(item, index) in leaderboard_ranks" :key="item.user_id" class="col-12 col-md-4">
+                                <div v-for="(item, index) in leaderboard_stats" :key="item.user_id" class="col-12 col-md-4">
                                     <div class="btn text-start w-100" :class="{ 'border-success':item.username==username }">
                                         <div class="row g-0">
-                                            <div class="col-12">
-                                                <span class="text-light d-inline w-100 text-truncate">{{ index + 1 }}</span>
+                                            <div class="col-12 mb-2">
+                                                <div class="row gx-2">
+                                                    <div class="col">
+                                                        <span class="h6 text-light d-inline w-100 text-truncate">{{ item.username }}</span>
+                                                    </div>
+                                                    <div class="col-auto">
+                                                        <span class="text-light d-inline w-100 text-truncate">{{ index + 1 }}</span>
+                                                    </div>
+                                                </div>
                                             </div>
-                                            <div class="col-12">
-                                                <span class="h6 text-light d-inline w-100 text-truncate">{{ item.username }}</span>
+                                            <div class="col-12 small">
+                                                <div class="row gx-2">
+                                                    <div class="col">
+                                                        <span class="text-muted">{{ $t('statsUltrite') }}</span>
+                                                    </div>
+                                                    <div class="col-auto">
+                                                        <span class="text-normal">{{ numeralFormat(item.ultrite) }}</span>
+                                                    </div>
+                                                </div>
                                             </div>
-                                            <div class="col-12">
-                                                <span class="text-normal d-inline w-100 text-truncate">{{ $t('rank_' + item.level) }} ({{ item.level }})</span>
+                                            <div class="col-12 small">
+                                                <div class="row gx-2">
+                                                    <div class="col">
+                                                        <span class="text-muted">{{ $t('statsDarkmatter') }}</span>
+                                                    </div>
+                                                    <div class="col-auto">
+                                                        <span class="text-normal">{{ numeralFormat(item.darkmatter) }}</span>
+                                                    </div>
+                                                </div>
                                             </div>
-                                            <div class="col-12 small text-end">
-                                                <span class="text-muted">{{ item.remaining }}</span>
-                                                <i class="fas fa-fw fa-long-arrow-alt-right text-muted"></i>
-                                                <span class="text-muted">{{ item.level + 1 }}</span>
+                                            <div class="col-12 small">
+                                                <div class="row gx-2">
+                                                    <div class="col">
+                                                        <span class="text-muted">{{ $t('statsXP') }}</span>
+                                                    </div>
+                                                    <div class="col-auto">
+                                                        <span class="text-normal">{{ numeralFormat(item.xp) }}</span>
+                                                    </div>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
@@ -1693,7 +1728,17 @@
                             <span class="h6 text-light">{{ $t('changeLog') }}</span>
                         </div>
                         <div class="col-12 border-top">
-                            <div class="text-light">v1.19.0 - 2021-06-??</div>
+                            <div class="text-light">v1.20.0 - 2021-06-30</div>
+                            <ul class="small">
+                                <li>FIX: now segment and machine calculators take titans into account</li>
+                                <li>NEW: change leaderboard ranking to take into account ultrite and darkmatter</li>
+                                <li>NEW: now you could pin resoure pane to have them displaued in top of left menu ; must be activated in options menu</li>
+                                <li>NEW: now you could build dyson items in one click</li>
+                                <li>NEW: auto storage upgrade ultrite upgrade</li>
+                            </ul>
+                        </div>
+                        <div class="col-12 border-top">
+                            <div class="text-light">v1.19.0 - 2021-06-29</div>
                             <ul class="small">
                                 <li>FIX: EMC convert to full storage</li>
                                 <li>FIX: star stats are fixed number</li>
@@ -1974,6 +2019,7 @@ export default {
             showToastAutoSave: true,
             showToastAchievement: true,
             showLockedItems: false,
+            showPinnedItems: false,
 
             compressed: null,
             newCompanyName: null,
@@ -1993,13 +2039,14 @@ export default {
             enlightenModal: null,
             enlightenSelected: null,
 
-            currentRelease: '1.19.0',
+            currentRelease: '1.20.0',
             ghLatestRelease: null,
 
             login: null,
             password: null,
 
             leaderboard_ranks: null,
+            leaderboard_stats: null,
 
             selectedEmcAmount: null,
             selectedAutoEmcInterval: null,
@@ -2010,10 +2057,10 @@ export default {
 
             'data', 'companyName', 'locale', 'activePane', 'lastUpdateTime', 'autoSaveInterval', 'timeSinceAutoSave', 'rank',
             'resAchievements', 'prodAchievements', 'newAchievement',
-            'notifAutoSave', 'notifAchievement', 'displayLockedItems',
+            'notifAutoSave', 'notifAchievement', 'displayLockedItems', 'displayPinnedItems',
             'username', 'token',
             'emcAmount', 'autoEmcInterval', 'timeSinceAutoEmc',
-            'stats', 'resources',
+            'stats', 'resources', 'pinned',
         ]),
         ...mapGetters([
 
@@ -2031,6 +2078,7 @@ export default {
 
             'setLocale', 'setActivePane', 'setLastUpdateTime', 'setTimeSinceAutoSave', 'setCompanyName', 'setAutoSaveInterval',
             'setNotifAutoSave', 'setNotifAchievement', 'setDisplayLockedItems', 'setUsername', 'setToken', 'setEmcAmount', 'setTimeSinceAutoEmc', 'setAutoEmcInterval',
+            'setDisplayPinnedItems',
         ]),
         ...mapActions([
 
@@ -2038,6 +2086,7 @@ export default {
             'computeProdValues', 'produceResources', 'updateTimers', 'checkBoosts', 'updateAchievements', 'save',
             'setActiveShip', 'spy', 'invade', 'absorb',
             'rebirth', 'performAutoEmc', 'enlighten',
+            'performAutoStorageUpgrade',
         ]),
         momentFormat(date, fmt) {
             return moment(date).format(fmt)
@@ -2078,6 +2127,7 @@ export default {
                 this.showToastAutoSave = this.notifAutoSave
                 this.showToastAchievement = this.notifAchievement
                 this.showLockedItems = this.displayLockedItems
+                this.showPinnedItems = this.displayPinnedItems
 
                 element = document.getElementById('toastAchievement')
                 this.toastAchievement = new Toast(element)
@@ -2141,6 +2191,7 @@ export default {
             this.setTimeSinceAutoEmc(this.timeSinceAutoEmc + delta)
 
             this.computeProdValues()
+            this.performAutoStorageUpgrade()
             this.produceResources(delta)
             this.updateTimers()
             this.checkBoosts()
@@ -2166,7 +2217,6 @@ export default {
 
                 if (this.token) {
 
-
                     // let data = {
                     //     rank: this.rank,
                     //     stats: this.stats,
@@ -2175,6 +2225,7 @@ export default {
                 }
 
                 // axios.get('https://ngspacecompany.exileng.com/api/ranks/').then((response) => { this.leaderboard_ranks = response.data })
+                // axios.get('https://ngspacecompany.exileng.com/api/stats/').then((response) => { this.leaderboard_stats = response.data })
             }
         },
         ghUpdate() {
@@ -2233,7 +2284,7 @@ export default {
 
             this.save()
             this.setTimeSinceAutoSave(1)
-          
+
             window.location.reload()
         },
         onConnect(login, pwd) {

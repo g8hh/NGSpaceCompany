@@ -55,7 +55,10 @@
     "rankPane": "Ranking",
     "rankPane_desc": "Here are the current player ranking. To be part of it, you just have to register an account then all is automated.",
     "rankPane_nodata": "Just waiting for next auto-save to see ranking.",
-    
+    "statsUltrite": "All Time Ultrite",
+    "statsDarkmatter": "All Time Darkmatter",
+    "statsXP": "Current XP",
+
     "helpPane": "Help",
     "helpPane_desc": "This guide will get you from starting the game to activating your first wonder and will be helpful to grasp everything you need to do.",
     "help1": "First Steps",
@@ -77,7 +80,8 @@
     "import": "Import Save",
     "copy": "Copy To Clipboard",
     "importExport_desc": "Copy and paste this onto a file somewhere so that you can import it into the game at a later date. You can also use this to create multiple 'savefiles' of the game by storing multiple instances separately.",
-    "notifications": "Notifications",
+    "notifications": "Displaying",
+    "showPinnedItems": "Activate and display pinned panes",
     "showLockedItems": "Show locked items",
     "showToastAutoSave": "Display autosave notifications",
     "showToastAchievement": "Display achievement notifications",
@@ -105,6 +109,8 @@
     "about3": "Icons",
     "about3_desc1": "All icons come from ",
     "about4": "Donors",
+    
+    "pinnedHeading": "Pinned",
     
     "energyHeading": "Energy",
             
@@ -1012,6 +1018,8 @@
     "titans": "Activated Titans",
 
     "upgradesPane": "Upgrades",
+    "techAutoStorageUpgrade": "Auto Storage Upgrade",
+    "techAutoStorageUpgrade_desc": "This unlocks the ability to turn on/off the automation of upgrade storage on each resource. NB: Plasma, Energy, Science, Fuel and Antimatter are not impacted.",
 
     "overview": "Overview",
     "upgradeStorage": "Upgrade Storage",
@@ -1057,6 +1065,10 @@
     "spy": "Spy",
     "invade": "Invade",
     "absorb": "Absorb",
+    
+    "btnDysonT1": "= 50 + Ring",
+    "btnDysonT2": "= 100 + Swarm",
+    "btnDysonT3": "= 250 + Sphere",
     
     "toastAchievement_title": "New Achievement",
     "toastAchievement_text": "You have reached a new achievement.",

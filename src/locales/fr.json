@@ -55,6 +55,9 @@
     "rankPane": "Classement",
     "rankPane_desc": "Voici le classement des joueurs actuels. Pour faire parti du classement, vous devez juste enregistrer un compte et le reste est automatique.",
     "rankPane_nodata": "Il faut juste attendre la prochaine sauvegarde automatique pour voir le classement.",
+    "statsUltrite": "Ultrite total",
+    "statsDarkmatter": "Matière Noire total",
+    "statsXP": "XP actuel",
     
     "helpPane": "Aide",
     "helpPane_desc": "'Cette page vous aidera à démarrer le jeu. Elle vous permettra d'avanceer dans le jeu en vous fournissant les explications nécessaires à la compréhension des mécanismes du jeu.",
@@ -77,7 +80,8 @@
     "import": "Importer les données",
     "copy": "Copier en mémoire",
     "importExport_desc": "Copier-coller dans un fichier quelque part afin de pouvoir l'importer dans le jeu à une date ultérieure. Vous pouvez également l'utiliser pour créer plusieurs 'sauvegardes' du jeu en stockant plusieurs instances séparément.",
-    "notifications": "Notifications",
+    "notifications": "Affichage",
+    "showPinnedItems": "Afficher et épingler des onglets",
     "showLockedItems": "Afficher les items bloqués",
     "showToastAutoSave": "Afficher la notification de sauvegarde automatique",
     "showToastAchievement": "Afficher la notification d'un nouveau trophée",
@@ -105,6 +109,8 @@
     "about3": "Icônes",
     "about3_desc1": "Toutes les icônes proviennent de ",
     "about4": "Donateurs",
+    
+    "pinnedHeading": "Epinglés",
     
     "energyHeading": "Energie",
             
@@ -632,11 +638,11 @@
     "dysonPane_desc": "Cette technologie, impossible auparavant, est désormais une réalité, grâce à ceux du Centre Solaire. La Sphère peut fournir beaucoup d'énergie pendant des millions d'années, mais à quel prix ? NB: Les coûts des segments Dyson sont basés sur le nombre dont vous disposez, et sont donc réinitialisés lorsque vous les utilisez tous, ou réduits s'ils ne sont que partiellement dépensés.",
     "segment": "Segment",
     "segment_desc": "Ces méga-structures ne peuvent pas être construites d'un seul tenant. Ils doivent être créés à partir de petites sections et forgés ensemble autour du soleil.",
-    "dysonT1": "Ring",
+    "dysonT1": "Anneau",
     "dysonT1_desc": "L'anneau est une bande en orbite autour du Soleil et qui peut produire 5 000 énergie par seconde. Il faut au total 50 000 fusées pour mettre les sections en place.",
-    "dysonT2": "Swarm",
+    "dysonT2": "Essaim",
     "dysonT2_desc": "L'essaim est un ensemble de stations en orbite autour du Soleil, et une fois construit, il peut produire 25 000 énergie par seconde. Cependant, il faut au total 250 000 fusées pour mettre les sections en place.",
-    "dysonT3": "Sphere",
+    "dysonT3": "Sphère",
     "dysonT3_desc": "La sphère entière est une structure monolithique entourant complètement le soleil. Cela permettra suffisamment d'énergie pour obtenir un voyage interstellaire et enfin échapper à ce système solaire.",
     
     "nanoswarmPane": "Nanoswarm",
@@ -1007,6 +1013,8 @@
     "titans": "Titans activés",
 
     "upgradesPane": "Améliorations",
+    "techAutoStorageUpgrade": "Augmentation automatique du stockage",
+    "techAutoStorageUpgrade_desc": "Cette amélioration permet d'activer ou de désactiver l'augmentation automatique du stockage pour chaque ressource concernée. NB: L'énergie et le plasma ne sont pas concernés ainsi que la science, le carburant et l'anti-matière.",
     
     "overview": "Aperçu",
     "upgradeStorage": "Stockage",
@@ -1052,6 +1060,10 @@
     "spy": "Espionner",
     "invade": "Envahir",
     "absorb": "Absorber",
+    
+    "btnDysonT1": "= 50 + Anneau",
+    "btnDysonT2": "= 100 + Essaim",
+    "btnDysonT3": "= 250 + Sphère",
     
     "toastAchievement_title": "Nouveau trophée",
     "toastAchievement_text": "Vous venez d'obtenir un nouveau trophée.",

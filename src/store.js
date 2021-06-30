@@ -38,6 +38,7 @@ export const store = createStore({
             resources: [],
             producers: [],
             achievements: [],
+            storageUpgrades: [],
             /*----------------------------------------------------------------*/
             machineT1: [],
             machineT2: [],
@@ -67,7 +68,9 @@ export const store = createStore({
             notifAutoSave: true,
             notifAchievement: true,
             displayLockedItems: false,
+            displayPinnedItems: false,
             collapsed: [],
+            pinned: [],
             /*----------------------------------------------------------------*/
             fleet: { power:0, defense:0, speed:0 },
             activeFleet: { power:0, defense:0, speed:0 },
@@ -113,6 +116,18 @@ export const store = createStore({
         },
         /*--------------------------------------------------------------------*/
         isCollapsed: (state) => (id) => { return state.collapsed.includes(id) },
+        isPinned: (state) => (id) => {
+
+            let result = false
+            state.pinned.forEach(pane => {
+                if (pane.id == id) {
+                    result = true
+                    return
+                }
+            })
+
+            return result
+        },
         /*--------------------------------------------------------------------*/
         getThreat: (state) => (id) => {
 
@@ -265,6 +280,8 @@ export const store = createStore({
         setNotifAutoSave(state, payload) { state.notifAutoSave = payload },
         setNotifAchievement(state, payload) { state.notifAchievement = payload },
         setDisplayLockedItems(state, payload) { state.displayLockedItems = payload },
+        setDisplayPinnedItems(state, payload) { state.displayPinnedItems = payload },
+        setAutoStorageUpgrade(state, payload) { state.data[payload.id].auto = payload.auto },
         setUsername(state, payload) { state.username = payload },
         setToken(state, payload) { state.token = payload },
         setEmcAmount(state, payload) { state.emcAmount = payload },
@@ -360,13 +377,27 @@ export const store = createStore({
             else state.collapsed.push(id)
         },
         /*--------------------------------------------------------------------*/
+        togglePinned(state, payload) {
+
+            let found = false
+            let index = -1
+            state.pinned.forEach(pane => {
+                index += 1
+                if (pane.id == payload.id) {
+                    state.pinned.splice(index, 1)
+                    found = true
+                }
+            })
+
+            if (found == false) state.pinned.push(payload)
+        },
+        /*--------------------------------------------------------------------*/
     },
     actions: {
 
         // STARTING
         /*--------------------------------------------------------------------*/
         initialize({ state }) {
-
             // RESOURCE ACHIEVEMENTS
             /*----------------------------------------------------------------*/
             state.data['achMeteorite'] = { id:'achMeteorite', icon:'meteorite.png', data:'meteorite', unlocked:false, count:0, progress:0, brackets:[50, 50000, 50000000, 50000000000, 50000000000000], }
@@ -906,8 +937,10 @@ export const store = createStore({
                                                                                                                                                                                                                                                                                                                      'upgradeScience1', 'upgradeScience2', 'techScience5', 'upgradeEnergyBoost',
                                                                                                                                                                                                                                                                                                                      'upgradeTier1', 'techEnergyStorage5', 'multiBuy', 'boostCapital', 'techTier5',
                                                                                                                                                                                                                                                                                                                      'upgradeFuel1', 'upgradeSpaceship', 'techMeteorite3', 'techMeteorite4',
-                                                                                                                                                                                                                                                                                                                     'boostDarkmatter', 'techNanoswarm0', 'upgradeFaction',
-                                                                                                                                                                                                                                                                                                                     'carnelian', 'prasnian', 'hyacinite', 'kitrinos', 'moviton', 'overlord'], }
+
+                                                                                                                                                                                                                                                                                                                     'boostDarkmatter', 'upgradeFaction',
+                                                                                                                                                                                                                                                                                                                     'carnelian', 'prasnian', 'hyacinite', 'kitrinos', 'moviton', 'overlord', ], }
+
             /*----------------------------------------------------------------*/
 
             // NANOSWARM
@@ -1163,7 +1196,7 @@ export const store = createStore({
                                                                                                                        'upgradeScience1', 'upgradeScience2', 'techScience5', 'upgradeEnergyBoost',
                                                                                                                        'upgradeTier1', 'techEnergyStorage5', 'multiBuy', 'boostCapital', 'techTier5',
                                                                                                                        'upgradeFuel1', 'upgradeSpaceship', 'techMeteorite3', 'techMeteorite4',
-                                                                                                                       'boostDarkmatter', 'techNanoswarm0', 'upgradeFaction',
+                                                                                                                       'boostDarkmatter', 'upgradeFaction',
                                                                                                                        'carnelian', 'prasnian', 'hyacinite', 'kitrinos', 'moviton', 'overlord'], }
             /*----------------------------------------------------------------*/
 
@@ -1226,6 +1259,7 @@ export const store = createStore({
             // UPGRADES
             /*----------------------------------------------------------------*/
             state.data['techNanoswarm0'] =  { id:'techNanoswarm0',  unlocked:false, count:0, max:1, costType:'FIXED', baseCosts:[{ id:'ultrite', count:1000 }], notifs:['upgradesPane'], unlocks:['techNanoswarm1'], }
+            state.data['techAutoStorageUpgrade'] =  { id:'techAutoStorageUpgrade',  unlocked:false, count:0, max:1, costType:'FIXED', baseCosts:[{ id:'ultrite', count:1000 }], notifs:['upgradesPane'], }
             /*----------------------------------------------------------------*/
 
             // ACHIEVEMENT LIST
@@ -1393,6 +1427,14 @@ export const store = createStore({
             state.machineT4 = ['energyT4', 'plasmaT4', 'meteoriteT4', 'carbonT4', 'oilT4', 'metalT4', 'gemT4', 'woodT4', 'siliconT4', 'uraniumT4', 'lavaT4', 'lunariteT4', 'methaneT4', 'titaniumT4', 'goldT4', 'silverT4', 'hydrogenT4', 'heliumT4', 'iceT4', 'scienceT4']
             state.machineT5 = ['energyT5', 'carbonT5', 'oilT5', 'metalT5', 'gemT5', 'woodT5', 'siliconT5', 'uraniumT5', 'lavaT5', 'lunariteT5', 'methaneT5', 'titaniumT5', 'goldT5', 'silverT5', 'hydrogenT5', 'heliumT5', 'iceT5', 'scienceT5']
             state.machineT6 = ['energyT6']
+
+            // STORAGE UPGRADE LIST
+            /*----------------------------------------------------------------*/
+            state.storageUpgrades = [
+                /*------------------------------------------------------------*/
+                state.data['metalS1'],
+                /*------------------------------------------------------------*/
+            ]
         },
         /*--------------------------------------------------------------------*/
 
@@ -1411,12 +1453,14 @@ export const store = createStore({
                 state.notifAutoSave = data.notifAutoSave
                 state.notifAchievement = data.notifAchievement
                 state.displayLockedItems = data.displayLockedItems || false
+                state.displayPinnedItems = data.displayPinnedItems || false
                 state.username = data.username || null
                 state.token = data.token || null
                 state.emcAmount = data.emcAmount || 'max'
                 state.autoResource = data.autoResource
                 state.autoEmcInterval = data.autoEmcInterval || 1 * 1000
                 state.collapsed = data.collapsed || []
+                state.pinned = data.pinned || []
 
                 if (data.stats) {
                     state.stats = data.stats
@@ -1445,6 +1489,9 @@ export const store = createStore({
 
                 state.data['techNanoswarm0'].unlocked = false
                 state.data['techNanoswarm0'].count = 0
+
+                state.data['techAutoStorageUpgrade'].unlocked = false
+                state.data['techAutoStorageUpgrade'].count = 0
 
                 state.data['techNanoswarm1'].unlocked = false
                 state.data['techNanoswarm1'].count = 0
@@ -1489,7 +1536,12 @@ export const store = createStore({
 
                 if (!data.stats) state.stats.starOwned.current = ownedStarCount
 
-                if (ownedStarCount >= 10 && state.data['ultrite'].unlocked == false) dispatch('unlock', 'ultrite')
+                if (ownedStarCount >= 10) {
+                    dispatch('unlock', 'ultrite')
+                    dispatch('unlock', 'techNanoswarm0')
+                    dispatch('unlock', 'techAutoStorageUpgrade')
+                }
+
             }
 
             if (data && !data.stats) {
@@ -1519,12 +1571,14 @@ export const store = createStore({
                 notifAutoSave: state.notifAutoSave,
                 notifAchievement: state.notifAchievement,
                 displayLockedItems: state.displayLockedItems,
+                displayPinnedItems: state.displayPinnedItems,
                 username: state.username,
                 token: state.token,
                 emcAmount: state.emcAmount,
                 autoResource: state.autoResource,
                 stats: state.stats,
                 collapsed: state.collapsed,
+                pinned: state.pinned,
 
                 entries: {},
             }
@@ -1740,6 +1794,16 @@ export const store = createStore({
         },
         /*--------------------------------------------------------------------*/
 
+        performAutoStorageUpgrade({ state, dispatch }) {
+
+            if (state.data['techStorage'].count > 0 && state.data['techAutoStorageUpgrade'].count > 0) {
+                state.storageUpgrades.forEach(building => {
+                    if (building.auto == true) dispatch('build', { id:building.id, count:1 })
+                })
+            }
+        },
+        /*--------------------------------------------------------------------*/
+
         // INTERNAL
         /*--------------------------------------------------------------------*/
         unlock({ state, commit }, id) {
@@ -1917,13 +1981,16 @@ export const store = createStore({
         /*--------------------------------------------------------------------*/
         checkUltrite({ state, dispatch }) {
 
-            if (state.data['ultrite'].unlocked == false) {
-                let ownedStarCount = 0
-                for (let i in state.stars) {
-                    let star = state.stars[i]
-                    if (star.status == 'owned') ownedStarCount += 1
-                }
-                if (ownedStarCount >= 10) dispatch('unlock', 'ultrite')
+            let ownedStarCount = 0
+            for (let i in state.stars) {
+                let star = state.stars[i]
+                if (star.status == 'owned') ownedStarCount += 1
+            }
+
+            if (ownedStarCount >= 10) {
+                dispatch('unlock', 'ultrite')
+                dispatch('unlock', 'techNanoswarm0')
+                dispatch('unlock', 'techAutoStorageUpgrade')
             }
         },
         /*--------------------------------------------------------------------*/
@@ -2205,6 +2272,7 @@ export const store = createStore({
             state.stats.allTimeDarkmatter += getters.getPotentialDM
 
             state.collapsed = []
+            state.pinned = []
 
             state.emcAmount = 'max'
             state.autoResource = null
@@ -2218,7 +2286,7 @@ export const store = createStore({
                 'kitrinos', 'upgradeTier1', 'techEnergyStorage5', 'multiBuy', 'boostCapital', 'techTier5',
                 'moviton', 'upgradeFuel1', 'upgradeSpaceship', 'techMeteorite3', 'techMeteorite4',
                 'overlord', 'boostDarkmatter', 'upgradeFaction',
-                'ultrite', 'techNanoswarm0',
+                'ultrite', 'techNanoswarm0', 'techAutoStorageUpgrade',
             ]
 
             for (let i in state.data) {
@@ -2277,8 +2345,6 @@ export const store = createStore({
                 if (star.status == 'owned') ownedStarCount += 1
             }
             if (ownedStarCount < 10) return false
-
-            console.log(payload)
             if (state.data[payload].titan == true) return false
             state.data[payload].titan = true
 
@@ -2286,13 +2352,14 @@ export const store = createStore({
             state.stats.allTimeUltrite += getters.getPotentialUL
 
             state.collapsed = []
+            state.pinned = []
 
             state.emcAmount = 'max'
             state.autoResource = null
             state.autoEmcInterval = 1 * 1000
 
             let exludedList = [
-                'ultrite', 'techNanoswarm0',
+                'ultrite', 'techNanoswarm0', 'techAutoStorageUpgrade',
             ]
 
             for (let i in state.data) {
