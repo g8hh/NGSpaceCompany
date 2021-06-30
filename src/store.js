@@ -200,7 +200,7 @@ export const store = createStore({
             if (star.spy <= 0) return '???'
 
             var multi = getters.getFactionMultiplier(star.faction)
-            var val = (star.stats.power * multi).toString()
+            var val = Math.floor(star.stats.power * multi).toString()
             var unknown = ''
             for (var i = 0; i < val.length - (star.spy - 1); i++) { unknown += '?' }
             return val.substring(0, star.spy - 1) + unknown
@@ -212,7 +212,7 @@ export const store = createStore({
             if (star.spy <= 0) return '???'
 
             var multi = getters.getFactionMultiplier(star.faction)
-            var val = (star.stats.defense * multi).toString()
+            var val = Math.floor(star.stats.defense * multi).toString()
             var unknown = ''
             for (var i = 0; i < val.length - (star.spy - 1); i++) { unknown += '?' }
             return val.substring(0, star.spy - 1) + unknown
@@ -223,7 +223,7 @@ export const store = createStore({
             var star = state.data[id]
             if (star.spy <= 0) return '???'
 
-            var val = (star.stats.speed).toString()
+            var val = Math.floor(star.stats.speed).toString()
             var unknown = ''
             for (var i = 0; i < val.length - (star.spy - 1); i++) { unknown += '?' }
             return val.substring(0, star.spy - 1) + unknown
@@ -1423,7 +1423,7 @@ export const store = createStore({
                     if (!(state.stats.enlightenCount)) state.stats.enlightenCount = 0
                     if (!(state.stats.allTimeUltrite)) state.stats.allTimeUltrite = 0
                 }
-                
+
                 for (let i in data.entries) {
                     let item = data.entries[i]
 
@@ -2060,8 +2060,8 @@ export const store = createStore({
             let item = state.data[id]
 
             let amount
-            if (state.emcAmount == 'max') amount = Math.floor(Math.min(Math.floor((state.data[item.source].count - state.data[item.source].consumption) / item.rate), state.data[item.resource].storage - state.data[item.resource].count))
-            else amount = Math.floor(Math.min(state.emcAmount, state.data[item.resource].storage - state.data[item.resource].count))
+            if (state.emcAmount == 'max') amount = Math.min(Math.floor((state.data[item.source].count - state.data[item.source].consumption) / item.rate), state.data[item.resource].storage - state.data[item.resource].count)
+            else amount = Math.min(state.emcAmount, state.data[item.resource].storage - state.data[item.resource].count)
 
             let required = (amount * item.rate)
 

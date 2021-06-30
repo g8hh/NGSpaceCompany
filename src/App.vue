@@ -1693,6 +1693,15 @@
                             <span class="h6 text-light">{{ $t('changeLog') }}</span>
                         </div>
                         <div class="col-12 border-top">
+                            <div class="text-light">v1.19.0 - 2021-06-??</div>
+                            <ul class="small">
+                                <li>FIX: EMC convert to full storage</li>
+                                <li>FIX: star stats are fixed number</li>
+                                <li>NEW: click on update version button trigger a manual save</li>
+                                <li>NEW: now you have to spy before invading</li>
+                            </ul>
+                        </div>
+                        <div class="col-12 border-top">
                             <div class="text-light">v1.18.1 - 2021-06-28</div>
                             <ul class="small">
                                 <li>FIX: stats loading</li>
@@ -1983,7 +1992,8 @@ export default {
             calcModal: null,
             enlightenModal: null,
             enlightenSelected: null,
-            currentRelease: '1.18.1',
+
+            currentRelease: '1.19.0',
             ghLatestRelease: null,
 
             login: null,
@@ -2221,6 +2231,9 @@ export default {
         },
         onRefresh() {
 
+            this.save()
+            this.setTimeSinceAutoSave(1)
+          
             window.location.reload()
         },
         onConnect(login, pwd) {
