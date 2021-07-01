@@ -7,7 +7,7 @@
     "donatingPane_desc5": "捐赠将允许在 Discord 服务器上拥有特定角色，在游戏中的捐赠者窗格中获得积分并根据需要调用星星 :)",
     
     "achievementPane": "成就",
-    "achievementPane_desc": "您可以在此处查看您的排名和所有成就。",
+    "achievementPane_desc": "您可以在此处查看您的段位和所有成就。",
     "statistics": "统计",
     "startDate": "开始游戏的日期",
     "lastEnlightenDate": "上次启蒙",
@@ -32,7 +32,7 @@
     "password": "密码（最少 8 个字符，无空格）",
     "connect": "连接",
     "disconnect": "断开连接",
-    "currentRank": "当前排名",
+    "currentRank": "当前段位",
     "rank_1": "太空菜鸟",
     "rank_2": "太空探索者",
     "rank_3": "太阳旅行者",
