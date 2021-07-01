@@ -1010,7 +1010,7 @@
     "enlighten": "Enlighten",
     "enlighten_desc": "NB: You cannot enlighten without 10 owned stars at least, even on second runs.",
     "enlighten_confirm": "Are you sure? This is non-reversible after you reset and save.",
-    "titanChoice": "Choice the Titan you want to activate",
+    "titanChoice": "Choose the Titan you want to activate",
     "alreadyActivated": "(Already activated)",
     
     "titansPane": "Titans",

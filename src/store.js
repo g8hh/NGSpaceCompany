@@ -1,5 +1,7 @@
 import { createStore } from 'vuex'
 
+import LZString from 'lz-string'
+
 /******************************************************************************/
 const pascal = function(n) {
     var add = 1, init = 0
@@ -1442,7 +1444,18 @@ export const store = createStore({
         /*--------------------------------------------------------------------*/
         load({ state, commit, dispatch }) {
 
-            var data = JSON.parse(localStorage.getItem('ngsave'))
+            var data = localStorage.getItem('ngsavecrypted')
+            if (data && data !== null && data.length % 4 == 0) {
+
+                let text = LZString.decompressFromBase64(data)
+                if (!text) return console.warn('Load failed')
+
+                data = JSON.parse(text)
+
+                localStorage.removeItem('ngsave')
+            }
+            else data = JSON.parse(localStorage.getItem('ngsave'))
+
             if (data && data !== null && data.version && data.version == state.version) {
 
                 state.locale = data.locale || 'en'
@@ -1499,6 +1512,12 @@ export const store = createStore({
                 state.data['nanoswarm'].unlocked = false
                 state.data['nanoswarm'].count = 0
                 state.data['nanoswarm'].resource = null
+            }
+
+            else {
+
+                dispatch('unlock', 'techNanoswarm0')
+                dispatch('unlock', 'techAutoStorageUpgrade')
             }
 
             let ownedStarCount = 0
@@ -1600,7 +1619,10 @@ export const store = createStore({
                 }
             }
 
-            localStorage.setItem('ngsave', JSON.stringify(saveddata))
+
+            let text = JSON.stringify(saveddata)
+            let compressed = LZString.compressToBase64(text)
+            localStorage.setItem('ngsavecrypted', compressed)
         },
         /*--------------------------------------------------------------------*/
 
@@ -1729,20 +1751,23 @@ export const store = createStore({
                 let item = state.data[i]
                 if (item.unlocked) {
 
+                    let modStorage = 1
+                    if ('storage' in item && state.data['upgradeStorage3'].count > 0) modStorage = 10
+
                     if ('costs' in item) {
                         item.costs.forEach(cost => {
                             if (cost.count <= state.data[cost.id].count) cost.timer = 0
-                            else if ('storage' in state.data[cost.id] && cost.count > state.data[cost.id].storage) cost.timer = -2
+                            else if ('storage' in state.data[cost.id] && cost.count > (state.data[cost.id].storage * modStorage)) cost.timer = -2
                             else if (state.data[cost.id].prod <= 0) cost.timer = -1
                             else cost.timer = (cost.count - state.data[cost.id].count) / state.data[cost.id].prod
                         })
                     }
 
                     if ('storage' in item) {
-                        if (item.count >= item.storage) item.storageTimer = 0
+                        if (item.count >= (item.storage * modStorage)) item.storageTimer = 0
                         else if (item.prod == 0) item.storageTimer = -1
                         else if (item.prod < 0) item.storageTimer = -item.count / item.prod
-                        else item.storageTimer = (item.storage - item.count) / item.prod
+                        else item.storageTimer = ((item.storage * modStorage) - item.count) / item.prod
                     }
                 }
             }

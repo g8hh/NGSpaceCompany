@@ -134,8 +134,8 @@
                                     <div class="row gx-1 gy-3 justify-content-end">
                                         <div v-if="data[id].count == 0" class="col-auto"><button class="btn" @click="build({id:id, count:1})">{{ $t('explore') }}</button></div>
                                         <div v-if="data[id].count > 0" class="col-auto"><button class="btn" @click="$root.activeStar = id; $root.spyModal.show();">{{ $t('spy') }}</button></div>
-                                        <div v-if="data[id].count > 0 && data[id].spy > 2" class="col-auto"><button class="btn" @click="$root.activeStar = id; $root.invadeModal.show();">{{ $t('invade') }}</button></div>
-                                        <div v-if="data[id].count > 0 && data[id].spy > 2" class="col-auto"><button class="btn" @click="$root.activeStar = id; $root.absorbModal.show();">{{ $t('absorb') }}</button></div>
+                                        <div v-if="data[id].count > 0" class="col-auto"><button class="btn" @click="$root.activeStar = id; $root.invadeModal.show();">{{ $t('invade') }}</button></div>
+                                        <div v-if="data[id].count > 0" class="col-auto"><button class="btn" @click="$root.activeStar = id; $root.absorbModal.show();">{{ $t('absorb') }}</button></div>
                                     </div>
                                 </div>
                                 
