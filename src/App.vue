@@ -10,8 +10,7 @@
 
     <div v-if="loaded" id="gameScreen">
         <div id="sidebar" :class="{ 'open':sidebarOpen }" role="navigation">
-            <top-header>
-
+            <top-header class="px-2">
                 <div class="col-auto">
                     <img :src="require('./assets/whiteLogo.png')" width="42" height="42" alt="Game logo" />
                 </div>
@@ -35,6 +34,10 @@
             </top-header>
             <inner-content data-simplebar>
                 <div class="row gx-2 gy-3 row-cols-1">
+
+                    <sidenav-group id="pinnedHeading" :unlocked="displayPinnedItems == true">
+                        <sidenav-item v-for="pane in pinned" :key="pane.id" :id="pane.id" :icon="pane.icon" unlocked="true" :prod="data[pane.resId].prod" :count="data[pane.resId].count" :storage="data[pane.resId].storage" :problem="data[pane.resId].problem" />
+                    </sidenav-group>
 
                     <sidenav-group id="energyHeading" :unlocked="data['energy'].unlocked">
                         <sidenav-item id="energyPane" icon="energy.png" :unlocked="data['energy'].unlocked" :prod="data['energy'].prod" :problem="data['energy'].problem" />
@@ -232,7 +235,7 @@
                 <div class="tab-content" style="padding-bottom: 65px;">
 
                     <!-- ENERGY PANE -->
-                    <pane id="energyPane" icon="energy.png" :descs="['energyPane_desc']">
+                    <pane id="energyPane" icon="energy.png" :descs="['energyPane_desc']" pinnable="energy">
                         <resource id="energy" />
                         <buildable id="energyT1" btnText="build" collapse="true" :multibuy="data['multiBuy'].count > 0" calc="true" />
                         <buildable id="energyT2" btnText="build" collapse="true" :multibuy="data['multiBuy'].count > 0" calc="true" unlocker="techEnergy2" />
@@ -253,7 +256,7 @@
                     </pane>
 
                     <!-- PLASMA PANE -->
-                    <pane id="plasmaPane" icon="plasma.png" :descs="['plasmaPane_desc']">
+                    <pane id="plasmaPane" icon="plasma.png" :descs="['plasmaPane_desc']" pinnable="plasma">
                         <resource id="plasma" />
                         <buildable id="plasmaT1" btnText="build" collapse="true" :multibuy="data['multiBuy'].count > 0" calc="true" unlocker="techPlasma1" />
                         <buildable id="plasmaT2" btnText="build" collapse="true" :multibuy="data['multiBuy'].count > 0" calc="true" unlocker="techPlasma2" />
@@ -265,7 +268,7 @@
                     </pane>
 
                     <!-- METEORITE PANE -->
-                    <pane id="meteoritePane" icon="meteorite.png" :descs="['meteoritePane_desc']">
+                    <pane id="meteoritePane" icon="meteorite.png" :descs="['meteoritePane_desc']" pinnable="meteorite">
                         <resource id="meteorite" />
                         <buildable id="meteoriteS1" btnText="upgrade" collapse="true" />
                         <buildable id="meteoriteT1" btnText="build" collapse="true" :multibuy="data['multiBuy'].count > 0" calc="true" unlocker="techMeteorite1" />
@@ -275,7 +278,7 @@
                     </pane>
 
                     <!-- CARBON PANE -->
-                    <pane id="carbonPane" icon="carbon.png" :descs="['carbonPane_desc']">
+                    <pane id="carbonPane" icon="carbon.png" :descs="['carbonPane_desc']" pinnable="carbon">
                         <resource id="carbon" />
                         <buildable id="carbonS1" btnText="upgrade" collapse="true" unlocker="techStorage" />
                         <buildable id="carbonT1" btnText="build" collapse="true" :multibuy="data['multiBuy'].count > 0" calc="true" />
@@ -286,7 +289,7 @@
                     </pane>
 
                     <!-- OIL PANE -->
-                    <pane id="oilPane" icon="oil.png" :descs="['oilPane_desc']">
+                    <pane id="oilPane" icon="oil.png" :descs="['oilPane_desc']" pinnable="oil">
                         <resource id="oil" />
                         <buildable id="oilS1" btnText="upgrade" collapse="true" unlocker="techStorage" />
                         <buildable id="oilT1" btnText="build" collapse="true" :multibuy="data['multiBuy'].count > 0" calc="true" />
@@ -297,9 +300,9 @@
                     </pane>
 
                     <!-- METAL PANE -->
-                    <pane id="metalPane" icon="metal.png" :descs="['metalPane_desc']">
+                    <pane id="metalPane" icon="metal.png" :descs="['metalPane_desc']" pinnable="metal">
                         <resource id="metal" />
-                        <buildable id="metalS1" btnText="upgrade" collapse="true" unlocker="techStorage" />
+                        <buildable id="metalS1" btnText="upgrade" collapse="true" unlocker="techStorage" autoUpgradeStorage="true" />
                         <buildable id="metalT1" btnText="build" collapse="true" :multibuy="data['multiBuy'].count > 0" calc="true" />
                         <buildable id="metalT2" btnText="build" collapse="true" :multibuy="data['multiBuy'].count > 0" calc="true" unlocker="techTier2" />
                         <buildable id="metalT3" btnText="build" collapse="true" :multibuy="data['multiBuy'].count > 0" calc="true" unlocker="wonderTechnological1" />
@@ -308,7 +311,7 @@
                     </pane>
 
                     <!-- GEM PANE -->
-                    <pane id="gemPane" icon="gem.png" :descs="['gemPane_desc']">
+                    <pane id="gemPane" icon="gem.png" :descs="['gemPane_desc']" pinnable="gem">
                         <resource id="gem" />
                         <buildable id="gemS1" btnText="upgrade" collapse="true" unlocker="techStorage" />
                         <buildable id="gemT1" btnText="build" collapse="true" :multibuy="data['multiBuy'].count > 0" calc="true" />
@@ -319,7 +322,7 @@
                     </pane>
 
                     <!-- WOOD PANE -->
-                    <pane id="woodPane" icon="wood.png" :descs="['woodPane_desc']">
+                    <pane id="woodPane" icon="wood.png" :descs="['woodPane_desc']" pinnable="wood">
                         <resource id="wood" />
                         <buildable id="woodS1" btnText="upgrade" collapse="true" unlocker="techStorage" />
                         <buildable id="woodT1" btnText="build" collapse="true" :multibuy="data['multiBuy'].count > 0" calc="true" />
@@ -330,7 +333,7 @@
                     </pane>
 
                     <!-- SILICON PANE -->
-                    <pane id="siliconPane" icon="silicon.png" :descs="['siliconPane_desc']">
+                    <pane id="siliconPane" icon="silicon.png" :descs="['siliconPane_desc']" pinnable="silicon">
                         <resource id="silicon" />
                         <buildable id="siliconS1" btnText="upgrade" collapse="true" unlocker="techStorage" />
                         <buildable id="siliconT1" btnText="build" collapse="true" :multibuy="data['multiBuy'].count > 0" calc="true" />
@@ -341,7 +344,7 @@
                     </pane>
 
                     <!-- URANIUM PANE -->
-                    <pane id="uraniumPane" icon="uranium.png" :descs="['uraniumPane_desc']">
+                    <pane id="uraniumPane" icon="uranium.png" :descs="['uraniumPane_desc']" pinnable="uranium">
                         <resource id="uranium" />
                         <buildable id="uraniumS1" btnText="upgrade" collapse="true" unlocker="techStorage" />
                         <buildable id="uraniumT1" btnText="build" collapse="true" :multibuy="data['multiBuy'].count > 0" calc="true" />
@@ -352,7 +355,7 @@
                     </pane>
 
                     <!-- LAVA PANE -->
-                    <pane id="lavaPane" icon="lava.png" :descs="['lavaPane_desc']">
+                    <pane id="lavaPane" icon="lava.png" :descs="['lavaPane_desc']" pinnable="lava">
                         <resource id="lava" />
                         <buildable id="lavaS1" btnText="upgrade" collapse="true" unlocker="techStorage" />
                         <buildable id="lavaT1" btnText="build" collapse="true" :multibuy="data['multiBuy'].count > 0" calc="true" />
@@ -363,7 +366,7 @@
                     </pane>
 
                     <!-- LUNARITE PANE -->
-                    <pane id="lunaritePane" icon="lunarite.png" :descs="['lunaritePane_desc']">
+                    <pane id="lunaritePane" icon="lunarite.png" :descs="['lunaritePane_desc']" pinnable="lunarite">
                         <resource id="lunarite" />
                         <buildable id="lunariteS1" btnText="upgrade" collapse="true" unlocker="techStorage" />
                         <buildable id="lunariteT1" btnText="build" collapse="true" :multibuy="data['multiBuy'].count > 0" calc="true" />
@@ -374,7 +377,7 @@
                     </pane>
 
                     <!-- METHANE PANE -->
-                    <pane id="methanePane" icon="methane.png" :descs="['methanePane_desc']">
+                    <pane id="methanePane" icon="methane.png" :descs="['methanePane_desc']" pinnable="methane">
                         <resource id="methane" />
                         <buildable id="methaneS1" btnText="upgrade" collapse="true" unlocker="techStorage" />
                         <buildable id="methaneT1" btnText="build" collapse="true" :multibuy="data['multiBuy'].count > 0" calc="true" />
@@ -385,7 +388,7 @@
                     </pane>
 
                     <!-- TITANIUM PANE -->
-                    <pane id="titaniumPane" icon="titanium.png" :descs="['titaniumPane_desc']">
+                    <pane id="titaniumPane" icon="titanium.png" :descs="['titaniumPane_desc']" pinnable="titanium">
                         <resource id="titanium" />
                         <buildable id="titaniumS1" btnText="upgrade" collapse="true" unlocker="techStorage" />
                         <buildable id="titaniumT1" btnText="build" collapse="true" :multibuy="data['multiBuy'].count > 0" calc="true" />
@@ -396,7 +399,7 @@
                     </pane>
 
                     <!-- GOLD PANE -->
-                    <pane id="goldPane" icon="gold.png" :descs="['goldPane_desc']">
+                    <pane id="goldPane" icon="gold.png" :descs="['goldPane_desc']" pinnable="gold">
                         <resource id="gold" />
                         <buildable id="goldS1" btnText="upgrade" collapse="true" unlocker="techStorage" />
                         <buildable id="goldT1" btnText="build" collapse="true" :multibuy="data['multiBuy'].count > 0" calc="true" />
@@ -407,7 +410,7 @@
                     </pane>
 
                     <!-- SILVER PANE -->
-                    <pane id="silverPane" icon="silver.png" :descs="['silverPane_desc']">
+                    <pane id="silverPane" icon="silver.png" :descs="['silverPane_desc']" pinnable="silver">
                         <resource id="silver" />
                         <buildable id="silverS1" btnText="upgrade" collapse="true" unlocker="techStorage" />
                         <buildable id="silverT1" btnText="build" collapse="true" :multibuy="data['multiBuy'].count > 0" calc="true" />
@@ -418,7 +421,7 @@
                     </pane>
 
                     <!-- HYDROGEN PANE -->
-                    <pane id="hydrogenPane" icon="hydrogen.png" :descs="['hydrogenPane_desc']">
+                    <pane id="hydrogenPane" icon="hydrogen.png" :descs="['hydrogenPane_desc']" pinnable="hydrogen">
                         <resource id="hydrogen" />
                         <buildable id="hydrogenS1" btnText="upgrade" collapse="true" unlocker="techStorage" />
                         <buildable id="hydrogenT1" btnText="build" collapse="true" :multibuy="data['multiBuy'].count > 0" calc="true" />
@@ -429,7 +432,7 @@
                     </pane>
 
                     <!-- HELIUM PANE -->
-                    <pane id="heliumPane" icon="helium.png" :descs="['heliumPane_desc']">
+                    <pane id="heliumPane" icon="helium.png" :descs="['heliumPane_desc']" pinnable="helium">
                         <resource id="helium" />
                         <buildable id="heliumS1" btnText="upgrade" collapse="true" unlocker="techStorage" />
                         <buildable id="heliumT1" btnText="build" collapse="true" :multibuy="data['multiBuy'].count > 0" calc="true" />
@@ -440,7 +443,7 @@
                     </pane>
 
                     <!-- ICE PANE -->
-                    <pane id="icePane" icon="ice.png" :descs="['icePane_desc']">
+                    <pane id="icePane" icon="ice.png" :descs="['icePane_desc']" pinnable="ice">
                         <resource id="ice" />
                         <buildable id="iceS1" btnText="upgrade" collapse="true" unlocker="techStorage" />
                         <buildable id="iceT1" btnText="build" collapse="true" :multibuy="data['multiBuy'].count > 0" calc="true" />
@@ -451,7 +454,7 @@
                     </pane>
 
                     <!-- SCIENCE PANE -->
-                    <pane id="sciencePane" icon="science.png" :descs="['sciencePane_desc']">
+                    <pane id="sciencePane" icon="science.png" :descs="['sciencePane_desc']" pinnable="science">
                         <buildable id="scienceT1" btnText="build" collapse="true" :multibuy="data['multiBuy'].count > 0" calc="true" />
                         <buildable id="scienceT2" btnText="build" collapse="true" :multibuy="data['multiBuy'].count > 0" calc="true" unlocker="techScience2" />
                         <buildable id="scienceT3" btnText="build" collapse="true" :multibuy="data['multiBuy'].count > 0" calc="true" unlocker="techScience3" />
@@ -498,7 +501,7 @@
                     </pane>
 
                     <!-- FUEL PANE -->
-                    <pane id="fuelPane" icon="fuel.png" :descs="['fuelPane_desc']">
+                    <pane id="fuelPane" icon="fuel.png" :descs="['fuelPane_desc']" pinnable="fuel">
                         <resource id="fuel" />
                         <buildable id="fuelT1" btnText="build" collapse="true" :multibuy="data['multiBuy'].count > 0" calc="true" />
                         <buildable id="fuelT2" btnText="build" collapse="true" :multibuy="data['multiBuy'].count > 0" calc="true" unlocker="techFuel2" />
@@ -630,7 +633,7 @@
                     </pane>
 
                     <!-- ANTIMATTER PANE -->
-                    <pane id="antimatterPane" icon="antimatter.png" :descs="['antimatterPane_desc']">
+                    <pane id="antimatterPane" icon="antimatter.png" :descs="['antimatterPane_desc']" pinnable="antimatter">
                         <buildable id="antimatterT1" btnText="build" />
                     </pane>
 
@@ -797,10 +800,7 @@
 
                     <!-- ULTRITE PANE -->
                     <pane id="ultritePane" icon="ultrite.png" :descs="['ultritePane_desc']">
-                        <div class="alert alert-danger" role="alert">
-                            <small>This part is still under development. Please do not use it. More info on Discord server.</small>
-                        </div>
-                        <card id="ultrite" :descs="['ultrite_desc']">
+                        <card id="ultrite" :descs="['ultrite_desc']" checked="true">
                             <div class="col-12">
                                 <div class="heading-6">{{ $t('ulStars') }} <span class="text-light">{{ getULStars }}</span></div>
                                 <div class="small"><span>{{ $t('ulStars_desc') }}</span></div>
@@ -814,7 +814,7 @@
                                 <div class="small"><span>{{ $t('ulSpheres_desc') }}</span></div>
                             </div>
                         </card>
-                        <card id="enlighten" :descs="['enlighten_desc']">
+                        <card id="enlighten" :descs="['enlighten_desc']" checked="true">
                             <div class="col-12">
                                 <div class="row g-1 justify-content-end">
                                     <div class="col-auto">
@@ -826,17 +826,31 @@
                     </pane>
 
                     <!-- TITANS PANE -->
-                    <pane id="titansPane" icon="titans.png">
-                        <div class="alert alert-danger" role="alert">
-                            <small>This part is still under development. Please do not use it. More info on Discord server.</small>
-                        </div>
+                    <pane id="titansPane" icon="titans.png" :descs="['titansPane_desc']">
+                        <card id="titans" checked="true">
+                            <div class="col-12 mt-2">
+                                <div class="row g-1">
+                                    <div v-for="res in resources" :key="res.id" class="col-4 col-md-2">
+                                        <div class="rounded py-2" :class="{ 'opacity-1':!res.titan }" style="background-color:rgba(255,255,255,.125);" role="heading">
+                                            <div class="row g-1">
+                                                <div class="col-12 text-center">
+                                                    <img :src="require(`./assets/interface/${res.id}.png`)" width="24" height="24" />
+                                                </div>
+                                                <div class="col-12 small text-center">
+                                                    <span class="text-light">{{ $t(res.id) }}</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </card>
                     </pane>
 
                     <!-- UPGRADES PANE -->
                     <pane id="upgradesPane" icon="upgrades.png">
-                        <div class="alert alert-danger" role="alert">
-                            <small>This part is still under development. Please do not use it. More info on Discord server.</small>
-                        </div>
+                        <buildable id="techNanoswarm0" btnText="activate" />
+                        <buildable id="techAutoStorageUpgrade" btnText="activate" />
                     </pane>
                     <!-- DONATING PANE -->
                     <pane id="donatingPane" icon="donating.png" :descs="['donatingPane_desc1', 'donatingPane_desc2']">
@@ -889,6 +903,14 @@
                                             <td class="text-end"><small class="text-light">{{ momentFormat(stats.startDate, 'YYYY-MM-DD') }}</small></td>
                                         </tr>
                                         <tr>
+                                            <td><small class="text-normal">{{ $t('lastEnlightenDate') }}</small></td>
+                                            <td class="text-end"><small class="text-light">{{ momentFormat(stats.lastEnlightenDate, 'YYYY-MM-DD') }}</small></td>
+                                        </tr>
+                                        <tr>
+                                            <td><small class="text-normal">{{ $t('enlightenCount') }}</small></td>
+                                            <td class="text-end"><small class="text-light">{{ numeralFormat(stats.enlightenCount, '0a') }}</small></td>
+                                        </tr>
+                                        <tr>
                                             <td><small class="text-normal">{{ $t('lastRebirthDate') }}</small></td>
                                             <td class="text-end"><small class="text-light">{{ momentFormat(stats.lastRebirthDate, 'YYYY-MM-DD') }}</small></td>
                                         </tr>
@@ -910,54 +932,59 @@
                                     </thead>
                                     <tbody>
                                         <tr>
+                                            <td><small class="text-normal">{{ $t('ultrite') }}</small></td>
+                                            <td class="text-end"><small class="text-light text-uppercase">{{ numeralFormat(data['ultrite'].count.toPrecision(4), '0.[000]a') }}</small></td>
+                                            <td class="text-end"><small class="text-light text-uppercase">{{ numeralFormat(stats.allTimeUltrite.toPrecision(4), '0.[000]a') }}</small></td>
+                                        </tr>
+                                        <tr>
                                             <td><small class="text-normal">{{ $t('darkmatter') }}</small></td>
-                                            <td class="text-end"><small class="text-light">{{ numeralFormat(data['darkmatter'].count.toPrecision(4), '0.[000]a') }}</small></td>
-                                            <td class="text-end"><small class="text-light">{{ numeralFormat(stats.allTimeDarkmatter.toPrecision(4), '0.[000]a') }}</small></td>
+                                            <td class="text-end"><small class="text-light text-uppercase">{{ numeralFormat(data['darkmatter'].count.toPrecision(4), '0.[000]a') }}</small></td>
+                                            <td class="text-end"><small class="text-light text-uppercase">{{ numeralFormat(stats.allTimeDarkmatter.toPrecision(4), '0.[000]a') }}</small></td>
                                         </tr>
                                         <tr>
                                             <td><small class="text-normal">{{ $t('manualGain') }}</small></td>
-                                            <td class="text-end"><small class="text-light">{{ numeralFormat(stats.manualGain.current.toPrecision(4), '0.[000]a') }}</small></td>
-                                            <td class="text-end"><small class="text-light">{{ numeralFormat(stats.manualGain.allTime.toPrecision(4), '0.[000]a') }}</small></td>
+                                            <td class="text-end"><small class="text-light text-uppercase">{{ numeralFormat(stats.manualGain.current.toPrecision(4), '0.[000]a') }}</small></td>
+                                            <td class="text-end"><small class="text-light text-uppercase">{{ numeralFormat(stats.manualGain.allTime.toPrecision(4), '0.[000]a') }}</small></td>
                                         </tr>
                                         <tr>
                                             <td><small class="text-normal">{{ $t('machineT1') }}</small></td>
-                                            <td class="text-end"><small class="text-light">{{ numeralFormat(stats.machineT1.current.toPrecision(4), '0.[000]a') }}</small></td>
-                                            <td class="text-end"><small class="text-light">{{ numeralFormat(stats.machineT1.allTime.toPrecision(4), '0.[000]a') }}</small></td>
+                                            <td class="text-end"><small class="text-light text-uppercase">{{ numeralFormat(stats.machineT1.current.toPrecision(4), '0.[000]a') }}</small></td>
+                                            <td class="text-end"><small class="text-light text-uppercase">{{ numeralFormat(stats.machineT1.allTime.toPrecision(4), '0.[000]a') }}</small></td>
                                         </tr>
                                         <tr>
                                             <td><small class="text-normal">{{ $t('machineT2') }}</small></td>
-                                            <td class="text-end"><small class="text-light">{{ numeralFormat(stats.machineT2.current.toPrecision(4), '0.[000]a') }}</small></td>
-                                            <td class="text-end"><small class="text-light">{{ numeralFormat(stats.machineT2.allTime.toPrecision(4), '0.[000]a') }}</small></td>
+                                            <td class="text-end"><small class="text-light text-uppercase">{{ numeralFormat(stats.machineT2.current.toPrecision(4), '0.[000]a') }}</small></td>
+                                            <td class="text-end"><small class="text-light text-uppercase">{{ numeralFormat(stats.machineT2.allTime.toPrecision(4), '0.[000]a') }}</small></td>
                                         </tr>
                                         <tr>
                                             <td><small class="text-normal">{{ $t('machineT3') }}</small></td>
-                                            <td class="text-end"><small class="text-light">{{ numeralFormat(stats.machineT3.current.toPrecision(4), '0.[000]a') }}</small></td>
-                                            <td class="text-end"><small class="text-light">{{ numeralFormat(stats.machineT3.allTime.toPrecision(4), '0.[000]a') }}</small></td>
+                                            <td class="text-end"><small class="text-light text-uppercase">{{ numeralFormat(stats.machineT3.current.toPrecision(4), '0.[000]a') }}</small></td>
+                                            <td class="text-end"><small class="text-light text-uppercase">{{ numeralFormat(stats.machineT3.allTime.toPrecision(4), '0.[000]a') }}</small></td>
                                         </tr>
                                         <tr>
                                             <td><small class="text-normal">{{ $t('machineT4') }}</small></td>
-                                            <td class="text-end"><small class="text-light">{{ numeralFormat(stats.machineT4.current.toPrecision(4), '0.[000]a') }}</small></td>
-                                            <td class="text-end"><small class="text-light">{{ numeralFormat(stats.machineT4.allTime.toPrecision(4), '0.[000]a') }}</small></td>
+                                            <td class="text-end"><small class="text-light text-uppercase">{{ numeralFormat(stats.machineT4.current.toPrecision(4), '0.[000]a') }}</small></td>
+                                            <td class="text-end"><small class="text-light text-uppercase">{{ numeralFormat(stats.machineT4.allTime.toPrecision(4), '0.[000]a') }}</small></td>
                                         </tr>
                                         <tr>
                                             <td><small class="text-normal">{{ $t('machineT5') }}</small></td>
-                                            <td class="text-end"><small class="text-light">{{ numeralFormat(stats.machineT5.current.toPrecision(4), '0.[000]a') }}</small></td>
-                                            <td class="text-end"><small class="text-light">{{ numeralFormat(stats.machineT5.allTime.toPrecision(4), '0.[000]a') }}</small></td>
+                                            <td class="text-end"><small class="text-light text-uppercase">{{ numeralFormat(stats.machineT5.current.toPrecision(4), '0.[000]a') }}</small></td>
+                                            <td class="text-end"><small class="text-light text-uppercase">{{ numeralFormat(stats.machineT5.allTime.toPrecision(4), '0.[000]a') }}</small></td>
                                         </tr>
                                         <tr>
                                             <td><small class="text-normal">{{ $t('machineT6') }}</small></td>
-                                            <td class="text-end"><small class="text-light">{{ numeralFormat(stats.machineT6.current.toPrecision(4), '0.[000]a') }}</small></td>
-                                            <td class="text-end"><small class="text-light">{{ numeralFormat(stats.machineT6.allTime.toPrecision(4), '0.[000]a') }}</small></td>
+                                            <td class="text-end"><small class="text-light text-uppercase">{{ numeralFormat(stats.machineT6.current.toPrecision(4), '0.[000]a') }}</small></td>
+                                            <td class="text-end"><small class="text-light text-uppercase">{{ numeralFormat(stats.machineT6.allTime.toPrecision(4), '0.[000]a') }}</small></td>
                                         </tr>
                                         <tr>
                                             <td><small class="text-normal">{{ $t('ships') }}</small></td>
-                                            <td class="text-end"><small class="text-light">{{ numeralFormat(stats.ships.current.toPrecision(4), '0.[000]a') }}</small></td>
-                                            <td class="text-end"><small class="text-light">{{ numeralFormat(stats.ships.allTime.toPrecision(4), '0.[000]a') }}</small></td>
+                                            <td class="text-end"><small class="text-light text-uppercase">{{ numeralFormat(stats.ships.current.toPrecision(4), '0.[000]a') }}</small></td>
+                                            <td class="text-end"><small class="text-light text-uppercase">{{ numeralFormat(stats.ships.allTime.toPrecision(4), '0.[000]a') }}</small></td>
                                         </tr>
                                         <tr>
                                             <td><small class="text-normal">{{ $t('starOwned') }}</small></td>
-                                            <td class="text-end"><small class="text-light">{{ numeralFormat(stats.starOwned.current.toPrecision(4), '0.[000]a') }}</small></td>
-                                            <td class="text-end"><small class="text-light">{{ numeralFormat(stats.starOwned.allTime.toPrecision(4), '0.[000]a') }}</small></td>
+                                            <td class="text-end"><small class="text-light text-uppercase">{{ numeralFormat(stats.starOwned.current.toPrecision(4), '0.[000]a') }}</small></td>
+                                            <td class="text-end"><small class="text-light text-uppercase">{{ numeralFormat(stats.starOwned.allTime.toPrecision(4), '0.[000]a') }}</small></td>
                                         </tr>
                                     </tbody>
                                 </table>
@@ -1079,6 +1106,10 @@
                         </card>
                         <card id="notifications" checked="true">
                             <div class="col-12">
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" id="checkPinnedItems" v-model="showPinnedItems" @click="setDisplayPinnedItems(!showPinnedItems)" />
+                                    <label class="form-check-label small" for="checkPinnedItems">{{ $t('showPinnedItems') }}</label>
+                                </div>
                                 <div class="form-check">
                                     <input class="form-check-input" type="checkbox" id="checkHideLocked" v-model="showLockedItems" @click="setDisplayLockedItems(!showLockedItems)" />
                                     <label class="form-check-label small" for="checkHideLocked">{{ $t('showLockedItems') }}</label>
@@ -1232,22 +1263,48 @@
                         </card>
                         <card v-if="leaderboard_ranks" :checked="token != null">
                             <div class="row g-1">
-                                <div v-for="(item, index) in leaderboard_ranks" :key="item.user_id" class="col-12 col-md-4">
+                                <div v-for="(item, index) in leaderboard_stats" :key="item.user_id" class="col-12 col-md-4">
                                     <div class="btn text-start w-100" :class="{ 'border-success':item.username==username }">
                                         <div class="row g-0">
-                                            <div class="col-12">
-                                                <span class="text-light d-inline w-100 text-truncate">{{ index + 1 }}</span>
+                                            <div class="col-12 mb-2">
+                                                <div class="row gx-2">
+                                                    <div class="col text-truncate">
+                                                        <span class="h6 text-light">{{ item.username }}</span>
+                                                    </div>
+                                                    <div class="col-auto">
+                                                        <span class="text-light d-inline w-100 text-truncate">{{ index + 1 }}</span>
+                                                    </div>
+                                                </div>
                                             </div>
-                                            <div class="col-12">
-                                                <span class="h6 text-light d-inline w-100 text-truncate">{{ item.username }}</span>
+                                            <div class="col-12 small">
+                                                <div class="row gx-2">
+                                                    <div class="col">
+                                                        <span class="text-muted">{{ $t('statsUltrite') }}</span>
+                                                    </div>
+                                                    <div class="col-auto">
+                                                        <span class="text-normal">{{ numeralFormat(item.ultrite) }}</span>
+                                                    </div>
+                                                </div>
                                             </div>
-                                            <div class="col-12">
-                                                <span class="text-normal d-inline w-100 text-truncate">{{ $t('rank_' + item.level) }} ({{ item.level }})</span>
+                                            <div class="col-12 small">
+                                                <div class="row gx-2">
+                                                    <div class="col">
+                                                        <span class="text-muted">{{ $t('statsDarkmatter') }}</span>
+                                                    </div>
+                                                    <div class="col-auto">
+                                                        <span class="text-normal">{{ numeralFormat(item.darkmatter) }}</span>
+                                                    </div>
+                                                </div>
                                             </div>
-                                            <div class="col-12 small text-end">
-                                                <span class="text-muted">{{ item.remaining }}</span>
-                                                <i class="fas fa-fw fa-long-arrow-alt-right text-muted"></i>
-                                                <span class="text-muted">{{ item.level + 1 }}</span>
+                                            <div class="col-12 small">
+                                                <div class="row gx-2">
+                                                    <div class="col">
+                                                        <span class="text-muted">{{ $t('statsXP') }}</span>
+                                                    </div>
+                                                    <div class="col-auto">
+                                                        <span class="text-normal">{{ numeralFormat(item.xp) }}</span>
+                                                    </div>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
@@ -1279,7 +1336,14 @@
             <!-- ACHIEVEMENT TOAST -->
             <div id="toastAchievement" class="toast hide fade bg-success cursor-hover" @click="setActivePane('achievementPane')" role="alert">
                 <div class="toast-body text-light">
-                    <div><strong>{{ $t('toastAchievement_title') }}</strong></div>
+                    <div class="row">
+                        <div class="col">
+                            <strong>{{ $t('toastAchievement_title') }}</strong>
+                        </div>
+                        <div class="col-auto">
+                            <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+                        </div>
+                    </div>
                     <div class="small">{{ $t('toastAchievement_text') }}</div>
                 </div>
             </div>
@@ -1287,13 +1351,27 @@
             <!-- SPY TOAST -->
             <div id="toastSpySuccess" class="toast hide fade bg-success" role="alert">
                 <div class="toast-body text-light">
-                    <div><strong>{{ $t('toastSpySuccess_title') }}</strong></div>
+                    <div class="row">
+                        <div class="col">
+                            <strong>{{ $t('toastSpySuccess_title') }}</strong>
+                        </div>
+                        <div class="col-auto">
+                            <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+                        </div>
+                    </div>
                     <div class="small">{{ $t('toastSpySuccess_text') }}</div>
                 </div>
             </div>
             <div id="toastSpyFailed" class="toast hide fade bg-danger" role="alert">
                 <div class="toast-body text-light">
-                    <div><strong>{{ $t('toastSpyFailed_title') }}</strong></div>
+                    <div class="row">
+                        <div class="col">
+                            <strong>{{ $t('toastSpyFailed_title') }}</strong>
+                        </div>
+                        <div class="col-auto">
+                            <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+                        </div>
+                    </div>
                     <div class="small">{{ $t('toastSpyFailed_text') }}</div>
                 </div>
             </div>
@@ -1301,13 +1379,27 @@
             <!-- INVADE TOAST -->
             <div id="toastInvadeSuccess" class="toast hide fade bg-success" role="alert">
                 <div class="toast-body text-light">
-                    <div><strong>{{ $t('toastInvadeSuccess_title') }}</strong></div>
+                    <div class="row">
+                        <div class="col">
+                            <strong>{{ $t('toastInvadeSuccess_title') }}</strong>
+                        </div>
+                        <div class="col-auto">
+                            <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+                        </div>
+                    </div>
                     <div class="small">{{ $t('toastInvadeSuccess_text') }}</div>
                 </div>
             </div>
             <div id="toastInvadeFailed" class="toast hide fade bg-danger" role="alert">
                 <div class="toast-body text-light">
-                    <div><strong>{{ $t('toastInvadeFailed_title') }}</strong></div>
+                    <div class="row">
+                        <div class="col">
+                            <strong>{{ $t('toastInvadeFailed_title') }}</strong>
+                        </div>
+                        <div class="col-auto">
+                            <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+                        </div>
+                    </div>
                     <div class="small">{{ $t('toastInvadeFailed_text') }}</div>
                 </div>
             </div>
@@ -1315,7 +1407,14 @@
             <!-- ABSORB TOAST -->
             <div id="toastAbsorbSuccess" class="toast hide fade bg-success" role="alert">
                 <div class="toast-body text-light">
-                    <div><strong>{{ $t('toastAbsorbSuccess_title') }}</strong></div>
+                    <div class="row">
+                        <div class="col">
+                            <strong>{{ $t('toastAbsorbSuccess_title') }}</strong>
+                        </div>
+                        <div class="col-auto">
+                            <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+                        </div>
+                    </div>
                     <div class="small">{{ $t('toastAbsorbSuccess_text') }}</div>
                 </div>
             </div>
@@ -1437,7 +1536,8 @@
                                 </div>
                                 <div class="col small">
                                     <div class="text-normal">{{ $t('chance') }}</div>
-                                    <div class="text-light">{{ getInvadeChance(activeStar) * 100 }}%</div>
+                                    <div v-if="data[activeStar].spy <= 2" class="text-light">???</div>
+                                    <div v-if="data[activeStar].spy > 2" class="text-light">{{ getInvadeChance(activeStar) * 100 }}%</div>
                                 </div>
                             </div>
                         </div>
@@ -1544,6 +1644,12 @@
                         <div class="col-12">
                             <span class="h6 text-light">{{ $t('enlighten') }}</span>
                         </div>
+                        <div class="col-12">
+                            <small>{{ $t('titanChoice') }}</small>
+                            <select class="form-control" v-model="enlightenSelected">
+                                <option v-for="res in resources" :key="res.id" :value="res.id">{{ $t(res.id) }} <span v-if="res.titan == true" >{{ $t('alreadyActivated') }}</span></option>
+                            </select>
+                        </div>
                         <div class="col-12 small">
                             <span class="text-normal">{{ $t('enlighten_confirm') }}</span>
                         </div>
@@ -1623,10 +1729,55 @@
                             <span class="h6 text-light">{{ $t('changeLog') }}</span>
                         </div>
                         <div class="col-12 border-top">
-                            <div class="text-light">v1.17.1 - 2021-06-27</div>
+                            <div class="text-light">v1.20.3 - 2021-07-01</div>
                             <ul class="small">
-                                <li>FIX: change description on 'Dimensional Rift'</li>
-                                <li>FIX: reset auto-EMC resource after rebirth</li>
+                                <li>FIX: fixed issue with data exporting</li>
+                            </ul>
+                        </div>
+                        <div class="col-12 border-top">
+                            <div class="text-light">v1.20.2 - 2021-07-01</div>
+                            <ul class="small">
+                                <li>FIX: invading and absorbtion are initially allowed but invade chance is displayed when star is spyied only</li>
+                                <li>FIX: save in local storage a crypted copy of data</li>
+                            </ul>
+                        </div>
+                        <div class="col-12 border-top">
+                            <div class="text-light">v1.20.1 - 2021-07-01</div>
+                            <ul class="small">
+                                <li>FIX: now auto storage upgrade ultrite upgrade is displayed after enlightenment</li>
+                                <li>FIX: typo in enlightenment modal</li>
+                                <li>FIX: dimensional rift is taken into account in timer computing</li>
+                            </ul>
+                        </div>
+                        <div class="col-12 border-top">
+                            <div class="text-light">v1.20.0 - 2021-06-30</div>
+                            <ul class="small">
+                                <li>FIX: now segment and machine calculators take titans into account</li>
+                                <li>NEW: change leaderboard ranking to take into account ultrite and darkmatter</li>
+                                <li>NEW: now you could pin resoure pane to have them displaued in top of left menu ; must be activated in options menu</li>
+                                <li>NEW: now you could build dyson items in one click</li>
+                                <li>NEW: auto storage upgrade ultrite upgrade</li>
+                            </ul>
+                        </div>
+                        <div class="col-12 border-top">
+                            <div class="text-light">v1.19.0 - 2021-06-29</div>
+                            <ul class="small">
+                                <li>FIX: EMC convert to full storage</li>
+                                <li>FIX: star stats are fixed number</li>
+                                <li>NEW: click on update version button trigger a manual save</li>
+                                <li>NEW: now you have to spy before invading</li>
+                            </ul>
+                        </div>
+                        <div class="col-12 border-top">
+                            <div class="text-light">v1.18.1 - 2021-06-28</div>
+                            <ul class="small">
+                                <li>FIX: stats loading</li>
+                            </ul>
+                        </div>
+                        <div class="col-12 border-top">
+                            <div class="text-light">v1.18.0 - 2021-06-28</div>
+                            <ul class="small">
+                                <li>NEW: initial implementation of 'Enlightenment' = second layer of prestige</li>
                             </ul>
                         </div>
                         <div class="col-12 border-top">
@@ -1825,8 +1976,6 @@
 </template>
 
 <script>
-import LZString from 'lz-string'
-
 import Header from './components/Header.vue'
 import Content from './components/Content.vue'
 import SidenavGroup from './components/SidenavGroup.vue'
@@ -1890,6 +2039,7 @@ export default {
             showToastAutoSave: true,
             showToastAchievement: true,
             showLockedItems: false,
+            showPinnedItems: false,
 
             compressed: null,
             newCompanyName: null,
@@ -1907,13 +2057,16 @@ export default {
             segmentModal: null,
             calcModal: null,
             enlightenModal: null,
-            currentRelease: '1.17.1',
+            enlightenSelected: null,
+
+            currentRelease: '1.20.3',
             ghLatestRelease: null,
 
             login: null,
             password: null,
 
             leaderboard_ranks: null,
+            leaderboard_stats: null,
 
             selectedEmcAmount: null,
             selectedAutoEmcInterval: null,
@@ -1924,10 +2077,10 @@ export default {
 
             'data', 'companyName', 'locale', 'activePane', 'lastUpdateTime', 'autoSaveInterval', 'timeSinceAutoSave', 'rank',
             'resAchievements', 'prodAchievements', 'newAchievement',
-            'notifAutoSave', 'notifAchievement', 'displayLockedItems',
+            'notifAutoSave', 'notifAchievement', 'displayLockedItems', 'displayPinnedItems',
             'username', 'token',
             'emcAmount', 'autoEmcInterval', 'timeSinceAutoEmc',
-            'stats',
+            'stats', 'resources', 'pinned',
         ]),
         ...mapGetters([
 
@@ -1945,13 +2098,15 @@ export default {
 
             'setLocale', 'setActivePane', 'setLastUpdateTime', 'setTimeSinceAutoSave', 'setCompanyName', 'setAutoSaveInterval',
             'setNotifAutoSave', 'setNotifAchievement', 'setDisplayLockedItems', 'setUsername', 'setToken', 'setEmcAmount', 'setTimeSinceAutoEmc', 'setAutoEmcInterval',
+            'setDisplayPinnedItems',
         ]),
         ...mapActions([
 
             'initialize', 'load',
             'computeProdValues', 'produceResources', 'updateTimers', 'checkBoosts', 'updateAchievements', 'save',
             'setActiveShip', 'spy', 'invade', 'absorb',
-            'rebirth', 'performAutoEmc',
+            'rebirth', 'performAutoEmc', 'enlighten',
+            'performAutoStorageUpgrade',
         ]),
         momentFormat(date, fmt) {
             return moment(date).format(fmt)
@@ -1975,11 +2130,11 @@ export default {
             this.selectedEmcAmount = this.emcAmount
             this.selectedAutoEmcInterval = this.autoEmcInterval / 1000
 
-            this.ghUpdate()
+            // this.ghUpdate()
 
             this.fastInterval = setInterval(() => { this.fastUpdate() }, 100)
             this.slowInterval = setInterval(() => { this.slowUpdate() }, 1000)
-            this.ghInterval = setInterval(() => { this.ghUpdate() }, 3600000)
+            // this.ghInterval = setInterval(() => { this.ghUpdate() }, 3600000)
 
             this.loaded = true
 
@@ -1992,6 +2147,7 @@ export default {
                 this.showToastAutoSave = this.notifAutoSave
                 this.showToastAchievement = this.notifAchievement
                 this.showLockedItems = this.displayLockedItems
+                this.showPinnedItems = this.displayPinnedItems
 
                 element = document.getElementById('toastAchievement')
                 this.toastAchievement = new Toast(element)
@@ -2055,6 +2211,7 @@ export default {
             this.setTimeSinceAutoEmc(this.timeSinceAutoEmc + delta)
 
             this.computeProdValues()
+            this.performAutoStorageUpgrade()
             this.produceResources(delta)
             this.updateTimers()
             this.checkBoosts()
@@ -2082,11 +2239,13 @@ export default {
 
                     // let data = {
                     //     rank: this.rank,
+                    //     stats: this.stats,
                     // }
                     // axios.post('https://ngspacecompany.exileng.com/api/post/', data, { headers: { 'Authorization': 'Token ' +  this.token }})
                 }
 
                 // axios.get('https://ngspacecompany.exileng.com/api/ranks/').then((response) => { this.leaderboard_ranks = response.data })
+                // axios.get('https://ngspacecompany.exileng.com/api/stats/').then((response) => { this.leaderboard_stats = response.data })
             }
         },
         ghUpdate() {
@@ -2097,19 +2256,15 @@ export default {
         },
         exportData() {
 
-            let text = JSON.stringify(JSON.parse(localStorage.getItem('ngsave')))
-            this.compressed = LZString.compressToBase64(text)
+            let text = localStorage.getItem('ngsavecrypted')
+            this.compressed = text
         },
         importData() {
 
             if (!this.compressed || !this.compressed.trim()) return console.warn('No data to import')
             if (this.compressed.length % 4 !== 0) return console.warn('Data corrupted')
 
-            let text = LZString.decompressFromBase64(this.compressed)
-            if (!text) return console.warn('Import failed')
-
-            let impdata = JSON.parse(text)
-            localStorage.setItem('ngsave', JSON.stringify(impdata))
+            localStorage.setItem('ngsavecrypted', this.compressed)
 
             window.location.reload()
         },
@@ -2142,6 +2297,9 @@ export default {
             })
         },
         onRefresh() {
+
+            this.save()
+            this.setTimeSinceAutoSave(1)
 
             window.location.reload()
         },
@@ -2185,6 +2343,16 @@ export default {
             this.save()
             this.setTimeSinceAutoSave(1)
             if (this.showToastAutoSave) this.toastAutoSave.show()
+        },
+        onEnlighten() {
+
+            this.enlighten(this.enlightenSelected).then(result => {
+                if (result == true) {
+                    this.loaded = true
+                    this.enlightenSelected = null
+                    window.location.reload()
+                }
+            })
         },
     },
     beforeUnmount() {

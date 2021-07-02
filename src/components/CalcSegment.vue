@@ -312,6 +312,12 @@ export default {
             let costMeteorite = this.computeCost(this.data['segment'].baseCosts[3].count, 50) - this.computeCost(this.data['segment'].baseCosts[3].count, this.data['segment'].count)
             let costIce       = this.computeCost(this.data['segment'].baseCosts[4].count, 50) - this.computeCost(this.data['segment'].baseCosts[4].count, this.data['segment'].count)
             
+            if (this.data['titanium'].titan == true) costTitanium *= 0.1
+            if (this.data['gold'].titan == true) costGold *= 0.1
+            if (this.data['silicon'].titan == true) costSilicon *= 0.1
+            if (this.data['meteorite'].titan == true) costMeteorite *= 0.1
+            if (this.data['ice'].titan == true) costIce *= 0.1
+            
             return {
                 titanium:  { count: costTitanium,  timer: this.data['titanium'].prod > 0 ? (costTitanium - this.data['titanium'].count) / this.data['titanium'].prod : 0    },
                 gold:      { count: costGold,      timer: this.data['gold'].prod > 0 ? (costGold - this.data['gold'].count) / this.data['gold'].prod : 0                },
@@ -328,6 +334,12 @@ export default {
             let costMeteorite = this.computeCost(this.data['segment'].baseCosts[3].count, 100) - this.computeCost(this.data['segment'].baseCosts[3].count, this.data['segment'].count)
             let costIce       = this.computeCost(this.data['segment'].baseCosts[4].count, 100) - this.computeCost(this.data['segment'].baseCosts[4].count, this.data['segment'].count)
             
+            if (this.data['titanium'].titan == true) costTitanium *= 0.1
+            if (this.data['gold'].titan == true) costGold *= 0.1
+            if (this.data['silicon'].titan == true) costSilicon *= 0.1
+            if (this.data['meteorite'].titan == true) costMeteorite *= 0.1
+            if (this.data['ice'].titan == true) costIce *= 0.1
+            
             return {
                 titanium:  { count: costTitanium,  timer: this.data['titanium'].prod > 0 ? (costTitanium - this.data['titanium'].count) / this.data['titanium'].prod : 0    },
                 gold:      { count: costGold,      timer: this.data['gold'].prod > 0 ? (costGold - this.data['gold'].count) / this.data['gold'].prod : 0                },
@@ -343,6 +355,12 @@ export default {
             let costSilicon   = this.computeCost(this.data['segment'].baseCosts[2].count, 250) - this.computeCost(this.data['segment'].baseCosts[2].count, this.data['segment'].count)
             let costMeteorite = this.computeCost(this.data['segment'].baseCosts[3].count, 250) - this.computeCost(this.data['segment'].baseCosts[3].count, this.data['segment'].count)
             let costIce       = this.computeCost(this.data['segment'].baseCosts[4].count, 250) - this.computeCost(this.data['segment'].baseCosts[4].count, this.data['segment'].count)
+            
+            if (this.data['titanium'].titan == true) costTitanium *= 0.1
+            if (this.data['gold'].titan == true) costGold *= 0.1
+            if (this.data['silicon'].titan == true) costSilicon *= 0.1
+            if (this.data['meteorite'].titan == true) costMeteorite *= 0.1
+            if (this.data['ice'].titan == true) costIce *= 0.1
             
             return {
                 titanium:  { count: costTitanium,  timer: this.data['titanium'].prod > 0 ? (costTitanium - this.data['titanium'].count) / this.data['titanium'].prod : 0    },

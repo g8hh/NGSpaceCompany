@@ -10,7 +10,9 @@
     "achievementPane_desc": "This is where you can see your rank and all of your achievements.",
     "statistics": "Statistics",
     "startDate": "Game played since",
-    "lastRebirthDate": "Last rebirth",
+    "lastEnlightenDate": "Last Enlighten",
+    "lastRebirthDate": "Last Rebirth",
+    "enlightenCount": "Enlighten Count",
     "rebirthCount": "Rebirth Count",
     "manualGain": "Manual Gain",
     "machineT1": "Machine T1",
@@ -53,7 +55,10 @@
     "rankPane": "Ranking",
     "rankPane_desc": "Here are the current player ranking. To be part of it, you just have to register an account then all is automated.",
     "rankPane_nodata": "Just waiting for next auto-save to see ranking.",
-    
+    "statsUltrite": "All Time Ultrite",
+    "statsDarkmatter": "All Time Darkmatter",
+    "statsXP": "Current XP",
+
     "helpPane": "Help",
     "helpPane_desc": "This guide will get you from starting the game to activating your first wonder and will be helpful to grasp everything you need to do.",
     "help1": "First Steps",
@@ -75,7 +80,8 @@
     "import": "Import Save",
     "copy": "Copy To Clipboard",
     "importExport_desc": "Copy and paste this onto a file somewhere so that you can import it into the game at a later date. You can also use this to create multiple 'savefiles' of the game by storing multiple instances separately.",
-    "notifications": "Notifications",
+    "notifications": "Displaying",
+    "showPinnedItems": "Activate and display pinned panes",
     "showLockedItems": "Show locked items",
     "showToastAutoSave": "Display autosave notifications",
     "showToastAchievement": "Display achievement notifications",
@@ -103,6 +109,8 @@
     "about3": "Icons",
     "about3_desc1": "All icons come from ",
     "about4": "Donors",
+    
+    "pinnedHeading": "Pinned",
     
     "energyHeading": "Energy",
             
@@ -983,7 +991,7 @@
     "boostDarkmatter": "Dark Matter Boost",
     "boostDarkmatter_desc": "This adds a 1% boost to all resources (including science) for each Dark Matter you have not spent. Improves relationship by 20.",
     "techNanoswarm0": "Nanoswarms",
-    "techNanoswarm0_desc": "Imagine bedbugs, but worse. These critters amplify your production by double every ten nanoswarms! They are capable of copying other machines' forms and taking up their role in resource production. You can select one resource to be amplified, and change it at any time. NB: Shows up in the Sol Center when unlocked. Improves relationship by 17.",
+    "techNanoswarm0_desc": "Imagine bedbugs, but worse. These critters amplify your production by double every ten nanoswarms! They are capable of copying other machines' forms and taking up their role in resource production. You can select one resource to be amplified, and change it at any time. NB: Shows up in the Sol Center when unlocked.",
     "upgradeFaction": "Bribery",
     "upgradeFaction_desc": "Increases All Factions' Relationship by 20. Improves relationship by 20.",
     
@@ -1000,11 +1008,18 @@
     "ulSpheres": "Spheres",
     "ulSpheres_desc": "For every Dyson Sphere built, you gain 1 ultrite.",
     "enlighten": "Enlighten",
-    "enlighten_desc": "",
+    "enlighten_desc": "NB: You cannot enlighten without 10 owned stars at least, even on second runs.",
+    "enlighten_confirm": "Are you sure? This is non-reversible after you reset and save.",
+    "titanChoice": "Choose the Titan you want to activate",
+    "alreadyActivated": "(Already activated)",
     
     "titansPane": "Titans",
+    "titansPane_desc": "These are mystical beings, almost rivalling that of the Overlord. Enlightening for a titan will decrease the cost of a single resource, on every machine, upgrade, wonder and building by 90%, rounded down to the nearest integer.",
+    "titans": "Activated Titans",
 
     "upgradesPane": "Upgrades",
+    "techAutoStorageUpgrade": "Auto Storage Upgrade",
+    "techAutoStorageUpgrade_desc": "This unlocks the ability to turn on/off the automation of upgrade storage on each resource. NB: Plasma, Energy, Science, Fuel and Antimatter are not impacted.",
 
     "overview": "Overview",
     "upgradeStorage": "Upgrade Storage",
@@ -1050,6 +1065,10 @@
     "spy": "Spy",
     "invade": "Invade",
     "absorb": "Absorb",
+    
+    "btnDysonT1": "= 50 + Ring",
+    "btnDysonT2": "= 100 + Swarm",
+    "btnDysonT3": "= 250 + Sphere",
     
     "toastAchievement_title": "New Achievement",
     "toastAchievement_text": "You have reached a new achievement.",

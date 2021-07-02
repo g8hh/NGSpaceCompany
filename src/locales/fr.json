@@ -10,7 +10,9 @@
     "achievementPane_desc": "C'est ici que vous voyez tous vos trophées et votre grade.",
     "statistics": "Statistiques",
     "startDate": "Durée de jeu",
+    "lastEnlightenDate": "Dernière illumination",
     "lastRebirthDate": "Dernière renaissance",
+    "enlightenCount": "Illuminations",
     "rebirthCount": "Renaissances",
     "manualGain": "Manuel",
     "machineT1": "Machines T1",
@@ -53,6 +55,9 @@
     "rankPane": "Classement",
     "rankPane_desc": "Voici le classement des joueurs actuels. Pour faire parti du classement, vous devez juste enregistrer un compte et le reste est automatique.",
     "rankPane_nodata": "Il faut juste attendre la prochaine sauvegarde automatique pour voir le classement.",
+    "statsUltrite": "Ultrite total",
+    "statsDarkmatter": "Matière Noire total",
+    "statsXP": "XP actuel",
     
     "helpPane": "Aide",
     "helpPane_desc": "'Cette page vous aidera à démarrer le jeu. Elle vous permettra d'avanceer dans le jeu en vous fournissant les explications nécessaires à la compréhension des mécanismes du jeu.",
@@ -75,7 +80,8 @@
     "import": "Importer les données",
     "copy": "Copier en mémoire",
     "importExport_desc": "Copier-coller dans un fichier quelque part afin de pouvoir l'importer dans le jeu à une date ultérieure. Vous pouvez également l'utiliser pour créer plusieurs 'sauvegardes' du jeu en stockant plusieurs instances séparément.",
-    "notifications": "Notifications",
+    "notifications": "Affichage",
+    "showPinnedItems": "Afficher et épingler des onglets",
     "showLockedItems": "Afficher les items bloqués",
     "showToastAutoSave": "Afficher la notification de sauvegarde automatique",
     "showToastAchievement": "Afficher la notification d'un nouveau trophée",
@@ -103,6 +109,8 @@
     "about3": "Icônes",
     "about3_desc1": "Toutes les icônes proviennent de ",
     "about4": "Donateurs",
+    
+    "pinnedHeading": "Epinglés",
     
     "energyHeading": "Energie",
             
@@ -630,11 +638,11 @@
     "dysonPane_desc": "Cette technologie, impossible auparavant, est désormais une réalité, grâce à ceux du Centre Solaire. La Sphère peut fournir beaucoup d'énergie pendant des millions d'années, mais à quel prix ? NB: Les coûts des segments Dyson sont basés sur le nombre dont vous disposez, et sont donc réinitialisés lorsque vous les utilisez tous, ou réduits s'ils ne sont que partiellement dépensés.",
     "segment": "Segment",
     "segment_desc": "Ces méga-structures ne peuvent pas être construites d'un seul tenant. Ils doivent être créés à partir de petites sections et forgés ensemble autour du soleil.",
-    "dysonT1": "Ring",
+    "dysonT1": "Anneau",
     "dysonT1_desc": "L'anneau est une bande en orbite autour du Soleil et qui peut produire 5 000 énergie par seconde. Il faut au total 50 000 fusées pour mettre les sections en place.",
-    "dysonT2": "Swarm",
+    "dysonT2": "Essaim",
     "dysonT2_desc": "L'essaim est un ensemble de stations en orbite autour du Soleil, et une fois construit, il peut produire 25 000 énergie par seconde. Cependant, il faut au total 250 000 fusées pour mettre les sections en place.",
-    "dysonT3": "Sphere",
+    "dysonT3": "Sphère",
     "dysonT3_desc": "La sphère entière est une structure monolithique entourant complètement le soleil. Cela permettra suffisamment d'énergie pour obtenir un voyage interstellaire et enfin échapper à ce système solaire.",
     
     "nanoswarmPane": "Nanoswarm",
@@ -979,7 +987,7 @@
     "boostDarkmatter": "Boost de la matière noire",
     "boostDarkmatter_desc": "Ajoute un boost de 1% a toutes les ressources pour chaque unité de matière noire non dépensée. Améliore la relation de 20 points.",
     "techNanoswarm0": "Nanoswarm",
-    "techNanoswarm0_desc": "Imaginez des punaises de lit, mais en pire. Ces bestioles amplifient votre production en doublant tous les dix nanoswarms ! Ils sont capables de copier les autres machines et d'assumer leur rôle dans la production de ressources. Vous pouvez sélectionner une ressource à amplifier et la modifier à tout moment. Améliore la relation de 17 points.",
+    "techNanoswarm0_desc": "Imaginez des punaises de lit, mais en pire. Ces bestioles amplifient votre production en doublant tous les dix nanoswarms ! Ils sont capables de copier les autres machines et d'assumer leur rôle dans la production de ressources. Vous pouvez sélectionner une ressource à amplifier et la modifier à tout moment.",
     "upgradeFaction": "Corruption",
     "upgradeFaction_desc": "Augmente les opinions de toutes les factions de 20. Améliore la relation de 20 points.",
     
@@ -996,11 +1004,17 @@
     "ulSpheres": "Sphères",
     "ulSpheres_desc": "Pour chaque sphère construite, vous gagnez 1 ultrite.",
     "enlighten": "Illuminer",
-    "enlighten_desc": "",
+    "enlighten_desc": "NB: Vous ne pouvez pas être illuminé avant d'avoir conquis au moins 10 étoiles, même au second tour.",
+    "enlighten_confirm": "Êtes-vous sûr ? Cette action est irréversible.",
+    "titanChoice": "Choisissez le Titan que vous voulez activer",
+    "alreadyActivated": "(Déjà activé)",
     
     "titansPane": "Titans",
+    "titans": "Titans activés",
 
     "upgradesPane": "Améliorations",
+    "techAutoStorageUpgrade": "Augmentation automatique du stockage",
+    "techAutoStorageUpgrade_desc": "Cette amélioration permet d'activer ou de désactiver l'augmentation automatique du stockage pour chaque ressource concernée. NB: L'énergie et le plasma ne sont pas concernés ainsi que la science, le carburant et l'anti-matière.",
     
     "overview": "Aperçu",
     "upgradeStorage": "Stockage",
@@ -1047,6 +1061,10 @@
     "invade": "Envahir",
     "absorb": "Absorber",
     
+    "btnDysonT1": "= 50 + Anneau",
+    "btnDysonT2": "= 100 + Essaim",
+    "btnDysonT3": "= 250 + Sphère",
+    
     "toastAchievement_title": "Nouveau trophée",
     "toastAchievement_text": "Vous venez d'obtenir un nouveau trophée.",
     
@@ -1088,10 +1106,14 @@
     "invade_desc": "Ici, vous pouvez activer des vaisseaux au sein de votre flotte et tenter d'envahir le système stellaire de la faction. Votre réputation affecte leur degré de préparation à une éventuelle invasion. Les statistiques de la flotte ennemie en tiennent déjà compte, donc aucun calcul supplémentaire n'est nécessaire. L'invasion a un mauvais effet sur votre réputation auprès de la faction en question, la réduisant de 10 pour une invasion réussie. Cependant, en raison de leur grand ego, ils ont pitié des tentatives infructueuses et la réputation n'est pas modifiée lors d'une invasion échouée.",
     "absorb_desc": "Absorber est le moyen le plus simple de conquérir un système stellaire. Malheureusement, vous devez être en bons termes avec la faction qui contrôle l'étoile: avoir plus de 60 points de réputation avec eux. Lors de l'absorption, vous perdrez 5 points de réputation, soit la moitié du montant que vous perdriez lors d'une invasion.",
         
-    "calcModal": "Machine calculateur de coûts",
-    
-    "segmentModal": "Segment Dyson calculateur de coûts",
+    "costTo5": "Coûts jusque 5",
+    "costTo25": "Coûts jusque 25",
     "costTo50": "Coûts jusque 50",
+    "costTo75": "Coûts jusque 75",
     "costTo100": "Coûts jusque 100",
-    "costTo250": "Coûts jusque 250"
+    "costTo150": "Coûts jusque 150",
+    "costTo250": "Coûts jusque 250",
+    
+    "calcModal": "Machine calculateur de coûts",
+    "segmentModal": "Segment Dyson calculateur de coûts"
 }

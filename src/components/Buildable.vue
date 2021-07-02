@@ -83,6 +83,13 @@
                                     </div>
                                 </div>
                                 
+                                <div v-if="autoUpgradeStorage && data['techAutoStorageUpgrade'].count > 0" class="col-12">
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="checkbox" :id="'auto' + id" v-model="automated" @click="setAutoStorageUpgrade({ id:id, auto:!automated })" />
+                                        <label class="form-check-label small" :for="'auto' + id">{{ $t('auto') }}</label>
+                                    </div>
+                                </div>
+                                
                                 <div v-if="data['techDestruction'].count > 0 && data[id].destroyable" class="col-12">
                                     <div class="row g-1">
                                         <div class="col-auto">
@@ -208,7 +215,10 @@
                                         <div v-if="multibuy == true && data[id].count < 75" class="col-auto"><button class="btn" @click="build({id:id, upto:75})">= 75</button></div>
                                         <div v-if="multibuy == true && data[id].count < 150" class="col-auto"><button class="btn" @click="build({id:id, upto:150})">= 150</button></div>
                                         <div v-if="multibuy == true && data[id].count < 250" class="col-auto"><button class="btn" @click="build({id:id, upto:250})">= 250</button></div>
-                                        <div class="col-auto"><button class="btn" @click="build({id:id, count:1})">{{ $t(btnText) }} 1</button></div>
+                                        <div v-if="id == 'dysonT1'" class="col-auto"><button class="btn" @click="build({id:'segment', upto:50});build({id:'dysonT1', count:1});">{{ $t('btnDysonT1') }}</button></div>
+                                        <div v-if="id == 'dysonT2'" class="col-auto"><button class="btn" @click="build({id:'segment', upto:100});build({id:'dysonT2', count:1});">{{ $t('btnDysonT2') }}</button></div>
+                                        <div v-if="id == 'dysonT3'" class="col-auto"><button class="btn" @click="build({id:'segment', upto:250});build({id:'dysonT3', count:1});">{{ $t('btnDysonT3') }}</button></div>
+                                        <div class="col-auto"><button class="btn" @click="build({id:id, count:1})">{{ $t(btnText) }}<span v-if="data[id].max != 1"> 1</span></button></div>
                                     </div>
                                     <div v-if="id == 'segment'" class="row g-1 justify-content-end">
                                         <div class="col-auto"><button class="btn" @click="build({id:id, upto:50})">= 50</button></div>
@@ -234,17 +244,19 @@ import Costs from './Costs.vue'
 import { mapState, mapGetters, mapActions, mapMutations } from 'vuex'
 
 export default {
-    props: [ 'id', 'btnText', 'unlocker', 'collapse', 'multibuy', 'calc' ],
+    props: [ 'id', 'btnText', 'unlocker', 'collapse', 'multibuy', 'calc', 'autoUpgradeStorage' ],
     components: {
         'costs': Costs,
     },
     data() {
         return {
             selected: null,
+            automated: null,
         }
     },
     created() {
         this.selected = this.id == 'nanoswarm' ? this.data[this.id].resource : null
+        this.automated = this.data[this.id].auto ? this.data[this.id].auto : null
     },
     computed: {
         ...mapState([
@@ -259,7 +271,7 @@ export default {
             'build', 'destroy', 'switchNano',
         ]),
         ...mapMutations([
-            'toggleCollapsed',
+            'toggleCollapsed', 'setAutoStorageUpgrade',
         ]),
     },
 }
