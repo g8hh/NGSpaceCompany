@@ -21,11 +21,17 @@
             </div>
         </div>
         <div v-for="cost in costs" :key="cost.id" class="row g-1">
-            <div class="col-auto d-flex align-items-center">
-                <img :src="require(`../assets/interface/${cost.id}.png`)" width="12" height="12" />
-            </div>
             <div class="col">
-                <small class="text-light">{{ $t(cost.id) }}</small>
+                <button class="text-light small" @click="setActivePane(cost.id + 'Pane')">
+                    <div class="row g-1">
+                        <div class="col-auto d-flex align-items-center">
+                            <img :src="require(`../assets/interface/${cost.id}.png`)" width="12" height="12" />
+                        </div>
+                        <div class="col">
+                            <span class="text-light">{{ $t(cost.id) }}</span>
+                        </div>
+                    </div>
+                </button>
             </div>
             <div class="col-auto">
                 <small v-if="!cost.timer || cost.timer > -2" class="text-uppercase text-light">{{ numeralFormat(cost.count.toPrecision(4), '0.[000]a') }}</small>
@@ -42,7 +48,14 @@
 </template>
 
 <script>
+import { mapMutations } from 'vuex'
+
 export default {
     props: [ 'costs', 'mod', 'id', 'calc' ],
+    methods: {
+        ...mapMutations([
+            'setActivePane',
+        ]),
+    },
 }
 </script>

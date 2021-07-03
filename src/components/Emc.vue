@@ -9,7 +9,7 @@
                         </div>
                         <div class="col-auto text-center">
                             <div class="small">{{ $t(data[id].source) }}</div>
-                            <div class="text-light">{{ numeralFormat(sourceCount, '0.[0]a') }}</div>
+                            <div class="text-light text-uppercase">{{ numeralFormat(sourceCount.toPrecision(4), '0.[000]a') }}</div>
                         </div>
                     </div>
                 </div>
@@ -23,7 +23,7 @@
                         </div>
                         <div class="col-auto text-center">
                             <div class="small">{{ $t(data[id].resource) }}</div>
-                            <div class="text-light">{{ numeralFormat(destinationCount, '0.[0]a') }}</div>
+                            <div class="text-light text-uppercase">{{ numeralFormat(destinationCount.toPrecision(4), '0.[000]a') }}</div>
                         </div>
                     </div>
                 </div>

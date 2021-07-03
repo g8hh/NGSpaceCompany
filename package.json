@@ -1,6 +1,6 @@
 {
   "name": "NGSpaceCompany",
-  "version": "1.20.3",
+  "version": "1.22.0",
   "private": true,
   "scripts": {
     "serve": "vue-cli-service serve",

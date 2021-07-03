@@ -41,37 +41,37 @@
 
                     <sidenav-group id="energyHeading" :unlocked="data['energy'].unlocked">
                         <sidenav-item id="energyPane" icon="energy.png" :unlocked="data['energy'].unlocked" :prod="data['energy'].prod" :problem="data['energy'].problem" />
-                        <sidenav-item id="batteryPane" icon="battery.png" :unlocked="data['energy'].unlocked" :count="data['energy'].count" :storage="data['energy'].storage" />
+                        <sidenav-item id="batteryPane" icon="battery.png" :unlocked="data['energy'].unlocked" :count="data['energy'].count" :storage="getStorageCap('energy')" :cap="data['energy'].storage" />
                     </sidenav-group>
 
                     <sidenav-group id="fabricatedHeading" :unlocked="data['carbon'].unlocked">
-                        <sidenav-item id="plasmaPane" icon="plasma.png" :unlocked="data['plasma'].unlocked" :prod="data['plasma'].prod" :count="data['plasma'].count" :storage="data['plasma'].storage" :problem="data['plasma'].problem" />
-                        <sidenav-item id="meteoritePane" icon="meteorite.png" :unlocked="data['meteorite'].unlocked" :prod="data['meteorite'].prod" :count="data['meteorite'].count" :storage="data['meteorite'].storage" :problem="data['meteorite'].problem" />
-                        <sidenav-item id="carbonPane" icon="carbon.png" :unlocked="data['carbon'].unlocked" :prod="data['carbon'].prod" :count="data['carbon'].count" :storage="data['carbon'].storage" :problem="data['carbon'].problem" />
+                        <sidenav-item id="plasmaPane" icon="plasma.png" :unlocked="data['plasma'].unlocked" :prod="data['plasma'].prod" :count="data['plasma'].count" :storage="getStorageCap('plasma')" :cap="data['plasma'].storage" :problem="data['plasma'].problem" />
+                        <sidenav-item id="meteoritePane" icon="meteorite.png" :unlocked="data['meteorite'].unlocked" :prod="data['meteorite'].prod" :count="data['meteorite'].count" :storage="getStorageCap('meteorite')" :cap="data['meteorite'].storage" :problem="data['meteorite'].problem" buildingStorageId="meteoriteS1" />
+                        <sidenav-item id="carbonPane" icon="carbon.png" :unlocked="data['carbon'].unlocked" :prod="data['carbon'].prod" :count="data['carbon'].count" :storage="getStorageCap('carbon')" :cap="data['carbon'].storage" :problem="data['carbon'].problem" buildingStorageId="carbonS1" />
                     </sidenav-group>
 
                     <sidenav-group id="earthResourcesHeading" :unlocked="data['metal'].unlocked">
-                        <sidenav-item id="oilPane" icon="oil.png" :unlocked="data['oil'].unlocked" :prod="data['oil'].prod" :count="data['oil'].count" :storage="data['oil'].storage" />
-                        <sidenav-item id="metalPane" icon="metal.png" :unlocked="data['metal'].unlocked" :prod="data['metal'].prod" :count="data['metal'].count" :storage="data['metal'].storage" />
-                        <sidenav-item id="gemPane" icon="gem.png" :unlocked="data['gem'].unlocked" :prod="data['gem'].prod" :count="data['gem'].count" :storage="data['gem'].storage" />
-                        <sidenav-item id="woodPane" icon="wood.png" :unlocked="data['wood'].unlocked" :prod="data['wood'].prod" :count="data['wood'].count" :storage="data['wood'].storage" />
-                        <sidenav-item id="siliconPane" icon="silicon.png" :unlocked="data['silicon'].unlocked" :prod="data['silicon'].prod" :count="data['silicon'].count" :storage="data['silicon'].storage" />
-                        <sidenav-item id="uraniumPane" icon="uranium.png" :unlocked="data['uranium'].unlocked" :prod="data['uranium'].prod" :count="data['uranium'].count" :storage="data['uranium'].storage" />
-                        <sidenav-item id="lavaPane" icon="lava.png" :unlocked="data['lava'].unlocked" :prod="data['lava'].prod" :count="data['lava'].count" :storage="data['lava'].storage" />
+                        <sidenav-item id="oilPane" icon="oil.png" :unlocked="data['oil'].unlocked" :prod="data['oil'].prod" :count="data['oil'].count" :storage="getStorageCap('oil')" :cap="data['oil'].storage" buildingStorageId="oilS1" />
+                        <sidenav-item id="metalPane" icon="metal.png" :unlocked="data['metal'].unlocked" :prod="data['metal'].prod" :count="data['metal'].count" :storage="getStorageCap('metal')" :cap="data['metal'].storage" buildingStorageId="metalS1" />
+                        <sidenav-item id="gemPane" icon="gem.png" :unlocked="data['gem'].unlocked" :prod="data['gem'].prod" :count="data['gem'].count" :storage="getStorageCap('gem')" :cap="data['gem'].storage" buildingStorageId="gemS1" />
+                        <sidenav-item id="woodPane" icon="wood.png" :unlocked="data['wood'].unlocked" :prod="data['wood'].prod" :count="data['wood'].count" :storage="getStorageCap('wood')" :cap="data['wood'].storage" buildingStorageId="woodS1" />
+                        <sidenav-item id="siliconPane" icon="silicon.png" :unlocked="data['silicon'].unlocked" :prod="data['silicon'].prod" :count="data['silicon'].count" :storage="getStorageCap('silicon')" :cap="data['silicon'].storage" buildingStorageId="siliconS1" />
+                        <sidenav-item id="uraniumPane" icon="uranium.png" :unlocked="data['uranium'].unlocked" :prod="data['uranium'].prod" :count="data['uranium'].count" :storage="getStorageCap('uranium')" :cap="data['uranium'].storage" buildingStorageId="uraniumS1" />
+                        <sidenav-item id="lavaPane" icon="lava.png" :unlocked="data['lava'].unlocked" :prod="data['lava'].prod" :count="data['lava'].count" :storage="getStorageCap('lava')" :cap="data['lava'].storage" buildingStorageId="lavaS1" />
                     </sidenav-group>
 
                     <sidenav-group id="innerResourcesHeading" :unlocked="data['lunarite'].unlocked">
-                        <sidenav-item id="lunaritePane" icon="lunarite.png" :unlocked="data['lunarite'].unlocked" :prod="data['lunarite'].prod" :count="data['lunarite'].count" :storage="data['lunarite'].storage" />
-                        <sidenav-item id="methanePane" icon="methane.png" :unlocked="data['methane'].unlocked" :prod="data['methane'].prod" :count="data['methane'].count" :storage="data['methane'].storage" />
-                        <sidenav-item id="titaniumPane" icon="titanium.png" :unlocked="data['titanium'].unlocked" :prod="data['titanium'].prod" :count="data['titanium'].count" :storage="data['titanium'].storage" />
-                        <sidenav-item id="goldPane" icon="gold.png" :unlocked="data['gold'].unlocked" :prod="data['gold'].prod" :count="data['gold'].count" :storage="data['gold'].storage" />
-                        <sidenav-item id="silverPane" icon="silver.png" :unlocked="data['silver'].unlocked" :prod="data['silver'].prod" :count="data['silver'].count" :storage="data['silver'].storage" />
+                        <sidenav-item id="lunaritePane" icon="lunarite.png" :unlocked="data['lunarite'].unlocked" :prod="data['lunarite'].prod" :count="data['lunarite'].count" :storage="getStorageCap('lunarite')" :cap="data['lunarite'].storage" buildingStorageId="lunariteS1" />
+                        <sidenav-item id="methanePane" icon="methane.png" :unlocked="data['methane'].unlocked" :prod="data['methane'].prod" :count="data['methane'].count" :storage="getStorageCap('methane')" :cap="data['methane'].storage" buildingStorageId="methaneS1" />
+                        <sidenav-item id="titaniumPane" icon="titanium.png" :unlocked="data['titanium'].unlocked" :prod="data['titanium'].prod" :count="data['titanium'].count" :storage="getStorageCap('titanium')" :cap="data['titanium'].storage" buildingStorageId="titaniumS1" />
+                        <sidenav-item id="goldPane" icon="gold.png" :unlocked="data['gold'].unlocked" :prod="data['gold'].prod" :count="data['gold'].count" :storage="getStorageCap('gold')" :cap="data['gold'].storage" buildingStorageId="goldS1" />
+                        <sidenav-item id="silverPane" icon="silver.png" :unlocked="data['silver'].unlocked" :prod="data['silver'].prod" :count="data['silver'].count" :storage="getStorageCap('silver')" :cap="data['silver'].storage" buildingStorageId="silverS1" />
                     </sidenav-group>
 
                     <sidenav-group id="outerResourcesHeading" :unlocked="data['hydrogen'].unlocked">
-                        <sidenav-item id="hydrogenPane" icon="hydrogen.png" :unlocked="data['hydrogen'].unlocked" :prod="data['hydrogen'].prod" :count="data['hydrogen'].count" :storage="data['hydrogen'].storage" />
-                        <sidenav-item id="heliumPane" icon="helium.png" :unlocked="data['helium'].unlocked" :prod="data['helium'].prod" :count="data['helium'].count" :storage="data['helium'].storage" />
-                        <sidenav-item id="icePane" icon="ice.png" :unlocked="data['ice'].unlocked" :prod="data['ice'].prod" :count="data['ice'].count" :storage="data['ice'].storage" />
+                        <sidenav-item id="hydrogenPane" icon="hydrogen.png" :unlocked="data['hydrogen'].unlocked" :prod="data['hydrogen'].prod" :count="data['hydrogen'].count" :storage="getStorageCap('hydrogen')" :cap="data['hydrogen'].storage" buildingStorageId="hydrogenS1" />
+                        <sidenav-item id="heliumPane" icon="helium.png" :unlocked="data['helium'].unlocked" :prod="data['helium'].prod" :count="data['helium'].count" :storage="getStorageCap('helium')" :cap="data['helium'].storage" buildingStorageId="heliumS1" />
+                        <sidenav-item id="icePane" icon="ice.png" :unlocked="data['ice'].unlocked" :prod="data['ice'].prod" :count="data['ice'].count" :storage="getStorageCap('ice')" :cap="data['ice'].storage" buildingStorageId="iceS1" />
                     </sidenav-group>
 
                     <sidenav-group id="researchesHeading" :unlocked="data['science'].unlocked">
@@ -100,7 +100,7 @@
                     </sidenav-group>
 
                     <sidenav-group id="interstellarHeading" :unlocked="data['radarT1'].unlocked || data['antimatter'].unlocked || data['spaceship'].unlocked || data['shipT1'].unlocked">
-                        <sidenav-item id="antimatterPane" icon="antimatter.png" :unlocked="data['antimatter'].unlocked" :prod="data['antimatter'].prod" :count="data['antimatter'].count" :storage="data['antimatter'].storage" />
+                        <sidenav-item id="antimatterPane" icon="antimatter.png" :unlocked="data['antimatter'].unlocked" :prod="data['antimatter'].prod" :count="data['antimatter'].count" :storage="getStorageCap('antimatter')" />
                         <sidenav-item id="communicationPane" icon="communication.png" :unlocked="data['radarT1'].unlocked" />
                         <sidenav-item id="spaceshipPane" icon="spaceship.png" :unlocked="data['spaceship'].unlocked" :done="data['spaceship'].count > 0" doneText="built" />
                         <sidenav-item id="militaryPane" icon="military.png" :unlocked="data['shipT1'].unlocked" />
@@ -270,7 +270,7 @@
                     <!-- METEORITE PANE -->
                     <pane id="meteoritePane" icon="meteorite.png" :descs="['meteoritePane_desc']" pinnable="meteorite">
                         <resource id="meteorite" />
-                        <buildable id="meteoriteS1" btnText="upgrade" collapse="true" />
+                        <buildable id="meteoriteS1" btnText="upgrade" collapse="true" unlocker="techStorage" autoUpgradeStorage="true" />
                         <buildable id="meteoriteT1" btnText="build" collapse="true" :multibuy="data['multiBuy'].count > 0" calc="true" unlocker="techMeteorite1" />
                         <buildable id="meteoriteT2" btnText="build" collapse="true" :multibuy="data['multiBuy'].count > 0" calc="true" unlocker="techMeteorite2" />
                         <buildable id="meteoriteT3" btnText="build" collapse="true" :multibuy="data['multiBuy'].count > 0" calc="true" unlocker="techMeteorite3" />
@@ -280,7 +280,7 @@
                     <!-- CARBON PANE -->
                     <pane id="carbonPane" icon="carbon.png" :descs="['carbonPane_desc']" pinnable="carbon">
                         <resource id="carbon" />
-                        <buildable id="carbonS1" btnText="upgrade" collapse="true" unlocker="techStorage" />
+                        <buildable id="carbonS1" btnText="upgrade" collapse="true" unlocker="techStorage" autoUpgradeStorage="true" />
                         <buildable id="carbonT1" btnText="build" collapse="true" :multibuy="data['multiBuy'].count > 0" calc="true" />
                         <buildable id="carbonT2" btnText="build" collapse="true" :multibuy="data['multiBuy'].count > 0" calc="true" unlocker="techTier2" />
                         <buildable id="carbonT3" btnText="build" collapse="true" :multibuy="data['multiBuy'].count > 0" calc="true" unlocker="wonderTechnological1" />
@@ -291,7 +291,7 @@
                     <!-- OIL PANE -->
                     <pane id="oilPane" icon="oil.png" :descs="['oilPane_desc']" pinnable="oil">
                         <resource id="oil" />
-                        <buildable id="oilS1" btnText="upgrade" collapse="true" unlocker="techStorage" />
+                        <buildable id="oilS1" btnText="upgrade" collapse="true" unlocker="techStorage" autoUpgradeStorage="true" />
                         <buildable id="oilT1" btnText="build" collapse="true" :multibuy="data['multiBuy'].count > 0" calc="true" />
                         <buildable id="oilT2" btnText="build" collapse="true" :multibuy="data['multiBuy'].count > 0" calc="true" unlocker="techTier2" />
                         <buildable id="oilT3" btnText="build" collapse="true" :multibuy="data['multiBuy'].count > 0" calc="true" unlocker="wonderTechnological1" />
@@ -313,7 +313,7 @@
                     <!-- GEM PANE -->
                     <pane id="gemPane" icon="gem.png" :descs="['gemPane_desc']" pinnable="gem">
                         <resource id="gem" />
-                        <buildable id="gemS1" btnText="upgrade" collapse="true" unlocker="techStorage" />
+                        <buildable id="gemS1" btnText="upgrade" collapse="true" unlocker="techStorage" autoUpgradeStorage="true" />
                         <buildable id="gemT1" btnText="build" collapse="true" :multibuy="data['multiBuy'].count > 0" calc="true" />
                         <buildable id="gemT2" btnText="build" collapse="true" :multibuy="data['multiBuy'].count > 0" calc="true" unlocker="techTier2" />
                         <buildable id="gemT3" btnText="build" collapse="true" :multibuy="data['multiBuy'].count > 0" calc="true" unlocker="wonderTechnological1" />
@@ -324,7 +324,7 @@
                     <!-- WOOD PANE -->
                     <pane id="woodPane" icon="wood.png" :descs="['woodPane_desc']" pinnable="wood">
                         <resource id="wood" />
-                        <buildable id="woodS1" btnText="upgrade" collapse="true" unlocker="techStorage" />
+                        <buildable id="woodS1" btnText="upgrade" collapse="true" unlocker="techStorage" autoUpgradeStorage="true" />
                         <buildable id="woodT1" btnText="build" collapse="true" :multibuy="data['multiBuy'].count > 0" calc="true" />
                         <buildable id="woodT2" btnText="build" collapse="true" :multibuy="data['multiBuy'].count > 0" calc="true" unlocker="techTier2" />
                         <buildable id="woodT3" btnText="build" collapse="true" :multibuy="data['multiBuy'].count > 0" calc="true" unlocker="wonderTechnological1" />
@@ -335,7 +335,7 @@
                     <!-- SILICON PANE -->
                     <pane id="siliconPane" icon="silicon.png" :descs="['siliconPane_desc']" pinnable="silicon">
                         <resource id="silicon" />
-                        <buildable id="siliconS1" btnText="upgrade" collapse="true" unlocker="techStorage" />
+                        <buildable id="siliconS1" btnText="upgrade" collapse="true" unlocker="techStorage" autoUpgradeStorage="true" />
                         <buildable id="siliconT1" btnText="build" collapse="true" :multibuy="data['multiBuy'].count > 0" calc="true" />
                         <buildable id="siliconT2" btnText="build" collapse="true" :multibuy="data['multiBuy'].count > 0" calc="true" unlocker="techTier2" />
                         <buildable id="siliconT3" btnText="build" collapse="true" :multibuy="data['multiBuy'].count > 0" calc="true" unlocker="wonderTechnological1" />
@@ -346,7 +346,7 @@
                     <!-- URANIUM PANE -->
                     <pane id="uraniumPane" icon="uranium.png" :descs="['uraniumPane_desc']" pinnable="uranium">
                         <resource id="uranium" />
-                        <buildable id="uraniumS1" btnText="upgrade" collapse="true" unlocker="techStorage" />
+                        <buildable id="uraniumS1" btnText="upgrade" collapse="true" unlocker="techStorage" autoUpgradeStorage="true" />
                         <buildable id="uraniumT1" btnText="build" collapse="true" :multibuy="data['multiBuy'].count > 0" calc="true" />
                         <buildable id="uraniumT2" btnText="build" collapse="true" :multibuy="data['multiBuy'].count > 0" calc="true" unlocker="techTier2" />
                         <buildable id="uraniumT3" btnText="build" collapse="true" :multibuy="data['multiBuy'].count > 0" calc="true" unlocker="wonderTechnological1" />
@@ -357,7 +357,7 @@
                     <!-- LAVA PANE -->
                     <pane id="lavaPane" icon="lava.png" :descs="['lavaPane_desc']" pinnable="lava">
                         <resource id="lava" />
-                        <buildable id="lavaS1" btnText="upgrade" collapse="true" unlocker="techStorage" />
+                        <buildable id="lavaS1" btnText="upgrade" collapse="true" unlocker="techStorage" autoUpgradeStorage="true" />
                         <buildable id="lavaT1" btnText="build" collapse="true" :multibuy="data['multiBuy'].count > 0" calc="true" />
                         <buildable id="lavaT2" btnText="build" collapse="true" :multibuy="data['multiBuy'].count > 0" calc="true" unlocker="techTier2" />
                         <buildable id="lavaT3" btnText="build" collapse="true" :multibuy="data['multiBuy'].count > 0" calc="true" unlocker="wonderTechnological1" />
@@ -368,7 +368,7 @@
                     <!-- LUNARITE PANE -->
                     <pane id="lunaritePane" icon="lunarite.png" :descs="['lunaritePane_desc']" pinnable="lunarite">
                         <resource id="lunarite" />
-                        <buildable id="lunariteS1" btnText="upgrade" collapse="true" unlocker="techStorage" />
+                        <buildable id="lunariteS1" btnText="upgrade" collapse="true" unlocker="techStorage" autoUpgradeStorage="true" />
                         <buildable id="lunariteT1" btnText="build" collapse="true" :multibuy="data['multiBuy'].count > 0" calc="true" />
                         <buildable id="lunariteT2" btnText="build" collapse="true" :multibuy="data['multiBuy'].count > 0" calc="true" unlocker="techTier2" />
                         <buildable id="lunariteT3" btnText="build" collapse="true" :multibuy="data['multiBuy'].count > 0" calc="true" unlocker="wonderTechnological1" />
@@ -379,7 +379,7 @@
                     <!-- METHANE PANE -->
                     <pane id="methanePane" icon="methane.png" :descs="['methanePane_desc']" pinnable="methane">
                         <resource id="methane" />
-                        <buildable id="methaneS1" btnText="upgrade" collapse="true" unlocker="techStorage" />
+                        <buildable id="methaneS1" btnText="upgrade" collapse="true" unlocker="techStorage" autoUpgradeStorage="true" />
                         <buildable id="methaneT1" btnText="build" collapse="true" :multibuy="data['multiBuy'].count > 0" calc="true" />
                         <buildable id="methaneT2" btnText="build" collapse="true" :multibuy="data['multiBuy'].count > 0" calc="true" unlocker="techTier2" />
                         <buildable id="methaneT3" btnText="build" collapse="true" :multibuy="data['multiBuy'].count > 0" calc="true" unlocker="wonderTechnological1" />
@@ -390,7 +390,7 @@
                     <!-- TITANIUM PANE -->
                     <pane id="titaniumPane" icon="titanium.png" :descs="['titaniumPane_desc']" pinnable="titanium">
                         <resource id="titanium" />
-                        <buildable id="titaniumS1" btnText="upgrade" collapse="true" unlocker="techStorage" />
+                        <buildable id="titaniumS1" btnText="upgrade" collapse="true" unlocker="techStorage" autoUpgradeStorage="true" />
                         <buildable id="titaniumT1" btnText="build" collapse="true" :multibuy="data['multiBuy'].count > 0" calc="true" />
                         <buildable id="titaniumT2" btnText="build" collapse="true" :multibuy="data['multiBuy'].count > 0" calc="true" unlocker="techTier2" />
                         <buildable id="titaniumT3" btnText="build" collapse="true" :multibuy="data['multiBuy'].count > 0" calc="true" unlocker="wonderTechnological1" />
@@ -401,7 +401,7 @@
                     <!-- GOLD PANE -->
                     <pane id="goldPane" icon="gold.png" :descs="['goldPane_desc']" pinnable="gold">
                         <resource id="gold" />
-                        <buildable id="goldS1" btnText="upgrade" collapse="true" unlocker="techStorage" />
+                        <buildable id="goldS1" btnText="upgrade" collapse="true" unlocker="techStorage" autoUpgradeStorage="true" />
                         <buildable id="goldT1" btnText="build" collapse="true" :multibuy="data['multiBuy'].count > 0" calc="true" />
                         <buildable id="goldT2" btnText="build" collapse="true" :multibuy="data['multiBuy'].count > 0" calc="true" unlocker="techTier2" />
                         <buildable id="goldT3" btnText="build" collapse="true" :multibuy="data['multiBuy'].count > 0" calc="true" unlocker="wonderTechnological1" />
@@ -412,7 +412,7 @@
                     <!-- SILVER PANE -->
                     <pane id="silverPane" icon="silver.png" :descs="['silverPane_desc']" pinnable="silver">
                         <resource id="silver" />
-                        <buildable id="silverS1" btnText="upgrade" collapse="true" unlocker="techStorage" />
+                        <buildable id="silverS1" btnText="upgrade" collapse="true" unlocker="techStorage" autoUpgradeStorage="true" />
                         <buildable id="silverT1" btnText="build" collapse="true" :multibuy="data['multiBuy'].count > 0" calc="true" />
                         <buildable id="silverT2" btnText="build" collapse="true" :multibuy="data['multiBuy'].count > 0" calc="true" unlocker="techTier2" />
                         <buildable id="silverT3" btnText="build" collapse="true" :multibuy="data['multiBuy'].count > 0" calc="true" unlocker="wonderTechnological1" />
@@ -423,7 +423,7 @@
                     <!-- HYDROGEN PANE -->
                     <pane id="hydrogenPane" icon="hydrogen.png" :descs="['hydrogenPane_desc']" pinnable="hydrogen">
                         <resource id="hydrogen" />
-                        <buildable id="hydrogenS1" btnText="upgrade" collapse="true" unlocker="techStorage" />
+                        <buildable id="hydrogenS1" btnText="upgrade" collapse="true" unlocker="techStorage" autoUpgradeStorage="true" />
                         <buildable id="hydrogenT1" btnText="build" collapse="true" :multibuy="data['multiBuy'].count > 0" calc="true" />
                         <buildable id="hydrogenT2" btnText="build" collapse="true" :multibuy="data['multiBuy'].count > 0" calc="true" unlocker="techTier2" />
                         <buildable id="hydrogenT3" btnText="build" collapse="true" :multibuy="data['multiBuy'].count > 0" calc="true" unlocker="wonderTechnological1" />
@@ -434,7 +434,7 @@
                     <!-- HELIUM PANE -->
                     <pane id="heliumPane" icon="helium.png" :descs="['heliumPane_desc']" pinnable="helium">
                         <resource id="helium" />
-                        <buildable id="heliumS1" btnText="upgrade" collapse="true" unlocker="techStorage" />
+                        <buildable id="heliumS1" btnText="upgrade" collapse="true" unlocker="techStorage" autoUpgradeStorage="true" />
                         <buildable id="heliumT1" btnText="build" collapse="true" :multibuy="data['multiBuy'].count > 0" calc="true" />
                         <buildable id="heliumT2" btnText="build" collapse="true" :multibuy="data['multiBuy'].count > 0" calc="true" unlocker="techTier2" />
                         <buildable id="heliumT3" btnText="build" collapse="true" :multibuy="data['multiBuy'].count > 0" calc="true" unlocker="wonderTechnological1" />
@@ -445,7 +445,7 @@
                     <!-- ICE PANE -->
                     <pane id="icePane" icon="ice.png" :descs="['icePane_desc']" pinnable="ice">
                         <resource id="ice" />
-                        <buildable id="iceS1" btnText="upgrade" collapse="true" unlocker="techStorage" />
+                        <buildable id="iceS1" btnText="upgrade" collapse="true" unlocker="techStorage" autoUpgradeStorage="true" />
                         <buildable id="iceT1" btnText="build" collapse="true" :multibuy="data['multiBuy'].count > 0" calc="true" />
                         <buildable id="iceT2" btnText="build" collapse="true" :multibuy="data['multiBuy'].count > 0" calc="true" unlocker="techTier2" />
                         <buildable id="iceT3" btnText="build" collapse="true" :multibuy="data['multiBuy'].count > 0" calc="true" unlocker="wonderTechnological1" />
@@ -799,7 +799,7 @@
                     </pane>
 
                     <!-- ULTRITE PANE -->
-                    <pane id="ultritePane" icon="ultrite.png" :descs="['ultritePane_desc']">
+                    <pane id="ultritePane" icon="ultrite.png" :descs="['ultritePane_desc1', 'ultritePane_desc2', 'ultritePane_desc3', 'ultritePane_desc4', 'ultritePane_desc5']">
                         <card id="ultrite" :descs="['ultrite_desc']" checked="true">
                             <div class="col-12">
                                 <div class="heading-6">{{ $t('ulStars') }} <span class="text-light">{{ getULStars }}</span></div>
@@ -849,8 +849,12 @@
 
                     <!-- UPGRADES PANE -->
                     <pane id="upgradesPane" icon="upgrades.png">
-                        <buildable id="techNanoswarm0" btnText="activate" />
+                        <buildable id="advUpgradeStorage1" btnText="activate" />
+                        <buildable id="shipSpeedEnhancement" btnText="activate" />
+                        <buildable id="shipDefenceEnhancement" btnText="activate" />
+                        <buildable id="shipPowerEnhancement" btnText="activate" />
                         <buildable id="techAutoStorageUpgrade" btnText="activate" />
+                        <buildable id="techNanoswarm0" btnText="activate" />
                     </pane>
                     <!-- DONATING PANE -->
                     <pane id="donatingPane" icon="donating.png" :descs="['donatingPane_desc1', 'donatingPane_desc2']">
@@ -1729,6 +1733,30 @@
                             <span class="h6 text-light">{{ $t('changeLog') }}</span>
                         </div>
                         <div class="col-12 border-top">
+                            <div class="text-light">v1.22.0 - 2021-07-02</div>
+                            <ul class="small">
+                                <li>FIX: auto-storage upgrade works on all resources (again)</li>
+                                <li>FIX: display storage upgrade button only when tech storage is done</li>
+                                <li>FIX: removed tooltip on storage upgrade button on left side</li>
+                                <li>CHANGE: updated cost of nanoswarm and auto upgrade storage ultrite prices</li>
+                                <li>NEW: display resource count in specific color when your store resource in another dimension</li>
+                                <li>NEW: advanced storage discount ultrite upgrade</li>
+                                <li>NEW: 3 ship enhancement ultrite upgrades</li>
+                            </ul>
+                        </div>
+                        <div class="col-12 border-top">
+                            <div class="text-light">v1.21.0 - 2021-07-02</div>
+                            <ul class="small">
+                                <li>FIX: now quasar redirection system is working well</li>
+                                <li>FIX: dimensional rift is taken into account in storage cap displaying</li>
+                                <li>FIX: dimensional rift is taken into account in EMC</li>
+                                <li>FIX: multy-buy buttons are displayed on 1 row</li>
+                                <li>FIX: auto-storage upgrade works on all resources</li>
+                                <li>NEW: small button to upgrade storage in left side menu</li>
+                                <li>NEW: dyson items achievements</li>
+                            </ul>
+                        </div>
+                        <div class="col-12 border-top">
                             <div class="text-light">v1.20.3 - 2021-07-01</div>
                             <ul class="small">
                                 <li>FIX: fixed issue with data exporting</li>
@@ -2059,7 +2087,7 @@ export default {
             enlightenModal: null,
             enlightenSelected: null,
 
-            currentRelease: '1.20.3',
+            currentRelease: '1.22.0',
             ghLatestRelease: null,
 
             login: null,
@@ -2088,6 +2116,7 @@ export default {
             'getThreat', 'getSpyChance', 'getInvadeChance', 'getStarPower', 'getStarDefense', 'getStarSpeed',
             'getDMWonders', 'getDMSpheres', 'getDMResearches', 'getDMRank', 'getDMSwarms', 'getPotentialDM',
             'getULStars', 'getULDarkmatter', 'getULSpheres', 'getPotentialUL',
+            'getStorageCap',
         ]),
     },
     created() {

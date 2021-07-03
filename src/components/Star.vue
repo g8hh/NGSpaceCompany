@@ -17,11 +17,11 @@
                 </div>
                 
                 <div v-if="data[id].unlocked && data[id].status == 'owned'" class="card card-body">
-                    <div class="row g-1">
+                    <div class="row g-3">
                         <div class="col-auto">
                             <span class="h6 text-light">{{ $t(data[id].id) }}</span>
                         </div>
-                        <div v-if="data[id].donor" class="col-auto ps-0 d-flex align-items-center small">
+                        <div v-if="data[id].donor" class="col-auto d-flex align-items-center small">
                             <i class="fas fa-fw fa-star text-donor me-1"></i>
                             <span>{{ $t('donorStar') }}</span>
                         </div>
@@ -66,7 +66,7 @@
                                 <div class="col-auto">
                                     <span class="h6 text-light">{{ $t(data[id].id) }}</span>
                                 </div>
-                                <div v-if="data[id].donor" class="col-auto ps-0 d-flex align-items-center small">
+                                <div v-if="data[id].donor" class="col-auto d-flex align-items-center small">
                                     <i class="fas fa-fw fa-star text-donor me-1"></i>
                                     <span>{{ $t('donorStar') }}</span>
                                 </div>

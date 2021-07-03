@@ -94,6 +94,7 @@ body {
 .text-normal { color: #8c949a!important; }
 .text-timer { color: #f5f500!important; }
 .text-donor { color: #f500f5!important; }
+.text-excess { color: #e65cfd!important; }
 
 .cursor-hover:hover { cursor: pointer; }
 
@@ -190,6 +191,10 @@ button {
 }
 
 .btn:hover, .btn:focus { color: #f5f5f5; box-shadow: 0 0 0 0.25rem rgba(255,255,255,.25); border: 1px solid rgba(255,255,255,1); }
+
+.btn-small {
+    padding: .125rem .25rem;
+}
 
 .btn-close { font-size: .875em; }
 

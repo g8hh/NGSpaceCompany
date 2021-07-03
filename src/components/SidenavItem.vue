@@ -11,23 +11,28 @@
                 <div class="col">
                     {{ $t(id) }}
                 </div>
-                <div v-if="prod != null" class="col-auto text-end">
+                <div v-if="prod != null" class="col-auto text-end small">
                     <i v-if="problem" class="small me-1 fas fa-fw fa-exclamation-triangle text-danger"></i>
                     <small class="text-uppercase" :class="{ 'text-danger':prod < 0, 'text-normal':prod == 0, 'text-success':prod > 0 }">
                         <span v-if="prod > 0">+</span>{{ numeralFormat(prod.toPrecision(4), '0.[000]a') }}
                     </small>
                     <small class="text-normal ms-1">/s</small>
                 </div>
-                <div v-if="count != null" class="col-auto text-end" style="width:110px;">
-                    <small class="text-uppercase" :class="{ 'text-light':(count > 0 && (!storage || count < storage)), 'text-normal':count == 0, 'text-danger':count < 0, 'text-success':storage && count >= storage }">{{ numeralFormat(count.toPrecision(4), '0.[000]a') }}</small>
+                <div v-if="count != null" class="col-auto text-end small" style="width:90px;">
+                    <small class="text-uppercase" :class="{ 'text-light':(count > 0 && (!cap || count < cap)), 'text-normal':count == 0, 'text-danger':count < 0, 'text-excess':cap && count >= cap && count < storage, 'text-success':storage && count >= storage }">{{ numeralFormat(count.toPrecision(4), '0.[000]a') }}</small>
                     <small v-if="storage" class="text-uppercase text-normal ms-1">/{{ numeralFormat(storage.toPrecision(4), '0.[000]a') }}</small>
                     <small v-if="potential >= 0" class="text-normal ms-1">({{ potential }})</small>
                 </div>
-                <div v-if="opinion != null" class="col-auto text-end">
+                <div v-if="opinion != null" class="col-auto text-end small">
                     <small :class="{ 'text-light':opinion > 0, 'text-normal':opinion == 0, 'text-danger':opinion < 0 }">{{ opinion }}</small>
                 </div>
                 <div v-if="done" class="col-auto text-end small">
                     <small class="text-success text-uppercase">{{ $t(doneText) }}</small>
+                </div>
+                <div v-if="buildingStorageId && data['techStorage'].count > 0" class="col-auto">
+                    <button :id="'tpUpgradeStorage' + buildingStorageId" class="btn btn-small" :class="{ 'disabled text-muted':!canBuild(buildingStorageId) }" @click.stop="build({id:buildingStorageId, count:1})">
+                        <i class="fas fa-fw fa-arrow-alt-circle-up"></i>
+                    </button>
                 </div>
             </div>
         </button>
@@ -51,22 +56,36 @@
 </style>
 
 <script>
-import { mapState, mapGetters, mapMutations } from 'vuex'
+import { Tooltip } from 'bootstrap'
+
+import { mapState, mapGetters, mapMutations, mapActions } from 'vuex'
 
 export default {
-    props: [ 'id', 'unlocked', 'icon', 'prod', 'count', 'storage', 'opinion', 'done', 'doneText', 'potential', 'problem' ],
+    props: [ 'id', 'unlocked', 'icon', 'prod', 'count', 'cap', 'storage', 'opinion', 'done', 'doneText', 'potential', 'problem', 'buildingStorageId' ],
     computed: {
         ...mapState([        
-            'activePane',
+            'data', 'activePane',
         ]),
         ...mapGetters([  
-            'isNotif',
+            'isNotif', 'canBuild',
         ]),
     },
     methods: {
         ...mapMutations([
             'setActivePane',
         ]),
+        ...mapActions([
+            'build',
+        ]),
+    },
+    created() {
+        this.$nextTick(() => {
+            let element = document.getElementById('tpUpgradeStorage' + this.buildingStorageId)
+            if (element) this.tpUpgradeStorage = new Tooltip(element)
+        })
+    },
+    beforeUnmount() {
+        delete this.tpUpgradeStorage
     },
 }
 </script>
