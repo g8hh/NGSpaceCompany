@@ -36,7 +36,7 @@
                 <div class="row gx-2 gy-3 row-cols-1">
 
                     <sidenav-group id="pinnedHeading" :unlocked="displayPinnedItems == true">
-                        <sidenav-item v-for="pane in pinned" :key="pane.id" :id="pane.id" :icon="pane.icon" unlocked="true" :prod="data[pane.resId].prod" :count="data[pane.resId].count" :storage="data[pane.resId].storage" :problem="data[pane.resId].problem" />
+                        <sidenav-item v-for="pane in pinned" :key="pane.id" :id="pane.id" :icon="pane.icon" unlocked="true" :prod="data[pane.resId].prod" :count="data[pane.resId].count" :storage="getStorageCap(pane.resId)" :cap="data[pane.resId].storage" :problem="data[pane.resId].problem" />
                     </sidenav-group>
 
                     <sidenav-group id="energyHeading" :unlocked="data['energy'].unlocked">
@@ -97,6 +97,7 @@
                         <sidenav-item id="solCenterPane" icon="solCenter.png" :unlocked="data['techPlasma0'].unlocked" :done="data['techPlasma0'].count > 0 && data['techEmc0'].count > 0 && data['techDyson0'].count > 0" doneText="done" />
                         <sidenav-item id="emcPane" icon="emc.png" :unlocked="data['emc'].unlocked" />
                         <sidenav-item id="dysonPane" icon="dyson.png" :unlocked="data['segment'].unlocked" />
+                        <sidenav-item id="nanoswarmPane" icon="nanoswarm.png" :unlocked="data['nanoswarm'].unlocked" />
                     </sidenav-group>
 
                     <sidenav-group id="interstellarHeading" :unlocked="data['radarT1'].unlocked || data['antimatter'].unlocked || data['spaceship'].unlocked || data['shipT1'].unlocked">
@@ -104,11 +105,13 @@
                         <sidenav-item id="communicationPane" icon="communication.png" :unlocked="data['radarT1'].unlocked" />
                         <sidenav-item id="spaceshipPane" icon="spaceship.png" :unlocked="data['spaceship'].unlocked" :done="data['spaceship'].count > 0" doneText="built" />
                         <sidenav-item id="militaryPane" icon="military.png" :unlocked="data['shipT1'].unlocked" />
+                        <sidenav-item id="terraformingPane" icon="terraforming.png" :unlocked="data['probe'].unlocked" />
                         <sidenav-item id="interstellarCarnelianPane" icon="carnelian.png" :unlocked="data['spaceship'].count > 0" :opinion="data['carnelian'].opinion" />
                         <sidenav-item id="interstellarPrasnianPane" icon="prasnian.png" :unlocked="data['spaceship'].count > 0" :opinion="data['prasnian'].opinion" />
                         <sidenav-item id="interstellarHyacinitePane" icon="hyacinite.png" :unlocked="data['spaceship'].count > 0" :opinion="data['hyacinite'].opinion" />
                         <sidenav-item id="interstellarKitrinosPane" icon="kitrinos.png" :unlocked="data['spaceship'].count > 0" :opinion="data['kitrinos'].opinion" />
                         <sidenav-item id="interstellarMovitonPane" icon="moviton.png" :unlocked="data['spaceship'].count > 0" :opinion="data['moviton'].opinion" />
+                        <sidenav-item id="interstellarOverlordPane" icon="overlord.png" :unlocked="data['overlordProgram'].count > 0" />
                     </sidenav-group>
 
                     <sidenav-group id="stargazeHeading" :unlocked="data['darkmatter'].unlocked">
@@ -632,6 +635,11 @@
                         <buildable id="dysonT3" btnText="build" />
                     </pane>
 
+                    <!-- NANOSWARM PANE -->
+                    <pane id="nanoswarmPane" icon="nanoswarm.png">
+                        <buildable id="nanoswarm" btnText="build" />
+                    </pane>
+
                     <!-- ANTIMATTER PANE -->
                     <pane id="antimatterPane" icon="antimatter.png" :descs="['antimatterPane_desc']" pinnable="antimatter">
                         <buildable id="antimatterT1" btnText="build" />
@@ -646,9 +654,9 @@
                     <!-- SPACESHIP PANE -->
                     <pane id="spaceshipPane" icon="spaceship.png" :descs="['spaceshipPane_desc']">
                         <buildable id="spaceship" btnText="build" />
-                        <buildable id="shield" btnText="build" />
-                        <buildable id="engine" btnText="build" />
-                        <buildable id="aero" btnText="build" />
+                        <buildable id="shield" btnText="build" calc="true" />
+                        <buildable id="engine" btnText="build" calc="true" />
+                        <buildable id="aero" btnText="build" calc="true" />
                     </pane>
 
                     <!-- MILITARY PANE -->
@@ -659,6 +667,12 @@
                         <buildable id="shipT3" btnText="build" />
                         <buildable id="shipT4" btnText="build" />
                         <buildable id="shipT5" btnText="build" />
+                    </pane>
+
+                    <!-- TERRAFORMING PANE -->
+                    <pane id="terraformingPane" icon="terraforming.png" :descs="['terraformingPane_desc']">
+                        <buildable id="probe" btnText="build" />
+                        <buildable id="terraformer" btnText="build" />
                     </pane>
 
                     <!-- INTERSTELLAR CARNELIAN PANE -->
@@ -710,6 +724,29 @@
                         <star id="star168302" /> <star id="star128901" /> <star id="star68401"  /> <star id="star30701"  /> <star id="star193402" /> <star id="star84201"  />
                         <star id="star76401"  /> <star id="star32301"  /> <star id="star191401" /> <star id="star118301" /> <star id="star166901" /> <star id="star62901"  />
                         <star id="star21601"  /> <star id="star63801"  /> <star id="star187202" />
+                    </pane>
+
+                    <!-- INTERSTELLAR OVERLORD PANE -->
+                    <pane id="interstellarOverlordPane" icon="overlord.png" :descs="['interstellarOverlordPane_desc']">
+                        <card id="overlordStatues">
+                            <div class="col-12">
+                                <small>{{ 150 - getStatuesCount }} {{ $t('remainingStatues') }}</small>
+                                <div class="progress">
+                                    <div class="progress-bar progress-bar-striped progress-bar-animated" :style="'width: ' + (getStatuesCount / 150) + '%'">
+                                        <div class="small">
+                                            <span>{{ getStatuesCount / 150 }}%</span>
+                                            <span class="ms-1">{{ getStatuesCount }}</span>
+                                            <small>/150</small>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-12 text-end">
+                                <button class="btn btn-warning" :class="{ 'disabled':getStatuesCount < 150 }" @click="overlordModal.show()">
+                                    {{ $t('meetOverlord') }}
+                                </button>
+                            </div>
+                        </card>
                     </pane>
 
                     <!-- DARKMATTER PANE -->
@@ -810,8 +847,8 @@
                                 <div class="small"><span>{{ $t('ulDarkmatter_desc') }}</span></div>
                             </div>
                             <div class="col-12">
-                                <div class="heading-6">{{ $t('ulSpheres') }} <span class="text-light">{{ getULSpheres }}</span></div>
-                                <div class="small"><span>{{ $t('ulSpheres_desc') }}</span></div>
+                                <div class="heading-6">{{ $t('ulStatues') }} <span class="text-light">{{ getULStatues }}</span></div>
+                                <div class="small"><span>{{ $t('ulStatues_desc') }}</span></div>
                             </div>
                         </card>
                         <card id="enlighten" :descs="['enlighten_desc']" checked="true">
@@ -849,6 +886,7 @@
 
                     <!-- UPGRADES PANE -->
                     <pane id="upgradesPane" icon="upgrades.png">
+                        <buildable id="overlordProgram" btnText="activate" />
                         <buildable id="advUpgradeStorage1" btnText="activate" />
                         <buildable id="shipSpeedEnhancement" btnText="activate" />
                         <buildable id="shipDefenceEnhancement" btnText="activate" />
@@ -1207,6 +1245,7 @@
                                     <div class="col-auto"><small class="text-donor">Automaton_2000</small></div>
                                     <div class="col-auto"><small class="text-donor">Gar the Blind Chipmunk</small></div>
                                     <div class="col-auto"><small class="text-donor">Aegis</small></div>
+                                    <div class="col-auto"><small class="text-donor">FatBlock</small></div>
                                 </div>
                             </div>
                         </card>
@@ -1723,6 +1762,41 @@
         </div>
     </div>
 
+    <!-- OVERLORD MODAL -->
+    <div v-if="loaded" id="overlordModal" class="modal fade">
+        <div class="modal-dialog modal-dialog-scrollable" role="dialog">
+            <div class="modal-content">
+                <div class="modal-body">
+                    <div v-if="defeat != true" class="row g-2">
+                        <div class="col-12">
+                            <span class="h6 text-normal">{{ $t('overlordModal') }}</span>
+                        </div>
+                        <div class="col-12">
+                            <span class="text-light">{{ $t('overlordModal_text1') }}</span>
+                        </div>
+                        <div class="col-12 text-end">
+                            <button class="btn" @click="defeat = true">{{ $t('next') }}</button>
+                        </div>
+                    </div>
+                    <div v-if="defeat == true" class="row g-2">
+                        <div class="col-12">
+                            <span class="h6 text-normal">{{ $t('overlordModal') }}</span>
+                        </div>
+                        <div class="col-12">
+                            <span class="text-light">{{ $t('overlordModal_text2') }}</span>
+                        </div>
+                        <div class="col-12">
+                            <span class="text-light">{{ $t('overlordModal_text3') }}</span>
+                        </div>
+                        <div class="col-12 text-end">
+                            <button class="btn" data-bs-dismiss="modal" aria-label="Close">{{ $t('endOfGame') }}</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <!-- CHANGELOG MODAL -->
     <div v-if="loaded" id="changeLogModal" class="modal fade">
         <div class="modal-dialog modal-dialog-scrollable" role="dialog">
@@ -1730,7 +1804,36 @@
                 <div class="modal-body">
                     <div class="row g-2">
                         <div class="col-12">
-                            <span class="h6 text-light">{{ $t('changeLog') }}</span>
+                            <div class="row g-1 align-items-center">
+                                <div class="col">
+                                    <span class="h6 text-light">{{ $t('changeLog') }}</span>
+                                </div>
+                                <div class="col-auto">
+                                    <button class="btn" data-bs-dismiss="modal" aria-label="Close">
+                                        <i class="fas fa-fw fa-times"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-12 border-top">
+                            <div class="text-light">v1.24.0 - 2021-07-06</div>
+                            <ul class="small">
+                                <li>FIX: dimension rift is taken into account in wonder costs</li>
+                                <li>FIX: dimension rift is taken into account in calculators</li>
+                                <li>CHANGE: updated ways to gain ultrite</li>
+                                <li>NEW: added calculators on spaceship parts</li>
+                            </ul>
+                        </div>
+                        <div class="col-12 border-top">
+                            <div class="text-light">v1.23.0 - 2021-07-05</div>
+                            <ul class="small">
+                                <li>FIX: nanoswarm pane is displayed</li>
+                                <li>NEW: close button in change log modal</li>
+                                <li>NEW: overlord appreciation program as ultrite upgrade</li>
+                                <li>NEW: terraforming ships</li>
+                                <li>NEW: overloard statues</li>
+                                <li>NEW: the end of the game</li>
+                            </ul>
                         </div>
                         <div class="col-12 border-top">
                             <div class="text-light">v1.22.0 - 2021-07-02</div>
@@ -2049,7 +2152,7 @@ export default {
 
             loaded: false,
             sidebarOpen: false,
-
+            defeat: false,
             fastInterval: null,
             slowInterval: null,
             ghInterval: null,
@@ -2086,8 +2189,9 @@ export default {
             calcModal: null,
             enlightenModal: null,
             enlightenSelected: null,
+            overlordModal: null,
 
-            currentRelease: '1.22.0',
+            currentRelease: '1.24.0',
             ghLatestRelease: null,
 
             login: null,
@@ -2115,8 +2219,8 @@ export default {
             'isNotif', 'hasNotif',
             'getThreat', 'getSpyChance', 'getInvadeChance', 'getStarPower', 'getStarDefense', 'getStarSpeed',
             'getDMWonders', 'getDMSpheres', 'getDMResearches', 'getDMRank', 'getDMSwarms', 'getPotentialDM',
-            'getULStars', 'getULDarkmatter', 'getULSpheres', 'getPotentialUL',
-            'getStorageCap',
+            'getULStars', 'getULDarkmatter', 'getULStatues', 'getPotentialUL',
+            'getStorageCap', 'getStatuesCount',
         ]),
     },
     created() {
@@ -2224,6 +2328,9 @@ export default {
 
                 element = document.getElementById('enlightenModal')
                 this.enlightenModal = new Modal(element)
+
+                element = document.getElementById('overlordModal')
+                this.overlordModal = new Modal(element)
             })
         },
         fastUpdate() {
@@ -2405,6 +2512,7 @@ export default {
         delete this.segmentModal
         delete this.calcModal
         delete this.enlightenModal
+        delete this.overlordModal
         clearInterval(this.fastInterval)
         clearInterval(this.slowInterval)
         clearInterval(this.ghInterval)

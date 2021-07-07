@@ -693,6 +693,13 @@
     "shipT5": "Vaisseau amiral",
     "shipT5_desc": "Le vaisseau amiral est un vaisseau lourd de défense, mais peut toujours donner un coup de main avec sa grande force d'attaque. Le principal inconvénient est sa vitesse lente, ce qui réduit la maniabilité de la flotte.",
 
+    "terraformingPane": "Terraformation",
+    "terraformingPane_desc": "Avant de lancer la terraformation d'un système stellaire il faut déterminer si les éléments primaires nécessaires y sont présents. C'est pourquoi l'envoi d'une sonde permet de déterminer si l'envoi d'un terraformeur est utile ou pas.",
+    "probe": "Sonde",
+    "probe_desc": "Petit vaisseau rapide et léger, bourré de capteurs afin d'analyser si la terraformation est possible ou non.",
+    "terraformer": "Terraformeur",
+    "terraformer_desc": "Enorme usine volante portant des réacteurs atmosphèriques géants capables de produire n'importe quelle atmosphère à partir des éléments primaires présents dans le système stellaire.",
+
     "interstellarCarnelianPane": "Résistance Cornaline",
     "interstellarCarnelianPane_desc": "Une faction impitoyable avec une colère féroce envers ceux au pouvoir, et notamment le plus notable, l'Empire Prasnien. Ils sont incessants dans leur opposition et concentrent toute leur force sur l'attaque de leurs ennemis. Pour cette raison, ce qu'ils offrent comprend principalement des mises à niveau tendant vers un jeu plus actif.",
 
@@ -708,8 +715,19 @@
     "interstellarMovitonPane": "Syndicat Moviton",
     "interstellarMovitonPane_desc": "Le Syndicat Movito est une faction expansionniste avec pour objectif la conquête de la galaxie. Ils jouent souvent les deux côtés d'un conflit, dans l'espoir d'en tirer le plus de profit. Ils offrent des améliorations pour les voyages, y compris la construction de fusées et les voyages interstellaires.",
     
+    "interstellarOverlordPane": "Culte de l'Overlord",
+    "interstellarOverlordPane_desc": "Pour rencontrer l'Overlord, vous devez construire 150 statues. Ces statues ne peuvent être construites que sur des systèmes stellaire terraformés.",
+    "overlordStatues": "Statues",
+    "remainingStatues": "statues restantes à construire",
+    "meetOverlord": "Rencontrer l'Overlord",
+    
     "distance": "Distance",
     "planets": "Planètes",
+    "check": "Vérifier",
+    "terraform": "Terraformer",
+    "noAtmosphere": "Il n'est pas possible de terraformer ce système stellaire car il n'y a aucune atmosphère",
+    "buildStatue": "Construire statue",
+    "statueBuilt": "Statue de l'Overlord construite",
     
     "star201": "Alpha Centauri",
     "star301": "Barnard's Star",
@@ -785,7 +803,7 @@
     "star103201": "LP 914-54",
     "star219102": "EQ Pegasi",
     "star105801": "HO Librae",
-    "star204702": "B",
+    "star204702": "Polaris",
     "star50401": "QY Aurigae",
     "star116901": "Wolf 629",
     "star159101": "BD +56°296",
@@ -1005,8 +1023,8 @@
     "ulStars_desc": "Vous obtenez de l'ultrite pour les systèmes stellaires que vous avez conquis en récompense pour avoir étendu l'influence de l'Overlord sur la galaxie. Pour chaque système stellaire conquis, vous gagnez 1 ultrite.",
     "ulDarkmatter": "Matière noire non dépensée",
     "ulDarkmatter_desc": "Toute la matière noire non-dépensée sera convertie en ultrite: 10 matière noire donneront 1 ultrite.",
-    "ulSpheres": "Sphères",
-    "ulSpheres_desc": "En élargissant votre sphère d'influence de manière pacifique, de l'ultrite supplémentaire par étoile vous sera accordé dans le cadre des efforts déployés pour maintenir un empire prospère. Pour chaque sphère Dyson construite, vous gagnez 1 ultrite.",
+    "ulStatues": "Statues Overlord",
+    "ulStatues_desc": "Pour vous encouragez à conquérir la galaxie pour l'honneur et la puissance de l'Overlord, de l'ultrite vous sera versé. Pour chaque statue construite, vous recevrez 5 ultrites.",
     "enlighten": "Illuminer",
     "enlighten_desc": "Quitter votre dimension laisse beaucoup d'incertitude. Vous laisserez derrière vous tout ce que vous avez créé, pour un monde familier, mais différent, comme s'il attendait d'être colonisé, rien que pour vous. La galaxie se trouve comme ici, ignorant la puissance qui va entrer dans sa dimension. Le saut courageux que vous devez faire pour atteindre la vraie grandeur est calculé, et seuls les meilleurs prospéreront. Êtes-vous prêt? NB: Vous ne pouvez pas vous illiminer sans au moins 10 étoiles possédées.",
     "enlighten_confirm": "Êtes-vous sûr ? Cette action est irréversible.",
@@ -1018,6 +1036,8 @@
     "titans": "Titans Ressource activés",
 
     "upgradesPane": "Améliorations",
+    "overlordProgram": "Programme évangélique de l'Overlord",
+    "overlordProgram_desc": "Ce programme vous donne la capacité de terraformer les systèmes stellaires conquis pour y contruire des statues à la gloire de l'Overlord. Quand vous aurez assez de statues alors vous pourrez rencontrer l'Overlord vous-même!",
     "advUpgradeStorage1": "Super-promo sur le stockage",
     "advUpgradeStorage1_desc": "Un super-rabais de 25% est appliqué sur le stockage des ressources. Il fonctionne comme la 'Promo sur le stockage' et est cumulatif.",
     "shipSpeedEnhancement": "Boost de la vitesse des vaisseaux",
@@ -1120,6 +1140,7 @@
     "absorb_desc": "Absorber est le moyen le plus simple de conquérir un système stellaire. Malheureusement, vous devez être en bons termes avec la faction qui contrôle l'étoile: avoir plus de 60 points de réputation avec eux. Lors de l'absorption, vous perdrez 5 points de réputation, soit la moitié du montant que vous perdriez lors d'une invasion.",
         
     "costTo5": "Coûts jusque 5",
+    "costTo15": "Coûts jusque 15",
     "costTo25": "Coûts jusque 25",
     "costTo50": "Coûts jusque 50",
     "costTo75": "Coûts jusque 75",
