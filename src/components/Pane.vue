@@ -4,7 +4,7 @@
             <div class="col">
                 <div class="row gx-2">
                     <div class="col-auto d-flex align-items-baseline">
-                        <img :src="require(`../assets/interface/${icon}`)" class="mx-2 mt-1" width="19" height="19" />
+                        <img :src="require(`../assets/interface/${icon}`)" class="mx-2 mt-1" width="19" height="19" :alt="icon + ' icon'" />
                     </div>
                     <div class="col">
                         <div class="row row-cols-1 g-2">

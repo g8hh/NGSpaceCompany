@@ -54,6 +54,7 @@ export const store = createStore({
             /*----------------------------------------------------------------*/
             storagePrice: 1,
             storageExcess: 1,
+            titanSwapingCount: 0,
             /*----------------------------------------------------------------*/
             lastUpdateTime: new Date().getTime(),
             /*----------------------------------------------------------------*/
@@ -71,6 +72,8 @@ export const store = createStore({
             notifAchievement: true,
             displayLockedItems: false,
             displayPinnedItems: false,
+            displayDoneTechs: true,
+            displayRoadmap: true,
             collapsed: [],
             pinned: [],
             /*----------------------------------------------------------------*/
@@ -314,6 +317,20 @@ export const store = createStore({
             return statuesCount
         },
         /*--------------------------------------------------------------------*/
+        getCurrentTitan(state) {
+
+            let list = []
+            state.resources.forEach(item => { if (item.titan == true) list.push(item.id) })
+            return list
+        },
+        /*--------------------------------------------------------------------*/
+        getNotCurrentTitan(state) {
+
+            let list = []
+            state.resources.forEach(item => { if (item.titan == false) list.push(item.id) })
+            return list
+        },
+        /*--------------------------------------------------------------------*/
     },
     mutations: {
 
@@ -325,6 +342,8 @@ export const store = createStore({
         setNotifAchievement(state, payload) { state.notifAchievement = payload },
         setDisplayLockedItems(state, payload) { state.displayLockedItems = payload },
         setDisplayPinnedItems(state, payload) { state.displayPinnedItems = payload },
+        setDisplayDoneTechs(state, payload) { state.displayDoneTechs = payload },
+        setDisplayRoadmap(state, payload) { state.displayRoadmap = payload },
         setAutoStorageUpgrade(state, payload) { state.data[payload.id].auto = payload.auto; console.log(state.data[payload.id]);  },
         setUsername(state, payload) { state.username = payload },
         setToken(state, payload) { state.token = payload },
@@ -617,10 +636,10 @@ export const store = createStore({
             state.data['plasmaT3'] = { id:'plasmaT3', unlocked:false, count:0, active:0, destroyable:true, costType:'EXPONENTIAL', baseCosts:[{ id:'lunarite', count:6200000  }, { id:'silicon',  count:5900000  }, { id:'meteorite', count:12100  }], outputs:[{ id:'plasma', count:160  }], inputs:[{ id:'energy', count:71000  }, { id:'helium',   count:750  }, { id:'hydrogen', count:650  }], notifs:['plasmaPane'], }
             state.data['plasmaT4'] = { id:'plasmaT4', unlocked:false, count:0, active:0, destroyable:true, costType:'EXPONENTIAL', baseCosts:[{ id:'carbon',   count:51000000 }, { id:'silicon',  count:44000000 }, { id:'meteorite', count:147000 }], outputs:[{ id:'plasma', count:2000 }], inputs:[{ id:'energy', count:600000 }, { id:'helium',   count:5800 }, { id:'hydrogen', count:6000 }], notifs:['plasmaPane'], }
             /*----------------------------------------------------------------*/
-            state.data['plasmaS1'] = { id:'plasmaS1', unlocked:false, count:0, storage:{ id:'plasma', type:'FIXED', count:50000   }, costType:'EXPONENTIAL', baseCosts:[{ id:'silver', count:770000    }, { id:'gold', count:770000    }, { id:'uranium', count:550000   }], notifs:['plasmaPane'], }
-            state.data['plasmaS2'] = { id:'plasmaS2', unlocked:false, count:0, storage:{ id:'plasma', type:'FIXED', count:500000  }, costType:'EXPONENTIAL', baseCosts:[{ id:'silver', count:9300000   }, { id:'gold', count:9300000   }, { id:'uranium', count:6800000  }], notifs:['plasmaPane'], }
-            state.data['plasmaS3'] = { id:'plasmaS3', unlocked:false, count:0, storage:{ id:'plasma', type:'FIXED', count:5000000 }, costType:'EXPONENTIAL', baseCosts:[{ id:'silver', count:111600000 }, { id:'gold', count:111600000 }, { id:'uranium', count:81600000 }], notifs:['plasmaPane'], }
-            state.data['plasmaS4'] = { id:'plasmaS4', unlocked:false, count:0, storage:{ id:'plasma', type:'FIXED', count:5000000 }, costType:'EXPONENTIAL', baseCosts:[{ id:'silver', count:111600000 }, { id:'gold', count:111600000 }, { id:'uranium', count:81600000 }], notifs:['plasmaPane'], }
+            state.data['plasmaS1'] = { id:'plasmaS1', unlocked:false, count:0, storage:{ id:'plasma', type:'FIXED', count:50000    }, costType:'EXPONENTIAL', baseCosts:[{ id:'silver', count:770000     }, { id:'gold', count:770000     }, { id:'uranium', count:550000    }], notifs:['plasmaPane'], }
+            state.data['plasmaS2'] = { id:'plasmaS2', unlocked:false, count:0, storage:{ id:'plasma', type:'FIXED', count:500000   }, costType:'EXPONENTIAL', baseCosts:[{ id:'silver', count:9300000    }, { id:'gold', count:9300000    }, { id:'uranium', count:6800000   }], notifs:['plasmaPane'], }
+            state.data['plasmaS3'] = { id:'plasmaS3', unlocked:false, count:0, storage:{ id:'plasma', type:'FIXED', count:5000000  }, costType:'EXPONENTIAL', baseCosts:[{ id:'silver', count:111600000  }, { id:'gold', count:111600000  }, { id:'uranium', count:81600000  }], notifs:['plasmaPane'], }
+            state.data['plasmaS4'] = { id:'plasmaS4', unlocked:false, count:0, storage:{ id:'plasma', type:'FIXED', count:50000000 }, costType:'EXPONENTIAL', baseCosts:[{ id:'silver', count:1339200000 }, { id:'gold', count:1339200000 }, { id:'uranium', count:979200000 }], notifs:['plasmaPane'], }
             /*----------------------------------------------------------------*/
 
             // METEORITE
@@ -845,7 +864,7 @@ export const store = createStore({
 
             // SCIENCE
             /*----------------------------------------------------------------*/
-            state.data['science'] = { id:'science', unlocked:false, titan:false, count:0, prod:0, production:0, consumption:0, notifs:['sciencePane'], }
+            state.data['science'] = { id:'science', unlocked:false, titan:false, count:0, prod:0, production:0, consumption:0, notifs:['sciencePane', 'helpPane'], }
             /*----------------------------------------------------------------*/
             state.data['scienceT1'] = { id:'scienceT1', unlocked:false, count:0, active:0, destroyable:true, costType:'EXPONENTIAL', baseCosts:[{ id:'metal', count:20       }, { id:'gem', count:15      }, { id:'wood', count:10       }], outputs:[{ id:'science', count:0.1  }], notifs:['sciencePane'], }
             state.data['scienceT2'] = { id:'scienceT2', unlocked:false, count:0, active:0, destroyable:true, costType:'EXPONENTIAL', baseCosts:[{ id:'metal', count:1000     }, { id:'gem', count:200     }, { id:'wood', count:500      }], outputs:[{ id:'science', count:1    }], notifs:['sciencePane'], }
@@ -932,7 +951,7 @@ export const store = createStore({
 
             // WONDER STATION
             /*----------------------------------------------------------------*/
-            state.data['wonderPrecious0'] =      { id:'wonderPrecious0',      unlocked:false, count:0, max:1, costType:'FIXED', baseCosts:[{ id:'gem',       count:10000 }, { id:'silver', count:7500   }, { id:'gold',    count:5000    }], notifs:['wonderStationPane'], unlocks:['wonderPrecious1'], }
+            state.data['wonderPrecious0'] =      { id:'wonderPrecious0',      unlocked:false, count:0, max:1, costType:'FIXED', baseCosts:[{ id:'gem',       count:10000 }, { id:'silver', count:7500   }, { id:'gold',    count:5000    }], notifs:['wonderStationPane', 'helpPane'], unlocks:['wonderPrecious1'], }
             state.data['wonderEnergetic0'] =     { id:'wonderEnergetic0',     unlocked:false, count:0, max:1, costType:'FIXED', baseCosts:[{ id:'wood',      count:10000 }, { id:'carbon', count:5000   }, { id:'uranium', count:200     }], notifs:['wonderStationPane'], unlocks:['wonderEnergetic1'], }
             state.data['wonderTechnological0'] = { id:'wonderTechnological0', unlocked:false, count:0, max:1, costType:'FIXED', baseCosts:[{ id:'silicon',   count:30000 }, { id:'gold',   count:18000  }, { id:'gem',     count:40000   }], notifs:['wonderStationPane'], unlocks:['wonderTechnological1'], }
             state.data['wonderMeteorite0'] =     { id:'wonderMeteorite0',     unlocked:false, count:0, max:1, costType:'FIXED', baseCosts:[{ id:'meteorite', count:5000  }, { id:'ice',    count:600000 }, { id:'silicon', count:1200000 }], notifs:['wonderStationPane'], unlocks:['wonderMeteorite1'], }
@@ -963,7 +982,7 @@ export const store = createStore({
             /*----------------------------------------------------------------*/
             state.data['techPlasma0'] =    { id:'techPlasma0',    unlocked:false, count:0, max:1, costType:'FIXED', baseCosts:[{ id:'hydrogen', count:1500   }, { id:'uranium', count:1500  }, { id:'oil', count:1500 }, { id:'wood', count:1500 }], notifs:['solCenterPane'], unlocks:['techPlasma1'], }
             state.data['techEmc0'] =       { id:'techEmc0',       unlocked:false, count:0, max:1, costType:'FIXED', baseCosts:[{ id:'energy',   count:75000  }, { id:'plasma',  count:100   }],                                                      notifs:['solCenterPane'], unlocks:['techEmc1'], }
-            state.data['techDyson0'] =     { id:'techDyson0',     unlocked:false, count:0, max:1, costType:'FIXED', baseCosts:[{ id:'energy',   count:100000 }, { id:'plasma',  count:10000 }],                                                      notifs:['solCenterPane'], unlocks:['techDyson1'], }
+            state.data['techDyson0'] =     { id:'techDyson0',     unlocked:false, count:0, max:1, costType:'FIXED', baseCosts:[{ id:'energy',   count:100000 }, { id:'plasma',  count:10000 }],                                                      notifs:['solCenterPane', 'helpPane'], unlocks:['techDyson1'], }
             /*----------------------------------------------------------------*/
 
             // EMC
@@ -991,15 +1010,13 @@ export const store = createStore({
 
             // DYSON
             /*----------------------------------------------------------------*/
-            state.data['segment'] = { id:'segment', unlocked:false, count:0,                  costType:'DYSON', baseCosts:[{ id:'titanium', count:300000 }, { id:'gold', count:100000 }, { id:'silicon', count:200000 }, { id:'meteorite', count:1000 }, { id:'ice', count:100000 }], notifs:['dysonPane'], }
+            state.data['segment'] = { id:'segment', unlocked:false, count:0,                  costType:'DYSON', baseCosts:[{ id:'titanium', count:300000 }, { id:'gold', count:100000 }, { id:'silicon', count:200000 }, { id:'meteorite', count:1000 }, { id:'ice', count:100000 }], notifs:['dysonPane', 'helpPane'], }
             state.data['dysonT1'] = { id:'dysonT1', unlocked:false, count:0, active:0,        costType:'FIXED', baseCosts:[{ id:'segment',  count:50     }, { id:'fuel', count:50000   }], outputs:[{ id:'energy', count:5000    }],                                                  notifs:['dysonPane'], }
             state.data['dysonT2'] = { id:'dysonT2', unlocked:false, count:0, active:0,        costType:'FIXED', baseCosts:[{ id:'segment',  count:100    }, { id:'fuel', count:250000  }], outputs:[{ id:'energy', count:25000   }],                                                  notifs:['dysonPane'], }
             state.data['dysonT3'] = { id:'dysonT3', unlocked:false, count:0, active:0, max:1, costType:'FIXED', baseCosts:[{ id:'segment',  count:250    }, { id:'fuel', count:1000000 }], outputs:[{ id:'energy', count:1000000 }],                                                  notifs:['dysonPane'], unlocks:['darkmatter',
                                                                                                                                                                                                                                                                                                                      'upgradeGain', 'upgradeStorage1', 'upgradeStorage2', 'techEnergyStorage6', 'upgradeStorage3',
                                                                                                                                                                                                                                                                                                                      'techPlasma3', 'upgradeWonder1', 'upgradeWonder2', 'upgradeWonder3', 'autoEmc', 'techPlasma4', 'techPlasmaStorage3',
                                                                                                                                                                                                                                                                                                                      'upgradeScience1', 'upgradeScience2', 'techScience5', 'upgradeEnergyBoost',
-                                                                                                                                                                                                                                                                                                                     'upgradeTier1', 'techEnergyStorage5', 'multiBuy', 'boostCapital', 'techTier5',
-                                                                                                                                                                                                                                                                                                                     'upgradeFuel1', 'upgradeSpaceship', 'techMeteorite3', 'techMeteorite4',
 
                                                                                                                                                                                                                                                                                                                      'boostDarkmatter', 'upgradeFaction',
                                                                                                                                                                                                                                                                                                                      'carnelian', 'prasnian', 'hyacinite', 'kitrinos', 'moviton', 'overlord', ], }
@@ -1013,7 +1030,7 @@ export const store = createStore({
 
             // ANTIMATTER
             /*----------------------------------------------------------------*/
-            state.data['antimatter'] = { id:'antimatter', unlocked:false, titan:false, count:0, prod:0, production:0, consumption:0, baseStorage:100000, toggle:'on', notifs:['antimatterPane'], }
+            state.data['antimatter'] = { id:'antimatter', unlocked:false, titan:false, count:0, prod:0, production:0, consumption:0, baseStorage:100000, toggle:'on', notifs:['antimatterPane', 'helpPane'], }
             /*----------------------------------------------------------------*/
             state.data['antimatterT1'] = { id:'antimatterT1', unlocked:false, count:0, active:0, destroyable:true, costType:'EXPONENTIAL', baseCosts:[{ id:'silver', count:163000000 }, { id:'oil', count:712000000 }, { id:'meteorite', count:12300000 }], outputs:[{ id:'antimatter', count:0.5 }], inputs:[{ id:'plasma', count:100 }, { id:'ice', count:12000 }], notifs:['antimatterPane'], }
             /*----------------------------------------------------------------*/
@@ -1264,7 +1281,7 @@ export const store = createStore({
                                                                                                                        'techPlasma3', 'upgradeWonder1', 'upgradeWonder2', 'upgradeWonder3', 'autoEmc', 'techPlasma4', 'techPlasmaStorage3',
                                                                                                                        'upgradeScience1', 'upgradeScience2', 'techScience5', 'upgradeEnergyBoost',
                                                                                                                        'upgradeTier1', 'techEnergyStorage5', 'multiBuy', 'boostCapital', 'techTier5',
-                                                                                                                       'upgradeFuel1', 'upgradeSpaceship', 'techMeteorite3', 'techMeteorite4',
+                                                                                                                       'upgradeFuel1', 'upgradeSpaceship', 'techPlasmaStorage4', 'techMeteorite3', 'techMeteorite4',
                                                                                                                        'boostDarkmatter', 'upgradeFaction',
                                                                                                                        'carnelian', 'prasnian', 'hyacinite', 'kitrinos', 'moviton', 'overlord'], }
             /*----------------------------------------------------------------*/
@@ -1308,10 +1325,11 @@ export const store = createStore({
 
             // DM MOVITON
             /*----------------------------------------------------------------*/
-            state.data['upgradeFuel1'] =     { id:'upgradeFuel1',     unlocked:false, count:0, max:1, costType:'FIXED', baseCosts:[{ id:'darkmatter', count:11 }], notifs:['stargazeMovitonPane'], faction:'moviton', opinion:7,  }
-            state.data['upgradeSpaceship'] = { id:'upgradeSpaceship', unlocked:false, count:0, max:1, costType:'FIXED', baseCosts:[{ id:'darkmatter', count:23 }], notifs:['stargazeMovitonPane'], faction:'moviton', opinion:28, }
-            state.data['techMeteorite3'] =   { id:'techMeteorite3',   unlocked:false, count:0, max:1, costType:'FIXED', baseCosts:[{ id:'darkmatter', count:37 }], notifs:['stargazeMovitonPane'], faction:'moviton', opinion:29, unlocks:['meteoriteT3', 'achMeteoriteT3'], }
-            state.data['techMeteorite4'] =   { id:'techMeteorite4',   unlocked:false, count:0, max:1, costType:'FIXED', baseCosts:[{ id:'darkmatter', count:49 }], notifs:['stargazeMovitonPane'], faction:'moviton', opinion:36, unlocks:['meteoriteT4', 'achMeteoriteT4'], }
+            state.data['upgradeFuel1'] =       { id:'upgradeFuel1',       unlocked:false, count:0, max:1, costType:'FIXED', baseCosts:[{ id:'darkmatter', count:11 }], notifs:['stargazeMovitonPane'], faction:'moviton', opinion:7,  }
+            state.data['upgradeSpaceship'] =   { id:'upgradeSpaceship',   unlocked:false, count:0, max:1, costType:'FIXED', baseCosts:[{ id:'darkmatter', count:23 }], notifs:['stargazeMovitonPane'], faction:'moviton', opinion:28, }
+            state.data['techPlasmaStorage4'] = { id:'techPlasmaStorage4', unlocked:false, count:0, max:1, costType:'FIXED', baseCosts:[{ id:'darkmatter', count:29 }], notifs:['stargazeMovitonPane'], faction:'moviton', opinion:28, unlocks:['plasmaS4'], }
+            state.data['techMeteorite3'] =     { id:'techMeteorite3',     unlocked:false, count:0, max:1, costType:'FIXED', baseCosts:[{ id:'darkmatter', count:37 }], notifs:['stargazeMovitonPane'], faction:'moviton', opinion:29, unlocks:['meteoriteT3', 'achMeteoriteT3'], }
+            state.data['techMeteorite4'] =     { id:'techMeteorite4',     unlocked:false, count:0, max:1, costType:'FIXED', baseCosts:[{ id:'darkmatter', count:49 }], notifs:['stargazeMovitonPane'], faction:'moviton', opinion:36, unlocks:['meteoriteT4', 'achMeteoriteT4'], }
             /*----------------------------------------------------------------*/
 
             // DM OVERLORD
@@ -1322,7 +1340,7 @@ export const store = createStore({
 
             // ULTRITE
             /*----------------------------------------------------------------*/
-            state.data['ultrite'] = { id:'ultrite', unlocked:false, count:0, notifs:['ultritePane'], }
+            state.data['ultrite'] = { id:'ultrite', unlocked:false, count:0, notifs:['ultritePane', 'helpPane'], }
             /*----------------------------------------------------------------*/
 
             // UPGRADES
@@ -1544,6 +1562,8 @@ export const store = createStore({
                 state.notifAchievement = data.notifAchievement
                 state.displayLockedItems = data.displayLockedItems || false
                 state.displayPinnedItems = data.displayPinnedItems || false
+                state.displayDoneTechs = data.displayDoneTechs ? data.displayDoneTechs : true
+                state.displayRoadmap = data.displayRoadmap ? data.displayRoadmap : true
                 state.username = data.username || null
                 state.token = data.token || null
                 state.emcAmount = data.emcAmount || 'max'
@@ -1552,6 +1572,8 @@ export const store = createStore({
                 state.collapsed = data.collapsed || []
                 state.pinned = data.pinned || []
 
+                state.titanSwapingCount = data.titanSwapingCount || 0
+                
                 if (data.stats) {
                     state.stats = data.stats
                     if (!(state.stats.enlightenCount)) state.stats.enlightenCount = 0
@@ -1578,10 +1600,9 @@ export const store = createStore({
             if (state.data['autoEmc'].unlocked == false) state.autoResource = null
 
             if (state.data['ultrite'].unlocked == false) {
-
                 state.data['overlordProgram'].unlocked = false
                 state.data['overlordProgram'].count = 0
-                
+
                 state.data['advUpgradeStorage1'].unlocked = false
                 state.data['advUpgradeStorage1'].count = 0
 
@@ -1726,6 +1747,8 @@ export const store = createStore({
                 notifAchievement: state.notifAchievement,
                 displayLockedItems: state.displayLockedItems,
                 displayPinnedItems: state.displayPinnedItems,
+                displayDoneTechs: state.displayDoneTechs,
+                displayRoadmap: state.displayRoadmap,
                 username: state.username,
                 token: state.token,
                 emcAmount: state.emcAmount,
@@ -1733,6 +1756,7 @@ export const store = createStore({
                 stats: state.stats,
                 collapsed: state.collapsed,
                 pinned: state.pinned,
+                titanSwapingCount: state.titanSwapingCount,
 
                 entries: {},
             }
@@ -2129,7 +2153,6 @@ export const store = createStore({
             /*----------------------------------------------------------------*/
             else if (id == 'upgradeFuel1') {
                 state.data['fuelT1'].outputs.forEach(output => { output.count *= 2 })
-                state.data['fuelT1'].inputs.forEach(input => { input.count *= 2 })
             }
             /*----------------------------------------------------------------*/
             else if (id == 'upgradeSpaceship') {
@@ -2463,6 +2486,8 @@ export const store = createStore({
                         let item = state.ships[i]
                         item.count -= item.active
                         item.active = 0
+
+                        commit('computeCosts', item.id)
                     }
                 }
 
@@ -2513,7 +2538,7 @@ export const store = createStore({
                 'prasnian', 'techPlasma3', 'upgradeWonder1', 'upgradeWonder2', 'upgradeWonder3', 'autoEmc', 'techPlasma4', 'techPlasmaStorage3',
                 'hyacinite', 'upgradeScience1', 'upgradeScience2', 'techScience5', 'upgradeEnergyBoost',
                 'kitrinos', 'upgradeTier1', 'techEnergyStorage5', 'multiBuy', 'boostCapital', 'techTier5',
-                'moviton', 'upgradeFuel1', 'upgradeSpaceship', 'techMeteorite3', 'techMeteorite4',
+                'moviton', 'upgradeFuel1', 'upgradeSpaceship', 'techPlasmaStorage4', 'techMeteorite3', 'techMeteorite4',
                 'overlord', 'boostDarkmatter', 'upgradeFaction',
                 'ultrite', 'overlordProgram', 'advUpgradeStorage1', 'shipSpeedEnhancement', 'shipDefenceEnhancement', 'shipPowerEnhancement', 'techNanoswarm0', 'techAutoStorageUpgrade',
             ]
@@ -2548,7 +2573,7 @@ export const store = createStore({
             dispatch('rebirthFaction', { id:'prasnian', items:['techPlasma3', 'upgradeWonder1', 'upgradeWonder2', 'upgradeWonder3', 'autoEmc', 'techPlasma4', 'techPlasmaStorage3'] })
             dispatch('rebirthFaction', { id:'hyacinite', items:['upgradeScience1', 'upgradeScience2', 'techScience5', 'upgradeEnergyBoost'] })
             dispatch('rebirthFaction', { id:'kitrinos', items:['upgradeTier1', 'techEnergyStorage5', 'multiBuy', 'boostCapital', 'techTier5'] })
-            dispatch('rebirthFaction', { id:'moviton', items:['upgradeFuel1', 'upgradeSpaceship', 'techMeteorite3', 'techMeteorite4'] })
+            dispatch('rebirthFaction', { id:'moviton', items:['upgradeFuel1', 'upgradeSpaceship', 'techPlasmaStorage4', 'techMeteorite3', 'techMeteorite4'] })
             dispatch('rebirthFaction', { id:'overlord', items:['boostDarkmatter', 'upgradeFaction'] })
 
             dispatch('save')
@@ -2588,8 +2613,18 @@ export const store = createStore({
             state.autoEmcInterval = 1 * 1000
 
             let exludedList = [
+                'darkmatter',
+                'carnelian', 'upgradeGain', 'upgradeStorage1', 'upgradeStorage2', 'upgradeStorage3',
+                'prasnian', 'upgradeWonder1', 'upgradeWonder2', 'upgradeWonder3', 'autoEmc',
+                'hyacinite', 'upgradeScience1', 'upgradeScience2', 'upgradeEnergyBoost',
+                'kitrinos', 'upgradeTier1', 'multiBuy', 'boostCapital',
+                'moviton', 'upgradeFuel1', 'upgradeSpaceship',
+                'overlord', 'boostDarkmatter', 'upgradeFaction',
                 'ultrite', 'overlordProgram', 'advUpgradeStorage1', 'shipSpeedEnhancement', 'shipDefenceEnhancement', 'shipPowerEnhancement', 'techNanoswarm0', 'techAutoStorageUpgrade',
             ]
+
+
+            state.data['darkmatter'].count = 0
 
             for (let i in state.data) {
                 let item = state.data[i]
@@ -2621,7 +2656,7 @@ export const store = createStore({
             dispatch('rebirthFaction', { id:'prasnian', items:['techPlasma3', 'upgradeWonder1', 'upgradeWonder2', 'upgradeWonder3', 'autoEmc', 'techPlasma4', 'techPlasmaStorage3'] })
             dispatch('rebirthFaction', { id:'hyacinite', items:['upgradeScience1', 'upgradeScience2', 'techScience5', 'upgradeEnergyBoost'] })
             dispatch('rebirthFaction', { id:'kitrinos', items:['upgradeTier1', 'techEnergyStorage5', 'multiBuy', 'boostCapital', 'techTier5'] })
-            dispatch('rebirthFaction', { id:'moviton', items:['upgradeFuel1', 'upgradeSpaceship', 'techMeteorite3', 'techMeteorite4'] })
+            dispatch('rebirthFaction', { id:'moviton', items:['upgradeFuel1', 'upgradeSpaceship', 'techPlasmaStorage4', 'techMeteorite3', 'techMeteorite4'] })
             dispatch('rebirthFaction', { id:'overlord', items:['boostDarkmatter', 'upgradeFaction'] })
 
             dispatch('save')
@@ -2713,6 +2748,28 @@ export const store = createStore({
                 }
 
                 item.subStatus = 'statued'
+            }
+        },
+        /*--------------------------------------------------------------------*/
+        swapTitan({ state, commit }, payload) {
+
+            console.log(payload)
+
+            let titanSource = payload.source
+            let titanDestination = payload.destination
+
+            if (state.titanSwapingCount > 0) return
+            if (state.data[titanSource].titan == false) return
+            if (state.data[titanDestination].titan == true) return
+
+            state.data[titanSource].titan = false
+            state.data[titanDestination].titan = true
+
+            state.titanSwapingCount += 1
+
+            for (let i in state.data) {
+                let item = state.data[i]
+                if ('baseCosts' in item) commit('computeCosts', i)
             }
         },
         /*--------------------------------------------------------------------*/

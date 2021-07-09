@@ -15,7 +15,7 @@
                     
                     <i v-if="!collapse" class="fas fa-fw fa-lock-open"></i>
                     
-                    <button v-if="collapse" @click="toggleCollapsed(id)">
+                    <button v-if="collapse" @click="toggleCollapsed(id)" aria-label="Collapse button">
                         <i class="fas fa-fw fa-lock-open"></i>
                     </button>
                     
@@ -163,7 +163,7 @@
                                             <button class="text-light small" @click="setActivePane(data[id].storage.id + 'Pane')">
                                                 <div class="row g-1">
                                                     <div class="col-auto d-flex align-items-center">
-                                                        <img :src="require(`../assets/interface/${data[id].storage.id}.png`)" width="12" height="12" />
+                                                        <img :src="require(`../assets/interface/${data[id].storage.id}.png`)" width="12" height="12" :alt="$t(data[id].storage.id) + ' icon'" />
                                                     </div>
                                                     <div class="col">
                                                         <span class="text-light">{{ $t(data[id].storage.id) }}</span>
@@ -172,8 +172,8 @@
                                             </button>
                                         </div>
                                         <div class="col-auto">
-                                            <small v-if="data[id].storage.id != 'energy'" class="text-success">+{{ numeralFormat(data[id].storage.count.toPrecision(4), '0.[000]a') }}</small>
-                                            <small v-if="data[id].storage.id == 'energy'" class="text-success">+{{ numeralFormat((data[id].storage.count * (1 + (0.01 * data['boostEnergyStorage'].count))).toPrecision(4), '0.[000]a') }}</small>
+                                            <small v-if="data[id].storage.id != 'energy'" class="text-success text-uppercase">+{{ numeralFormat(data[id].storage.count.toPrecision(4), '0.[000]a') }}</small>
+                                            <small v-if="data[id].storage.id == 'energy'" class="text-success text-uppercase">+{{ numeralFormat((data[id].storage.count * (1 + (0.01 * data['boostEnergyStorage'].count))).toPrecision(4), '0.[000]a') }}</small>
                                         </div>
                                     </div>
                                 </div>
@@ -185,7 +185,7 @@
                                             <button class="text-light small" @click="setActivePane(output.id + 'Pane')">
                                                 <div class="row g-1">
                                                     <div class="col-auto d-flex align-items-center">
-                                                        <img :src="require(`../assets/interface/${output.id}.png`)" width="12" height="12" />
+                                                        <img :src="require(`../assets/interface/${output.id}.png`)" width="12" height="12" :alt="$t(output.id) + ' icon'" />
                                                     </div>
                                                     <div class="col">
                                                         <span class="text-light">{{ $t(output.id) }}</span>
@@ -203,7 +203,7 @@
                                             <button class="text-light small" @click="setActivePane(input.id + 'Pane')">
                                                 <div class="row g-1">
                                                     <div class="col-auto d-flex align-items-center">
-                                                        <img :src="require(`../assets/interface/${input.id}.png`)" width="12" height="12" />
+                                                        <img :src="require(`../assets/interface/${input.id}.png`)" width="12" height="12" :alt="$t(input.id) + ' icon'" />
                                                     </div>
                                                     <div class="col">
                                                         <span class="text-light">{{ $t(input.id) }}</span>

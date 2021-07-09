@@ -1,5 +1,5 @@
 <template>
-    <div class="header" role="banner">
+    <div class="header" role="heading" aria-level="1">
         <div class="row gx-3 align-items-center h-100">
             <slot />
         </div>

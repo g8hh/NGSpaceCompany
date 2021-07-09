@@ -9,12 +9,12 @@
                     <span class="text-lowercase">x</span>{{ mod }}
                 </div>
                 <div v-if="id && id == 'segment'" class="col text-end">
-                    <button @click="$root.segmentModal.show();">
+                    <button @click="$root.segmentModal.show();" aria-label="Calculator">
                         <i class="fas fa-fw fa-calculator"></i>
                     </button>
                 </div>
                 <div v-if="id && calc" class="col text-end">
-                    <button @click="$root.calcId=id; $root.calcModal.show();">
+                    <button @click="$root.calcId=id; $root.calcModal.show();" aria-label="Calculator">
                         <i class="fas fa-fw fa-calculator"></i>
                     </button>
                 </div>
@@ -25,7 +25,7 @@
                 <button class="text-light small" @click="setActivePane(cost.id + 'Pane')">
                     <div class="row g-1">
                         <div class="col-auto d-flex align-items-center">
-                            <img :src="require(`../assets/interface/${cost.id}.png`)" width="12" height="12" />
+                            <img :src="require(`../assets/interface/${cost.id}.png`)" width="12" height="12" :alt="$t(cost.id) + ' icon'" />
                         </div>
                         <div class="col">
                             <span class="text-light">{{ $t(cost.id) }}</span>
