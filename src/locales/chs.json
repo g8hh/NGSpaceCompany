@@ -1049,6 +1049,8 @@
     "titans": "激活资源泰坦",
 
     "upgradesPane": "升级",
+    "overlordProgram": "霸主鉴赏计划",
+    "overlordProgram_desc": "这解锁了改造被征服的恒星系统以建造霸主雕像的能力。 当你有足够的雕像时，你就可以见到霸主了！",
     "advUpgradeStorage1": "高级存储折扣",
     "advUpgradeStorage1_desc": "资源存储可享受 25% 的奖励折扣。 它的作用类似于“存储折扣”，并且是附加的。",
     "shipSpeedEnhancement": "船速提升",
