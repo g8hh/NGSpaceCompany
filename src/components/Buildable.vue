@@ -7,11 +7,11 @@
                     <i class="fas fa-fw fa-lock text-muted"></i>
                 </div>
                 
-                <div v-if="data[id].unlocked && data[id].max && data[id].count >= data[id].max" class="timeline-marker">
+                <div v-if="(data[id].unlocked && data[id].max && data[id].count >= data[id].max) || (spaceshipParts.includes(id) && data['spaceship'].count > 0)" class="timeline-marker">
                     <i class="fas fa-fw fa-check text-success"></i>
                 </div>
                 
-                <div v-if="(data[id].unlocked && data[id].max && data[id].count < data[id].max) || (data[id].unlocked && !data[id].max)" class="timeline-marker">                
+                <div v-if="(spaceshipParts.includes(id) && data[id].count < data[id].max && data['spaceship'].count < 1) || (!spaceshipParts.includes(id) && data[id].unlocked && data[id].max && data[id].count < data[id].max) || (data[id].unlocked && !data[id].max)" class="timeline-marker">                
                     
                     <i v-if="!collapse" class="fas fa-fw fa-lock-open"></i>
                     
@@ -34,7 +34,7 @@
                     </span>
                 </div>
                 
-                <div v-if="data[id].unlocked && data[id].max && data[id].count >= data[id].max" class="card card-body">
+                <div v-if="(data[id].unlocked && data[id].max && data[id].count >= data[id].max) || (spaceshipParts.includes(id) && data['spaceship'].count > 0)" class="card card-body">
                     <div class="row g-1">
                         <div class="col">
                             <span class="h6 text-light mb-0">{{ $t(data[id].id) }}</span>
@@ -48,7 +48,7 @@
                     </div>
                 </div>
                 
-                <div v-if="(data[id].unlocked && data[id].max && data[id].count < data[id].max) || (data[id].unlocked && !data[id].max)" class="card card-body">
+                <div v-if="(spaceshipParts.includes(id) && data[id].count < data[id].max && data['spaceship'].count < 1) || (!spaceshipParts.includes(id) && data[id].unlocked && data[id].max && data[id].count < data[id].max) || (data[id].unlocked && !data[id].max)" class="card card-body">
                     <div v-if="isCollapsed(id)" class="row g-3">
                         <div class="col-12 col-md-6">
                             <div class="row g-1">
@@ -271,6 +271,7 @@ export default {
         return {
             selected: null,
             automated: null,
+            spaceshipParts: ['shield', 'engine', 'aero'],
         }
     },
     created() {

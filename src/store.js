@@ -331,6 +331,16 @@ export const store = createStore({
             return list
         },
         /*--------------------------------------------------------------------*/
+        getOwnedStarCount(state) {
+
+            let ownedStarCount = 0
+            for (let i in state.stars) {
+                let star = state.stars[i]
+                if (star.status == 'owned') ownedStarCount += 1
+            }
+            return ownedStarCount
+        },
+        /*--------------------------------------------------------------------*/
     },
     mutations: {
 
@@ -1562,8 +1572,8 @@ export const store = createStore({
                 state.notifAchievement = data.notifAchievement
                 state.displayLockedItems = data.displayLockedItems || false
                 state.displayPinnedItems = data.displayPinnedItems || false
-                state.displayDoneTechs = data.displayDoneTechs ? data.displayDoneTechs : true
-                state.displayRoadmap = data.displayRoadmap ? data.displayRoadmap : true
+                state.displayDoneTechs = data.displayDoneTechs == false ? data.displayDoneTechs : true
+                state.displayRoadmap = data.displayRoadmap == false ? data.displayRoadmap : true
                 state.username = data.username || null
                 state.token = data.token || null
                 state.emcAmount = data.emcAmount || 'max'
@@ -1573,7 +1583,7 @@ export const store = createStore({
                 state.pinned = data.pinned || []
 
                 state.titanSwapingCount = data.titanSwapingCount || 0
-                
+
                 if (data.stats) {
                     state.stats = data.stats
                     if (!(state.stats.enlightenCount)) state.stats.enlightenCount = 0
@@ -1731,6 +1741,20 @@ export const store = createStore({
                 state.stats.ships.allTime = state.stats.ships.current
                 state.stats.starOwned.allTime = state.stats.starOwned.current
             }
+
+            if (state.data['darkmatter'].unlocked == true) {
+
+                let list = [
+                    'carnelian', 'upgradeGain', 'upgradeStorage1', 'upgradeStorage2', 'techEnergyStorage6', 'upgradeStorage3',
+                    'prasnian', 'techPlasma3', 'upgradeWonder1', 'upgradeWonder2', 'upgradeWonder3', 'autoEmc', 'techPlasma4', 'techPlasmaStorage3',
+                    'hyacinite', 'upgradeScience1', 'upgradeScience2', 'techScience5', 'upgradeEnergyBoost',
+                    'kitrinos', 'upgradeTier1', 'techEnergyStorage5', 'multiBuy', 'boostCapital', 'techTier5',
+                    'moviton', 'upgradeFuel1', 'upgradeSpaceship', 'techPlasmaStorage4', 'techMeteorite3', 'techMeteorite4',
+                    'overlord', 'boostDarkmatter', 'upgradeFaction',
+                    'ultrite', 'overlordProgram', 'advUpgradeStorage1', 'shipSpeedEnhancement', 'shipDefenceEnhancement', 'shipPowerEnhancement', 'techNanoswarm0', 'techAutoStorageUpgrade',
+                ]
+                list.forEach(item => { dispatch('unlock', item) })
+            }
         },
         /*--------------------------------------------------------------------*/
         save({ state }) {
@@ -1753,6 +1777,7 @@ export const store = createStore({
                 token: state.token,
                 emcAmount: state.emcAmount,
                 autoResource: state.autoResource,
+                autoEmcInterval: state.autoEmcInterval,
                 stats: state.stats,
                 collapsed: state.collapsed,
                 pinned: state.pinned,
@@ -1850,11 +1875,9 @@ export const store = createStore({
                     if ('inputs' in item) {
                         item.inputs.forEach(input => {
                             if (input.id == 'energy' && state.data['boostEnergy'].unlocked && state.data['boostEnergy'].count > 0) {
-                                temp[input.id].prod -= (input.count * (1 - 0.01 * state.data['boostEnergy'].count)) * item.active
                                 temp[input.id].consumption += (input.count * (1 - 0.01 * state.data['boostEnergy'].count)) * item.active
                             }
                             else {
-                                temp[input.id].prod -= input.count * item.active
                                 temp[input.id].consumption += input.count * item.active
                             }
                         })
@@ -1863,7 +1886,6 @@ export const store = createStore({
                         item.outputs.forEach(output => {
                             let tempBoost = boost
                             if (output.id == 'science' && state.data['boostScience'].unlocked && state.data['boostScience'].count > 0) tempBoost += 0.02 * state.data['boostScience'].count
-                            temp[output.id].prod += (output.count * item.active) * (1 + tempBoost) * (1 + temp[output.id].boost)
                             temp[output.id].production += (output.count * item.active) * (1 + tempBoost) * (1 + temp[output.id].boost)
                         })
                     }
@@ -1881,13 +1903,13 @@ export const store = createStore({
 
             let item = state.data['nanoswarm']
             if (item.unlocked && item.count > 0 && item.resource != null) {
-                temp[item.resource].prod *= Math.pow(1.0718, item.count)
                 temp[item.resource].production *= Math.pow(1.0718, item.count)
             }
 
             state.resources.forEach(item => {
                 let tempBoost = boost
                 if (item.id == 'science' && state.data['boostScience'].unlocked && state.data['boostScience'].count > 0) tempBoost += 0.02 * state.data['boostScience'].count
+                temp[item.id].prod = temp[item.id].production - temp[item.id].consumption
                 if (temp[item.id].prod > 0 && temp[item.id].prod < 0.001) temp[item.id].prod = 0
                 commit('setDataProd', { id:item.id, prod:temp[item.id].prod })
                 commit('setDataBoost', { id:item.id, boost:(1 + tempBoost) * (1 + temp[item.id].boost) })
@@ -2008,12 +2030,11 @@ export const store = createStore({
             }
         },
         /*--------------------------------------------------------------------*/
-
-        performAutoStorageUpgrade({ state, dispatch }) {
+        performAutoStorageUpgrade({ state, dispatch, getters }) {
 
             if (state.data['techStorage'].count > 0 && state.data['techAutoStorageUpgrade'].count > 0) {
                 state.storageUpgrades.forEach(building => {
-                    if (building.auto == true) dispatch('build', { id:building.id, count:1 })
+                    if (building.auto == true && state.data[building.storage.id].count >= getters.getStorageCap(building.storage.id)) dispatch('build', { id:building.id, count:1 })
                 })
             }
         },
@@ -2052,6 +2073,13 @@ export const store = createStore({
             /*----------------------------------------------------------------*/
             else if (id == 'boostEnergyStorage') {
                 commit('computeStorage', 'energy')
+            }
+            /*----------------------------------------------------------------*/
+            else if (id == 'techTier5') {
+                if (state.data['wonderMeteorite1'].count > 0) {
+                    let list = ['carbonT5', 'achCarbonT5', 'oilT5', 'achOilT5', 'metalT5', 'achMetalT5', 'gemT5', 'achGemT5', 'woodT5', 'achWoodT5', 'siliconT5', 'achSiliconT5', 'uraniumT5', 'achUraniumT5', 'lavaT5', 'achLavaT5', 'lunariteT5', 'achLunariteT5', 'methaneT5', 'achMethaneT5', 'titaniumT5', 'achTitaniumT5', 'goldT5', 'achGoldT5', 'silverT5', 'achSilverT5', 'hydrogenT5', 'achHydrogenT5', 'heliumT5', 'achHeliumT5', 'iceT5', 'achIceT5']
+                    list.forEach(unlock => { dispatch('unlock', unlock) })
+                }
             }
             /*----------------------------------------------------------------*/
             else if (id == 'wonderMeteorite1') {
