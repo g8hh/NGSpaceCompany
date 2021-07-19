@@ -3,7 +3,7 @@
     <div v-if="!loaded" id="loadScreen">
         <div class="row row-cols-1 g-2 justify-content-center">
             <div class="col text-center"><h1 class="text-light">NG Space Company</h1></div>
-            <div class="col text-center"><img id="loadLogo" style="width:25%; height:auto;" :src="require('./assets/whiteLogo.png')" alt="Game logo" /></div>
+            <div class="col text-center"><img id="loadLogo" style="width:25%; height:auto;" :src="require(`./assets/whiteLogo.png`)" alt="Game logo" /></div>
             <div class="col text-center"><h5 class="text-light">Reticulating Splines...</h5></div>
         </div>
     </div>
@@ -12,7 +12,7 @@
         <div id="sidebar" :class="{ 'open':sidebarOpen }" role="navigation">
             <top-header class="px-2">
                 <div class="col-auto">
-                    <img :src="require('./assets/whiteLogo.png')" width="42" height="42" alt="Game logo" />
+                    <img :src="require(`./assets/whiteLogo.png`)" width="42" height="42" alt="Game logo" />
                 </div>
 
                 <div class="col text-truncate px-0">
@@ -70,7 +70,7 @@
                         <sidenav-item id="silverPane" icon="silver.png" :unlocked="data['silver'].unlocked" :prod="data['silver'].prod" :count="data['silver'].count" :storage="getStorageCap('silver')" :cap="data['silver'].storage" buildingStorageId="silverS1" />
                     </sidenav-group>
 
-                    <sidenav-group id="outerResourcesHeading" :unlocked="data['hydrogen'].unlocked">
+                    <sidenav-group id="outerResourcesHeading" :unlocked="data['hydrogen'].unlocked || data['helium'].unlocked || data['ice'].unlocked">
                         <sidenav-item id="hydrogenPane" icon="hydrogen.png" :unlocked="data['hydrogen'].unlocked" :prod="data['hydrogen'].prod" :count="data['hydrogen'].count" :storage="getStorageCap('hydrogen')" :cap="data['hydrogen'].storage" buildingStorageId="hydrogenS1" />
                         <sidenav-item id="heliumPane" icon="helium.png" :unlocked="data['helium'].unlocked" :prod="data['helium'].prod" :count="data['helium'].count" :storage="getStorageCap('helium')" :cap="data['helium'].storage" buildingStorageId="heliumS1" />
                         <sidenav-item id="icePane" icon="ice.png" :unlocked="data['ice'].unlocked" :prod="data['ice'].prod" :count="data['ice'].count" :storage="getStorageCap('ice')" :cap="data['ice'].storage" buildingStorageId="iceS1" />
@@ -626,10 +626,10 @@
 
                     <!-- DYSON PANE -->
                     <pane id="dysonPane" icon="dyson.png" :descs="['dysonPane_desc']">
-                        <buildable id="segment" btnText="build" />
-                        <buildable id="dysonT1" btnText="build" />
-                        <buildable id="dysonT2" btnText="build" />
-                        <buildable id="dysonT3" btnText="build" />
+                        <buildable id="segment" btnText="build" collapse="true" />
+                        <buildable id="dysonT1" btnText="build" collapse="true" />
+                        <buildable id="dysonT2" btnText="build" collapse="true" />
+                        <buildable id="dysonT3" btnText="build" collapse="true" />
                     </pane>
 
                     <!-- NANOSWARM PANE -->
@@ -1669,7 +1669,7 @@
                                 <div class="col small">
                                     <div class="text-normal">{{ $t('chance') }}</div>
                                     <div v-if="data[activeStar].spy <= 2" class="text-light">???</div>
-                                    <div v-if="data[activeStar].spy > 2" class="text-light">{{ getInvadeChance(activeStar) * 100 }}%</div>
+                                    <div v-if="data[activeStar].spy > 2" class="text-light">{{ Math.round(getInvadeChance(activeStar) * 100) }}%</div>
                                 </div>
                             </div>
                         </div>
@@ -1921,6 +1921,28 @@
                                     </button>
                                 </div>
                             </div>
+                        </div>
+                        <div class="col-12 border-top">
+                            <div class="text-light">v1.28.5 - 2021-07-18</div>
+                            <ul class="small">
+                                <li>FIX: (again) now bribery remains after rebirth and enlightenment</li>
+                                <li>FIX: now hydrogen, helium, and ice can be unlocked in any order</li>
+                            </ul>
+                        </div>
+                        <div class="col-12 border-top">
+                            <div class="text-light">v1.28.4 - 2021-07-16</div>
+                            <ul class="small">
+                                <li>FIX: now bribery remains after rebirth and enlightenment</li>
+                                <li>FIX: now empty storage timer displays '> 48h'</li>
+                                <li>FIX: now QRS is taken into account in achievements</li>
+                            </ul>
+                        </div>
+                        <div class="col-12 border-top">
+                            <div class="text-light">v1.28.3 - 2021-07-15</div>
+                            <ul class="small">
+                                <li>FIX: now invade chance computing is fixed</li>
+                                <li>FIX: now dyson segment and items are collapsable</li>
+                            </ul>
                         </div>
                         <div class="col-12 border-top">
                             <div class="text-light">v1.28.2 - 2021-07-13</div>
@@ -2369,7 +2391,7 @@ export default {
             enlightenSelected: null,
             overlordModal: null,
 
-            currentRelease: '1.28.2',
+            currentRelease: '1.28.5',
             ghLatestRelease: null,
 
             login: null,

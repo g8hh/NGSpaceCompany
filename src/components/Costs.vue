@@ -22,7 +22,7 @@
         </div>
         <div v-for="cost in costs" :key="cost.id" class="row g-1">
             <div class="col">
-                <button class="text-light small" @click="setActivePane(cost.id + 'Pane')">
+                <button class="text-light small" @click="if (cost.id != 'segment' && data[cost.id].unlocked == true) { setActivePane(cost.id + 'Pane'); }">
                     <div class="row g-1">
                         <div class="col-auto d-flex align-items-center">
                             <img :src="require(`../assets/interface/${cost.id}.png`)" width="12" height="12" :alt="$t(cost.id) + ' icon'" />
@@ -48,10 +48,15 @@
 </template>
 
 <script>
-import { mapMutations } from 'vuex'
+import { mapState, mapMutations } from 'vuex'
 
 export default {
     props: [ 'costs', 'mod', 'id', 'calc' ],
+    computed: {
+        ...mapState([
+            'data',
+        ]),
+    },
     methods: {
         ...mapMutations([
             'setActivePane',

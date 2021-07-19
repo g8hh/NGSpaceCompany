@@ -169,8 +169,8 @@ export const store = createStore({
 
                 let damage = (activeFleet.power / star.stats.defense * multi) * activeFleet.speed
                 let starDamage = (star.stats.power * multi / Math.max(activeFleet.defense, 1)) * star.stats.speed
-                if (damage > starDamage) return Math.min(1, Math.round((damage / starDamage) - 0.5))
-                else if (damage != 0) return Math.min(1, Math.round(Math.max(0, 1.5 - (starDamage / damage))))
+                if (damage > starDamage) return (damage / starDamage) - 0.5
+                else if (damage != 0) return Math.max(0, 1.5 - (starDamage / damage))
             }
 
             return 0
@@ -1374,7 +1374,7 @@ export const store = createStore({
                 state.data['achFuel'],
                 /*------------------------------------------------------------*/
                 state.data['achEnergyT1'],    state.data['achEnergyT2'],    state.data['achEnergyT3'],    state.data['achEnergyT4'],    state.data['achEnergyT5'],   state.data['achEnergyT6'],
-                state.data['achPlasmaT1'],    state.data['achPlasmaT2'],    state.data['achPlasmaT3'],
+                state.data['achPlasmaT1'],    state.data['achPlasmaT2'],    state.data['achPlasmaT3'],    state.data['achPlasmaT4'],
                 state.data['achMeteoriteT1'], state.data['achMeteoriteT2'], state.data['achMeteoriteT3'], state.data['achMeteoriteT4'],
                 state.data['achCarbonT1'],    state.data['achCarbonT2'],    state.data['achCarbonT3'],    state.data['achCarbonT4'],    state.data['achCarbonT5'],
                 state.data['achOilT1'],       state.data['achOilT2'],       state.data['achOilT3'],       state.data['achOilT4'],       state.data['achOilT5'],
@@ -2053,7 +2053,7 @@ export const store = createStore({
             }
         },
         /*--------------------------------------------------------------------*/
-        onBuild({ state, commit, dispatch }, id) {
+        onBuild({ state, commit, dispatch, getters }, id) {
             /*----------------------------------------------------------------*/
             if (id == 'upgradeTier2') {
                 let list = ['oil', 'metal', 'gem', 'carbon', 'wood']
@@ -2194,8 +2194,8 @@ export const store = createStore({
             /*----------------------------------------------------------------*/
             else if (id == 'upgradeFaction') {
                 let upgrade = state.data[id]
-                if (upgrade.count <= 1) {
-                    upgrade.count += 1
+                if (upgrade.count <= 1 || (upgrade.count == 2 && getters.getULStars <= 0)) {
+                    upgrade.count = 3
                     let list = ['carnelian', 'prasnian', 'hyacinite', 'kitrinos', 'moviton']
                     for (let i = 0; i < list.length; i++) {
                         let item = state.data[list[i]]
@@ -2604,6 +2604,11 @@ export const store = createStore({
             dispatch('rebirthFaction', { id:'moviton', items:['upgradeFuel1', 'upgradeSpaceship', 'techPlasmaStorage4', 'techMeteorite3', 'techMeteorite4'] })
             dispatch('rebirthFaction', { id:'overlord', items:['boostDarkmatter', 'upgradeFaction'] })
 
+            if (state.data['upgradeFaction'].count > 0) {
+                state.data['upgradeFaction'].count = 1
+                dispatch('onBuild', 'upgradeFaction')
+            }
+
             dispatch('save')
 
             return true
@@ -2686,6 +2691,11 @@ export const store = createStore({
             dispatch('rebirthFaction', { id:'kitrinos', items:['upgradeTier1', 'techEnergyStorage5', 'multiBuy', 'boostCapital', 'techTier5'] })
             dispatch('rebirthFaction', { id:'moviton', items:['upgradeFuel1', 'upgradeSpaceship', 'techPlasmaStorage4', 'techMeteorite3', 'techMeteorite4'] })
             dispatch('rebirthFaction', { id:'overlord', items:['boostDarkmatter', 'upgradeFaction'] })
+
+            if (state.data['upgradeFaction'].count > 0) {
+                state.data['upgradeFaction'].count = 1
+                dispatch('onBuild', 'upgradeFaction')
+            }
 
             dispatch('save')
 
