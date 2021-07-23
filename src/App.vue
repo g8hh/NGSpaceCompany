@@ -2,9 +2,9 @@
 
     <div v-if="!loaded" id="loadScreen">
         <div class="row row-cols-1 g-2 justify-content-center">
-            <div class="col text-center"><h1 class="text-light">NG Space Company</h1></div>
+            <div class="col text-center"><h1 class="text-light">NG 太空公司</h1></div>
             <div class="col text-center"><img id="loadLogo" style="width:25%; height:auto;" src="https://ngspacecompany.exileng.com/whiteLogo.png" alt="Game logo" /></div>
-            <div class="col text-center"><h5 class="text-light">Reticulating Splines...</h5></div>
+            <div class="col text-center"><h5 class="text-light">网状样条...</h5></div>
         </div>
     </div>
 
