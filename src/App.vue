@@ -2,8 +2,8 @@
 
     <div v-if="!loaded" id="loadScreen">
         <div class="row row-cols-1 g-2 justify-content-center">
-            <div class="col text-center"><h1 class="text-light">太空公司NG</h1></div>
-            <div class="col text-center"><img id="loadLogo" style="width:25%; height:auto;" :src="require('./assets/whiteLogo.png')" /></div>
+            <div class="col text-center"><h1 class="text-light">NG 太空公司</h1></div>
+            <div class="col text-center"><img id="loadLogo" style="width:25%; height:auto;" src="https://ngspacecompany.exileng.com/whiteLogo.png" alt="Game logo" /></div>
             <div class="col text-center"><h5 class="text-light">网状样条...</h5></div>
         </div>
     </div>
@@ -12,11 +12,11 @@
         <div id="sidebar" :class="{ 'open':sidebarOpen }" role="navigation">
             <top-header class="px-2">
                 <div class="col-auto">
-                    <img :src="require('./assets/whiteLogo.png')" width="42" height="42" alt="Game logo" />
+                    <img src="https://ngspacecompany.exileng.com/whiteLogo.png" width="42" height="42" alt="Game logo" />
                 </div>
 
                 <div class="col text-truncate px-0">
-                    <span class="h5 text-light mb-0">{{ companyName }} 公司</span>
+                    <span class="h5 text-light mb-0">{{ companyName }} Company</span>
                 </div>
 
                 <div class="col-auto px-0">
@@ -32,46 +32,48 @@
                 </div>
 
             </top-header>
-            <inner-content data-simplebar>
+            <inner-content data-simplebar class="pe-2">
                 <div class="row gx-2 gy-3 row-cols-1">
 
+                    <sidenav-item v-if="showRoadmap" id="helpPane" icon="help.png" unlocked="true" />
+
                     <sidenav-group id="pinnedHeading" :unlocked="displayPinnedItems == true">
-                        <sidenav-item v-for="pane in pinned" :key="pane.id" :id="pane.id" :icon="pane.icon" unlocked="true" :prod="data[pane.resId].prod" :count="data[pane.resId].count" :storage="data[pane.resId].storage" :problem="data[pane.resId].problem" />
+                        <sidenav-item v-for="pane in pinned" :key="pane.id" :id="pane.id" :icon="pane.icon" unlocked="true" :prod="data[pane.resId].prod" :count="data[pane.resId].count" :storage="getStorageCap(pane.resId)" :cap="data[pane.resId].storage" :problem="data[pane.resId].problem" :buildingStorageId="pane.buildingStorageId" />
                     </sidenav-group>
 
                     <sidenav-group id="energyHeading" :unlocked="data['energy'].unlocked">
                         <sidenav-item id="energyPane" icon="energy.png" :unlocked="data['energy'].unlocked" :prod="data['energy'].prod" :problem="data['energy'].problem" />
-                        <sidenav-item id="batteryPane" icon="battery.png" :unlocked="data['energy'].unlocked" :count="data['energy'].count" :storage="data['energy'].storage" />
+                        <sidenav-item id="batteryPane" icon="battery.png" :unlocked="data['energy'].unlocked" :count="data['energy'].count" :storage="getStorageCap('energy')" :cap="data['energy'].storage" />
                     </sidenav-group>
 
                     <sidenav-group id="fabricatedHeading" :unlocked="data['carbon'].unlocked">
-                        <sidenav-item id="plasmaPane" icon="plasma.png" :unlocked="data['plasma'].unlocked" :prod="data['plasma'].prod" :count="data['plasma'].count" :storage="data['plasma'].storage" :problem="data['plasma'].problem" />
-                        <sidenav-item id="meteoritePane" icon="meteorite.png" :unlocked="data['meteorite'].unlocked" :prod="data['meteorite'].prod" :count="data['meteorite'].count" :storage="data['meteorite'].storage" :problem="data['meteorite'].problem" />
-                        <sidenav-item id="carbonPane" icon="carbon.png" :unlocked="data['carbon'].unlocked" :prod="data['carbon'].prod" :count="data['carbon'].count" :storage="data['carbon'].storage" :problem="data['carbon'].problem" />
+                        <sidenav-item id="plasmaPane" icon="plasma.png" :unlocked="data['plasma'].unlocked" :prod="data['plasma'].prod" :count="data['plasma'].count" :storage="getStorageCap('plasma')" :cap="data['plasma'].storage" :problem="data['plasma'].problem" />
+                        <sidenav-item id="meteoritePane" icon="meteorite.png" :unlocked="data['meteorite'].unlocked" :prod="data['meteorite'].prod" :count="data['meteorite'].count" :storage="getStorageCap('meteorite')" :cap="data['meteorite'].storage" :problem="data['meteorite'].problem" buildingStorageId="meteoriteS1" />
+                        <sidenav-item id="carbonPane" icon="carbon.png" :unlocked="data['carbon'].unlocked" :prod="data['carbon'].prod" :count="data['carbon'].count" :storage="getStorageCap('carbon')" :cap="data['carbon'].storage" :problem="data['carbon'].problem" buildingStorageId="carbonS1" />
                     </sidenav-group>
 
                     <sidenav-group id="earthResourcesHeading" :unlocked="data['metal'].unlocked">
-                        <sidenav-item id="oilPane" icon="oil.png" :unlocked="data['oil'].unlocked" :prod="data['oil'].prod" :count="data['oil'].count" :storage="data['oil'].storage" />
-                        <sidenav-item id="metalPane" icon="metal.png" :unlocked="data['metal'].unlocked" :prod="data['metal'].prod" :count="data['metal'].count" :storage="data['metal'].storage" />
-                        <sidenav-item id="gemPane" icon="gem.png" :unlocked="data['gem'].unlocked" :prod="data['gem'].prod" :count="data['gem'].count" :storage="data['gem'].storage" />
-                        <sidenav-item id="woodPane" icon="wood.png" :unlocked="data['wood'].unlocked" :prod="data['wood'].prod" :count="data['wood'].count" :storage="data['wood'].storage" />
-                        <sidenav-item id="siliconPane" icon="silicon.png" :unlocked="data['silicon'].unlocked" :prod="data['silicon'].prod" :count="data['silicon'].count" :storage="data['silicon'].storage" />
-                        <sidenav-item id="uraniumPane" icon="uranium.png" :unlocked="data['uranium'].unlocked" :prod="data['uranium'].prod" :count="data['uranium'].count" :storage="data['uranium'].storage" />
-                        <sidenav-item id="lavaPane" icon="lava.png" :unlocked="data['lava'].unlocked" :prod="data['lava'].prod" :count="data['lava'].count" :storage="data['lava'].storage" />
+                        <sidenav-item id="oilPane" icon="oil.png" :unlocked="data['oil'].unlocked" :prod="data['oil'].prod" :count="data['oil'].count" :storage="getStorageCap('oil')" :cap="data['oil'].storage" buildingStorageId="oilS1" />
+                        <sidenav-item id="metalPane" icon="metal.png" :unlocked="data['metal'].unlocked" :prod="data['metal'].prod" :count="data['metal'].count" :storage="getStorageCap('metal')" :cap="data['metal'].storage" buildingStorageId="metalS1" />
+                        <sidenav-item id="gemPane" icon="gem.png" :unlocked="data['gem'].unlocked" :prod="data['gem'].prod" :count="data['gem'].count" :storage="getStorageCap('gem')" :cap="data['gem'].storage" buildingStorageId="gemS1" />
+                        <sidenav-item id="woodPane" icon="wood.png" :unlocked="data['wood'].unlocked" :prod="data['wood'].prod" :count="data['wood'].count" :storage="getStorageCap('wood')" :cap="data['wood'].storage" buildingStorageId="woodS1" />
+                        <sidenav-item id="siliconPane" icon="silicon.png" :unlocked="data['silicon'].unlocked" :prod="data['silicon'].prod" :count="data['silicon'].count" :storage="getStorageCap('silicon')" :cap="data['silicon'].storage" buildingStorageId="siliconS1" />
+                        <sidenav-item id="uraniumPane" icon="uranium.png" :unlocked="data['uranium'].unlocked" :prod="data['uranium'].prod" :count="data['uranium'].count" :storage="getStorageCap('uranium')" :cap="data['uranium'].storage" buildingStorageId="uraniumS1" />
+                        <sidenav-item id="lavaPane" icon="lava.png" :unlocked="data['lava'].unlocked" :prod="data['lava'].prod" :count="data['lava'].count" :storage="getStorageCap('lava')" :cap="data['lava'].storage" buildingStorageId="lavaS1" />
                     </sidenav-group>
 
                     <sidenav-group id="innerResourcesHeading" :unlocked="data['lunarite'].unlocked">
-                        <sidenav-item id="lunaritePane" icon="lunarite.png" :unlocked="data['lunarite'].unlocked" :prod="data['lunarite'].prod" :count="data['lunarite'].count" :storage="data['lunarite'].storage" />
-                        <sidenav-item id="methanePane" icon="methane.png" :unlocked="data['methane'].unlocked" :prod="data['methane'].prod" :count="data['methane'].count" :storage="data['methane'].storage" />
-                        <sidenav-item id="titaniumPane" icon="titanium.png" :unlocked="data['titanium'].unlocked" :prod="data['titanium'].prod" :count="data['titanium'].count" :storage="data['titanium'].storage" />
-                        <sidenav-item id="goldPane" icon="gold.png" :unlocked="data['gold'].unlocked" :prod="data['gold'].prod" :count="data['gold'].count" :storage="data['gold'].storage" />
-                        <sidenav-item id="silverPane" icon="silver.png" :unlocked="data['silver'].unlocked" :prod="data['silver'].prod" :count="data['silver'].count" :storage="data['silver'].storage" />
+                        <sidenav-item id="lunaritePane" icon="lunarite.png" :unlocked="data['lunarite'].unlocked" :prod="data['lunarite'].prod" :count="data['lunarite'].count" :storage="getStorageCap('lunarite')" :cap="data['lunarite'].storage" buildingStorageId="lunariteS1" />
+                        <sidenav-item id="methanePane" icon="methane.png" :unlocked="data['methane'].unlocked" :prod="data['methane'].prod" :count="data['methane'].count" :storage="getStorageCap('methane')" :cap="data['methane'].storage" buildingStorageId="methaneS1" />
+                        <sidenav-item id="titaniumPane" icon="titanium.png" :unlocked="data['titanium'].unlocked" :prod="data['titanium'].prod" :count="data['titanium'].count" :storage="getStorageCap('titanium')" :cap="data['titanium'].storage" buildingStorageId="titaniumS1" />
+                        <sidenav-item id="goldPane" icon="gold.png" :unlocked="data['gold'].unlocked" :prod="data['gold'].prod" :count="data['gold'].count" :storage="getStorageCap('gold')" :cap="data['gold'].storage" buildingStorageId="goldS1" />
+                        <sidenav-item id="silverPane" icon="silver.png" :unlocked="data['silver'].unlocked" :prod="data['silver'].prod" :count="data['silver'].count" :storage="getStorageCap('silver')" :cap="data['silver'].storage" buildingStorageId="silverS1" />
                     </sidenav-group>
 
-                    <sidenav-group id="outerResourcesHeading" :unlocked="data['hydrogen'].unlocked">
-                        <sidenav-item id="hydrogenPane" icon="hydrogen.png" :unlocked="data['hydrogen'].unlocked" :prod="data['hydrogen'].prod" :count="data['hydrogen'].count" :storage="data['hydrogen'].storage" />
-                        <sidenav-item id="heliumPane" icon="helium.png" :unlocked="data['helium'].unlocked" :prod="data['helium'].prod" :count="data['helium'].count" :storage="data['helium'].storage" />
-                        <sidenav-item id="icePane" icon="ice.png" :unlocked="data['ice'].unlocked" :prod="data['ice'].prod" :count="data['ice'].count" :storage="data['ice'].storage" />
+                    <sidenav-group id="outerResourcesHeading" :unlocked="data['hydrogen'].unlocked || data['helium'].unlocked || data['ice'].unlocked">
+                        <sidenav-item id="hydrogenPane" icon="hydrogen.png" :unlocked="data['hydrogen'].unlocked" :prod="data['hydrogen'].prod" :count="data['hydrogen'].count" :storage="getStorageCap('hydrogen')" :cap="data['hydrogen'].storage" buildingStorageId="hydrogenS1" />
+                        <sidenav-item id="heliumPane" icon="helium.png" :unlocked="data['helium'].unlocked" :prod="data['helium'].prod" :count="data['helium'].count" :storage="getStorageCap('helium')" :cap="data['helium'].storage" buildingStorageId="heliumS1" />
+                        <sidenav-item id="icePane" icon="ice.png" :unlocked="data['ice'].unlocked" :prod="data['ice'].prod" :count="data['ice'].count" :storage="getStorageCap('ice')" :cap="data['ice'].storage" buildingStorageId="iceS1" />
                     </sidenav-group>
 
                     <sidenav-group id="researchesHeading" :unlocked="data['science'].unlocked">
@@ -97,18 +99,21 @@
                         <sidenav-item id="solCenterPane" icon="solCenter.png" :unlocked="data['techPlasma0'].unlocked" :done="data['techPlasma0'].count > 0 && data['techEmc0'].count > 0 && data['techDyson0'].count > 0" doneText="done" />
                         <sidenav-item id="emcPane" icon="emc.png" :unlocked="data['emc'].unlocked" />
                         <sidenav-item id="dysonPane" icon="dyson.png" :unlocked="data['segment'].unlocked" />
+                        <sidenav-item id="nanoswarmPane" icon="nanoswarm.png" :unlocked="data['nanoswarm'].unlocked" />
                     </sidenav-group>
 
                     <sidenav-group id="interstellarHeading" :unlocked="data['radarT1'].unlocked || data['antimatter'].unlocked || data['spaceship'].unlocked || data['shipT1'].unlocked">
-                        <sidenav-item id="antimatterPane" icon="antimatter.png" :unlocked="data['antimatter'].unlocked" :prod="data['antimatter'].prod" :count="data['antimatter'].count" :storage="data['antimatter'].storage" />
+                        <sidenav-item id="antimatterPane" icon="antimatter.png" :unlocked="data['antimatter'].unlocked" :prod="data['antimatter'].prod" :count="data['antimatter'].count" :storage="getStorageCap('antimatter')" :cap="data['antimatter'].storage" />
                         <sidenav-item id="communicationPane" icon="communication.png" :unlocked="data['radarT1'].unlocked" />
                         <sidenav-item id="spaceshipPane" icon="spaceship.png" :unlocked="data['spaceship'].unlocked" :done="data['spaceship'].count > 0" doneText="built" />
                         <sidenav-item id="militaryPane" icon="military.png" :unlocked="data['shipT1'].unlocked" />
+                        <sidenav-item id="terraformingPane" icon="terraforming.png" :unlocked="data['probe'].unlocked" />
                         <sidenav-item id="interstellarCarnelianPane" icon="carnelian.png" :unlocked="data['spaceship'].count > 0" :opinion="data['carnelian'].opinion" />
                         <sidenav-item id="interstellarPrasnianPane" icon="prasnian.png" :unlocked="data['spaceship'].count > 0" :opinion="data['prasnian'].opinion" />
                         <sidenav-item id="interstellarHyacinitePane" icon="hyacinite.png" :unlocked="data['spaceship'].count > 0" :opinion="data['hyacinite'].opinion" />
                         <sidenav-item id="interstellarKitrinosPane" icon="kitrinos.png" :unlocked="data['spaceship'].count > 0" :opinion="data['kitrinos'].opinion" />
                         <sidenav-item id="interstellarMovitonPane" icon="moviton.png" :unlocked="data['spaceship'].count > 0" :opinion="data['moviton'].opinion" />
+                        <sidenav-item id="interstellarOverlordPane" icon="overlord.png" :unlocked="data['overlordProgram'].count > 0" />
                     </sidenav-group>
 
                     <sidenav-group id="stargazeHeading" :unlocked="data['darkmatter'].unlocked">
@@ -137,19 +142,19 @@
                         <div v-if="hasNotif" class="position-absolute top-0 end-0" style="line-height:1">
                             <i class="fas fa-fw fa-certificate text-success small"></i>
                         </div>
-                        <img :src="require('./assets/whiteLogo.png')" width="36" height="36" />
+                        <img :src="require('./assets/whiteLogo.png')" width="36" height="36" alt="Game logo" />
                     </button>
                 </div>
 
                 <div class="col-auto ms-auto">
                     <a href="https://discord.gg/3UkgeeT9CV" target="_blank" data-bs-toggle="tooltip" data-bs-placement="left" title="Discord">
-                        <img :src="require('./assets/interface/discord.png')" width="16" height="16" />
+                        <img :src="require('./assets/interface/discord.png')" width="16" height="16" alt="Discord icon" />
                     </a>
                 </div>
 
                 <div class="col-auto cursor-hover">
                     <button @click="setActivePane('donatingPane')">
-                        <img :src="require('./assets/interface/donating.png')" width="16" height="16" />
+                        <img :src="require('./assets/interface/donating.png')" width="16" height="16" alt="Donating icon" />
                         <span class="ms-1 text-light">{{ $t('donatingPane') }}</span>
                     </button>
                 </div>
@@ -159,23 +164,23 @@
                         <div v-if="isNotif('achievementPane')" class="position-absolute top-0 end-0" style="line-height:1">
                             <i class="fas fa-fw fa-certificate text-success small"></i>
                         </div>
-                        <img :src="require('./assets/interface/trophy.png')" width="16" height="16" />
+                        <img :src="require('./assets/interface/trophy.png')" width="16" height="16" alt="Achievements icon" />
                     </button>
                 </div>
 
-<!--                <div class="col-auto cursor-hover position-relative" data-bs-toggle="tooltip" data-bs-placement="left" :title="$t('rankPane')">-->
-<!--                    <button @click="setActivePane('rankPane')">-->
-<!--                        <img :src="require('./assets/interface/rank.png')" width="16" height="16" />-->
-<!--                    </button>-->
-<!--                </div>-->
+                <div class="col-auto cursor-hover position-relative" data-bs-toggle="tooltip" data-bs-placement="left" :title="$t('rankPane')">
+                    <button @click="setActivePane('rankPane')">
+                        <img :src="require('./assets/interface/rank.png')" width="16" height="16" alt="Leaderboard icon" />
+                    </button>
+                </div>
 
                 <div class="col-auto">
-                    <button class="text-normal cursor-hover" data-bs-toggle="dropdown">
-                        <span v-if="locale == 'chs'" class="flag-icon flag-icon-cn rounded"></span>
+                    <button id="dropdownLanguageButton" class="text-normal cursor-hover" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Language dropdown">
+                      <span v-if="locale == 'chs'" class="flag-icon flag-icon-cn rounded"></span>
                         <span v-if="locale == 'en'" class="flag-icon flag-icon-gb rounded"></span>
                         <span v-if="locale == 'fr'" class="flag-icon flag-icon-fr rounded"></span>
                     </button>
-                    <ul class="dropdown-menu dropdown-menu-end">
+                    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdownLanguageButton">
                       <li>
                         <button class="dropdown-item cursor-hover" @click="changeLocale('chs')">
                           <span class="flag-icon flag-icon-cn rounded me-2"></span>
@@ -198,25 +203,19 @@
                 </div>
 
                 <div class="col-auto">
-                    <button class="text-light cursor-hover" data-bs-toggle="dropdown">
+                    <button id="dropdownMenuButton" class="text-light cursor-hover" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Menu dropdown">
                         <i class="fas fa-fw fa-ellipsis-v"></i>
                     </button>
-                    <ul class="dropdown-menu dropdown-menu-end">
-                        <li>
-                            <button class="dropdown-item cursor-hover" @click="setActivePane('helpPane')">
-                                <img :src="require('./assets/interface/help.png')" width="16" height="16" class="me-2">
-                                {{ $t('helpPane') }}
-                            </button>
-                        </li>
+                    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdownMenuButton">
                         <li>
                             <button class="dropdown-item cursor-hover" @click="setActivePane('settingsPane')">
-                                <img :src="require('./assets/interface/cog.png')" width="16" height="16" class="me-2">
+                                <img :src="require('./assets/interface/cog.png')" width="16" height="16" class="me-2" alt="Settings icon" />
                                 {{ $t('settingsPane') }}
                             </button>
                         </li>
                         <li>
                             <button class="dropdown-item cursor-hover" @click="setActivePane('aboutPane')">
-                                <img :src="require('./assets/interface/about.png')" width="16" height="16" class="me-2">
+                                <img :src="require('./assets/interface/about.png')" width="16" height="16" class="me-2" alt="About icon" />
                                 {{ $t('aboutPane') }}
                             </button>
                         </li>
@@ -265,12 +264,13 @@
                         <buildable id="plasmaS1" btnText="build" collapse="true" unlocker="techPlasmaStorage1" />
                         <buildable id="plasmaS2" btnText="build" collapse="true" unlocker="techPlasmaStorage2" />
                         <buildable id="plasmaS3" btnText="build" collapse="true" unlocker="techPlasmaStorage3" />
+                        <buildable id="plasmaS4" btnText="build" collapse="true" unlocker="techPlasmaStorage4" />
                     </pane>
 
                     <!-- METEORITE PANE -->
-                    <pane id="meteoritePane" icon="meteorite.png" :descs="['meteoritePane_desc']" pinnable="meteorite">
+                    <pane id="meteoritePane" icon="meteorite.png" :descs="['meteoritePane_desc']" pinnable="meteorite" shortcutBuildingStorageId="meteoriteS1">
                         <resource id="meteorite" />
-                        <buildable id="meteoriteS1" btnText="upgrade" collapse="true" />
+                        <buildable id="meteoriteS1" btnText="upgrade" collapse="true" unlocker="techStorage" autoUpgradeStorage="true" />
                         <buildable id="meteoriteT1" btnText="build" collapse="true" :multibuy="data['multiBuy'].count > 0" calc="true" unlocker="techMeteorite1" />
                         <buildable id="meteoriteT2" btnText="build" collapse="true" :multibuy="data['multiBuy'].count > 0" calc="true" unlocker="techMeteorite2" />
                         <buildable id="meteoriteT3" btnText="build" collapse="true" :multibuy="data['multiBuy'].count > 0" calc="true" unlocker="techMeteorite3" />
@@ -278,9 +278,9 @@
                     </pane>
 
                     <!-- CARBON PANE -->
-                    <pane id="carbonPane" icon="carbon.png" :descs="['carbonPane_desc']" pinnable="carbon">
+                    <pane id="carbonPane" icon="carbon.png" :descs="['carbonPane_desc']" pinnable="carbon" shortcutBuildingStorageId="carbonS1">
                         <resource id="carbon" />
-                        <buildable id="carbonS1" btnText="upgrade" collapse="true" unlocker="techStorage" />
+                        <buildable id="carbonS1" btnText="upgrade" collapse="true" unlocker="techStorage" autoUpgradeStorage="true" />
                         <buildable id="carbonT1" btnText="build" collapse="true" :multibuy="data['multiBuy'].count > 0" calc="true" />
                         <buildable id="carbonT2" btnText="build" collapse="true" :multibuy="data['multiBuy'].count > 0" calc="true" unlocker="techTier2" />
                         <buildable id="carbonT3" btnText="build" collapse="true" :multibuy="data['multiBuy'].count > 0" calc="true" unlocker="wonderTechnological1" />
@@ -289,9 +289,9 @@
                     </pane>
 
                     <!-- OIL PANE -->
-                    <pane id="oilPane" icon="oil.png" :descs="['oilPane_desc']" pinnable="oil">
+                    <pane id="oilPane" icon="oil.png" :descs="['oilPane_desc']" pinnable="oil" shortcutBuildingStorageId="oilS1">
                         <resource id="oil" />
-                        <buildable id="oilS1" btnText="upgrade" collapse="true" unlocker="techStorage" />
+                        <buildable id="oilS1" btnText="upgrade" collapse="true" unlocker="techStorage" autoUpgradeStorage="true" />
                         <buildable id="oilT1" btnText="build" collapse="true" :multibuy="data['multiBuy'].count > 0" calc="true" />
                         <buildable id="oilT2" btnText="build" collapse="true" :multibuy="data['multiBuy'].count > 0" calc="true" unlocker="techTier2" />
                         <buildable id="oilT3" btnText="build" collapse="true" :multibuy="data['multiBuy'].count > 0" calc="true" unlocker="wonderTechnological1" />
@@ -300,7 +300,7 @@
                     </pane>
 
                     <!-- METAL PANE -->
-                    <pane id="metalPane" icon="metal.png" :descs="['metalPane_desc']" pinnable="metal">
+                    <pane id="metalPane" icon="metal.png" :descs="['metalPane_desc']" pinnable="metal" shortcutBuildingStorageId="metalS1">
                         <resource id="metal" />
                         <buildable id="metalS1" btnText="upgrade" collapse="true" unlocker="techStorage" autoUpgradeStorage="true" />
                         <buildable id="metalT1" btnText="build" collapse="true" :multibuy="data['multiBuy'].count > 0" calc="true" />
@@ -311,9 +311,9 @@
                     </pane>
 
                     <!-- GEM PANE -->
-                    <pane id="gemPane" icon="gem.png" :descs="['gemPane_desc']" pinnable="gem">
+                    <pane id="gemPane" icon="gem.png" :descs="['gemPane_desc']" pinnable="gem" shortcutBuildingStorageId="gemS1">
                         <resource id="gem" />
-                        <buildable id="gemS1" btnText="upgrade" collapse="true" unlocker="techStorage" />
+                        <buildable id="gemS1" btnText="upgrade" collapse="true" unlocker="techStorage" autoUpgradeStorage="true" />
                         <buildable id="gemT1" btnText="build" collapse="true" :multibuy="data['multiBuy'].count > 0" calc="true" />
                         <buildable id="gemT2" btnText="build" collapse="true" :multibuy="data['multiBuy'].count > 0" calc="true" unlocker="techTier2" />
                         <buildable id="gemT3" btnText="build" collapse="true" :multibuy="data['multiBuy'].count > 0" calc="true" unlocker="wonderTechnological1" />
@@ -322,9 +322,9 @@
                     </pane>
 
                     <!-- WOOD PANE -->
-                    <pane id="woodPane" icon="wood.png" :descs="['woodPane_desc']" pinnable="wood">
+                    <pane id="woodPane" icon="wood.png" :descs="['woodPane_desc']" pinnable="wood" shortcutBuildingStorageId="woodS1">
                         <resource id="wood" />
-                        <buildable id="woodS1" btnText="upgrade" collapse="true" unlocker="techStorage" />
+                        <buildable id="woodS1" btnText="upgrade" collapse="true" unlocker="techStorage" autoUpgradeStorage="true" />
                         <buildable id="woodT1" btnText="build" collapse="true" :multibuy="data['multiBuy'].count > 0" calc="true" />
                         <buildable id="woodT2" btnText="build" collapse="true" :multibuy="data['multiBuy'].count > 0" calc="true" unlocker="techTier2" />
                         <buildable id="woodT3" btnText="build" collapse="true" :multibuy="data['multiBuy'].count > 0" calc="true" unlocker="wonderTechnological1" />
@@ -333,9 +333,9 @@
                     </pane>
 
                     <!-- SILICON PANE -->
-                    <pane id="siliconPane" icon="silicon.png" :descs="['siliconPane_desc']" pinnable="silicon">
+                    <pane id="siliconPane" icon="silicon.png" :descs="['siliconPane_desc']" pinnable="silicon" shortcutBuildingStorageId="siliconS1">
                         <resource id="silicon" />
-                        <buildable id="siliconS1" btnText="upgrade" collapse="true" unlocker="techStorage" />
+                        <buildable id="siliconS1" btnText="upgrade" collapse="true" unlocker="techStorage" autoUpgradeStorage="true" />
                         <buildable id="siliconT1" btnText="build" collapse="true" :multibuy="data['multiBuy'].count > 0" calc="true" />
                         <buildable id="siliconT2" btnText="build" collapse="true" :multibuy="data['multiBuy'].count > 0" calc="true" unlocker="techTier2" />
                         <buildable id="siliconT3" btnText="build" collapse="true" :multibuy="data['multiBuy'].count > 0" calc="true" unlocker="wonderTechnological1" />
@@ -344,9 +344,9 @@
                     </pane>
 
                     <!-- URANIUM PANE -->
-                    <pane id="uraniumPane" icon="uranium.png" :descs="['uraniumPane_desc']" pinnable="uranium">
+                    <pane id="uraniumPane" icon="uranium.png" :descs="['uraniumPane_desc']" pinnable="uranium" shortcutBuildingStorageId="uraniumS1">
                         <resource id="uranium" />
-                        <buildable id="uraniumS1" btnText="upgrade" collapse="true" unlocker="techStorage" />
+                        <buildable id="uraniumS1" btnText="upgrade" collapse="true" unlocker="techStorage" autoUpgradeStorage="true" />
                         <buildable id="uraniumT1" btnText="build" collapse="true" :multibuy="data['multiBuy'].count > 0" calc="true" />
                         <buildable id="uraniumT2" btnText="build" collapse="true" :multibuy="data['multiBuy'].count > 0" calc="true" unlocker="techTier2" />
                         <buildable id="uraniumT3" btnText="build" collapse="true" :multibuy="data['multiBuy'].count > 0" calc="true" unlocker="wonderTechnological1" />
@@ -355,9 +355,9 @@
                     </pane>
 
                     <!-- LAVA PANE -->
-                    <pane id="lavaPane" icon="lava.png" :descs="['lavaPane_desc']" pinnable="lava">
+                    <pane id="lavaPane" icon="lava.png" :descs="['lavaPane_desc']" pinnable="lava" shortcutBuildingStorageId="lavaS1">
                         <resource id="lava" />
-                        <buildable id="lavaS1" btnText="upgrade" collapse="true" unlocker="techStorage" />
+                        <buildable id="lavaS1" btnText="upgrade" collapse="true" unlocker="techStorage" autoUpgradeStorage="true" />
                         <buildable id="lavaT1" btnText="build" collapse="true" :multibuy="data['multiBuy'].count > 0" calc="true" />
                         <buildable id="lavaT2" btnText="build" collapse="true" :multibuy="data['multiBuy'].count > 0" calc="true" unlocker="techTier2" />
                         <buildable id="lavaT3" btnText="build" collapse="true" :multibuy="data['multiBuy'].count > 0" calc="true" unlocker="wonderTechnological1" />
@@ -366,9 +366,9 @@
                     </pane>
 
                     <!-- LUNARITE PANE -->
-                    <pane id="lunaritePane" icon="lunarite.png" :descs="['lunaritePane_desc']" pinnable="lunarite">
+                    <pane id="lunaritePane" icon="lunarite.png" :descs="['lunaritePane_desc']" pinnable="lunarite" shortcutBuildingStorageId="lunariteS1">
                         <resource id="lunarite" />
-                        <buildable id="lunariteS1" btnText="upgrade" collapse="true" unlocker="techStorage" />
+                        <buildable id="lunariteS1" btnText="upgrade" collapse="true" unlocker="techStorage" autoUpgradeStorage="true" />
                         <buildable id="lunariteT1" btnText="build" collapse="true" :multibuy="data['multiBuy'].count > 0" calc="true" />
                         <buildable id="lunariteT2" btnText="build" collapse="true" :multibuy="data['multiBuy'].count > 0" calc="true" unlocker="techTier2" />
                         <buildable id="lunariteT3" btnText="build" collapse="true" :multibuy="data['multiBuy'].count > 0" calc="true" unlocker="wonderTechnological1" />
@@ -377,9 +377,9 @@
                     </pane>
 
                     <!-- METHANE PANE -->
-                    <pane id="methanePane" icon="methane.png" :descs="['methanePane_desc']" pinnable="methane">
+                    <pane id="methanePane" icon="methane.png" :descs="['methanePane_desc']" pinnable="methane" shortcutBuildingStorageId="methaneS1">
                         <resource id="methane" />
-                        <buildable id="methaneS1" btnText="upgrade" collapse="true" unlocker="techStorage" />
+                        <buildable id="methaneS1" btnText="upgrade" collapse="true" unlocker="techStorage" autoUpgradeStorage="true" />
                         <buildable id="methaneT1" btnText="build" collapse="true" :multibuy="data['multiBuy'].count > 0" calc="true" />
                         <buildable id="methaneT2" btnText="build" collapse="true" :multibuy="data['multiBuy'].count > 0" calc="true" unlocker="techTier2" />
                         <buildable id="methaneT3" btnText="build" collapse="true" :multibuy="data['multiBuy'].count > 0" calc="true" unlocker="wonderTechnological1" />
@@ -388,9 +388,9 @@
                     </pane>
 
                     <!-- TITANIUM PANE -->
-                    <pane id="titaniumPane" icon="titanium.png" :descs="['titaniumPane_desc']" pinnable="titanium">
+                    <pane id="titaniumPane" icon="titanium.png" :descs="['titaniumPane_desc']" pinnable="titanium" shortcutBuildingStorageId="titaniumS1">
                         <resource id="titanium" />
-                        <buildable id="titaniumS1" btnText="upgrade" collapse="true" unlocker="techStorage" />
+                        <buildable id="titaniumS1" btnText="upgrade" collapse="true" unlocker="techStorage" autoUpgradeStorage="true" />
                         <buildable id="titaniumT1" btnText="build" collapse="true" :multibuy="data['multiBuy'].count > 0" calc="true" />
                         <buildable id="titaniumT2" btnText="build" collapse="true" :multibuy="data['multiBuy'].count > 0" calc="true" unlocker="techTier2" />
                         <buildable id="titaniumT3" btnText="build" collapse="true" :multibuy="data['multiBuy'].count > 0" calc="true" unlocker="wonderTechnological1" />
@@ -399,9 +399,9 @@
                     </pane>
 
                     <!-- GOLD PANE -->
-                    <pane id="goldPane" icon="gold.png" :descs="['goldPane_desc']" pinnable="gold">
+                    <pane id="goldPane" icon="gold.png" :descs="['goldPane_desc']" pinnable="gold" shortcutBuildingStorageId="goldS1">
                         <resource id="gold" />
-                        <buildable id="goldS1" btnText="upgrade" collapse="true" unlocker="techStorage" />
+                        <buildable id="goldS1" btnText="upgrade" collapse="true" unlocker="techStorage" autoUpgradeStorage="true" />
                         <buildable id="goldT1" btnText="build" collapse="true" :multibuy="data['multiBuy'].count > 0" calc="true" />
                         <buildable id="goldT2" btnText="build" collapse="true" :multibuy="data['multiBuy'].count > 0" calc="true" unlocker="techTier2" />
                         <buildable id="goldT3" btnText="build" collapse="true" :multibuy="data['multiBuy'].count > 0" calc="true" unlocker="wonderTechnological1" />
@@ -410,9 +410,9 @@
                     </pane>
 
                     <!-- SILVER PANE -->
-                    <pane id="silverPane" icon="silver.png" :descs="['silverPane_desc']" pinnable="silver">
+                    <pane id="silverPane" icon="silver.png" :descs="['silverPane_desc']" pinnable="silver" shortcutBuildingStorageId="silverS1">
                         <resource id="silver" />
-                        <buildable id="silverS1" btnText="upgrade" collapse="true" unlocker="techStorage" />
+                        <buildable id="silverS1" btnText="upgrade" collapse="true" unlocker="techStorage" autoUpgradeStorage="true" />
                         <buildable id="silverT1" btnText="build" collapse="true" :multibuy="data['multiBuy'].count > 0" calc="true" />
                         <buildable id="silverT2" btnText="build" collapse="true" :multibuy="data['multiBuy'].count > 0" calc="true" unlocker="techTier2" />
                         <buildable id="silverT3" btnText="build" collapse="true" :multibuy="data['multiBuy'].count > 0" calc="true" unlocker="wonderTechnological1" />
@@ -421,9 +421,9 @@
                     </pane>
 
                     <!-- HYDROGEN PANE -->
-                    <pane id="hydrogenPane" icon="hydrogen.png" :descs="['hydrogenPane_desc']" pinnable="hydrogen">
+                    <pane id="hydrogenPane" icon="hydrogen.png" :descs="['hydrogenPane_desc']" pinnable="hydrogen" shortcutBuildingStorageId="hydrogenS1">
                         <resource id="hydrogen" />
-                        <buildable id="hydrogenS1" btnText="upgrade" collapse="true" unlocker="techStorage" />
+                        <buildable id="hydrogenS1" btnText="upgrade" collapse="true" unlocker="techStorage" autoUpgradeStorage="true" />
                         <buildable id="hydrogenT1" btnText="build" collapse="true" :multibuy="data['multiBuy'].count > 0" calc="true" />
                         <buildable id="hydrogenT2" btnText="build" collapse="true" :multibuy="data['multiBuy'].count > 0" calc="true" unlocker="techTier2" />
                         <buildable id="hydrogenT3" btnText="build" collapse="true" :multibuy="data['multiBuy'].count > 0" calc="true" unlocker="wonderTechnological1" />
@@ -432,9 +432,9 @@
                     </pane>
 
                     <!-- HELIUM PANE -->
-                    <pane id="heliumPane" icon="helium.png" :descs="['heliumPane_desc']" pinnable="helium">
+                    <pane id="heliumPane" icon="helium.png" :descs="['heliumPane_desc']" pinnable="helium" shortcutBuildingStorageId="heliumS1">
                         <resource id="helium" />
-                        <buildable id="heliumS1" btnText="upgrade" collapse="true" unlocker="techStorage" />
+                        <buildable id="heliumS1" btnText="upgrade" collapse="true" unlocker="techStorage" autoUpgradeStorage="true" />
                         <buildable id="heliumT1" btnText="build" collapse="true" :multibuy="data['multiBuy'].count > 0" calc="true" />
                         <buildable id="heliumT2" btnText="build" collapse="true" :multibuy="data['multiBuy'].count > 0" calc="true" unlocker="techTier2" />
                         <buildable id="heliumT3" btnText="build" collapse="true" :multibuy="data['multiBuy'].count > 0" calc="true" unlocker="wonderTechnological1" />
@@ -443,9 +443,9 @@
                     </pane>
 
                     <!-- ICE PANE -->
-                    <pane id="icePane" icon="ice.png" :descs="['icePane_desc']" pinnable="ice">
+                    <pane id="icePane" icon="ice.png" :descs="['icePane_desc']" pinnable="ice" shortcutBuildingStorageId="iceS1">
                         <resource id="ice" />
-                        <buildable id="iceS1" btnText="upgrade" collapse="true" unlocker="techStorage" />
+                        <buildable id="iceS1" btnText="upgrade" collapse="true" unlocker="techStorage" autoUpgradeStorage="true" />
                         <buildable id="iceT1" btnText="build" collapse="true" :multibuy="data['multiBuy'].count > 0" calc="true" />
                         <buildable id="iceT2" btnText="build" collapse="true" :multibuy="data['multiBuy'].count > 0" calc="true" unlocker="techTier2" />
                         <buildable id="iceT3" btnText="build" collapse="true" :multibuy="data['multiBuy'].count > 0" calc="true" unlocker="wonderTechnological1" />
@@ -464,36 +464,36 @@
 
                     <!-- TECHNOLOGIES PANE -->
                     <pane id="technologiesPane" icon="technologies.png" :descs="['technologiesPane_desc']">
-                        <buildable id="techStorage" btnText="unlock" />
-                        <buildable id="techEnergy1" btnText="unlock" />
-                        <buildable id="techOil" btnText="unlock" unlocker="techStorage" />
-                        <buildable id="techEnergy2" btnText="unlock" unlocker="techEnergy1" />
-                        <buildable id="techTier2" btnText="unlock" unlocker="techEnergy1" />
-                        <buildable id="techDestruction" btnText="unlock" unlocker="techTier2" />
-                        <buildable id="techFuel1" btnText="unlock" unlocker="techTier2" />
-                        <buildable id="techFuel2" btnText="unlock" unlocker="techFuel1" />
-                        <buildable id="techFuel3" btnText="unlock" unlocker="techFuel2" />
-                        <buildable id="techScience2" btnText="unlock" unlocker="techFuel1" />
-                        <buildable id="techScience3" btnText="unlock" unlocker="techScience2" />
-                        <buildable id="techScience4" btnText="unlock" unlocker="techScience3" />
-                        <buildable id="techEnergyStorage1" btnText="unlock" unlocker="upgradeEnergy2" />
-                        <buildable id="techEnergyStorage2" btnText="unlock" unlocker="techEnergyStorage1" />
-                        <buildable id="techEnergyStorage3" btnText="unlock" unlocker="techEnergyStorage2" />
-                        <buildable id="techEnergyStorage4" btnText="unlock" unlocker="techEnergyStorage4" />
-                        <buildable id="techPlasma1" btnText="unlock" unlocker="techPlasma0" />
-                        <buildable id="techPlasma2" btnText="unlock" unlocker="techPlasma1" />
-                        <buildable id="techPlasmaStorage1" btnText="unlock" unlocker="techPlasma1" />
-                        <buildable id="techPlasmaStorage2" btnText="unlock" unlocker="techPlasmaStorage1" />
-                        <buildable id="techEmc1" btnText="unlock" unlocker="techEmc0" />
-                        <buildable id="techMeteorite0" btnText="unlock" unlocker="techEmc1" />
-                        <buildable id="techMeteorite1" btnText="unlock" unlocker="wonderMeteorite1" />
-                        <buildable id="techMeteorite2" btnText="unlock" unlocker="techMeteorite1" />
-                        <buildable id="techDyson1" btnText="unlock" unlocker="techDyson0" />
-                        <buildable id="techDyson2" btnText="unlock" unlocker="techDyson1" />
-                        <buildable id="techNanoswarm1" btnText="unlock" unlocker="techNanoswarm0" />
-                        <buildable id="upgradeTier2" btnText="upgrade" unlocker="techTier2" />
-                        <buildable id="upgradeEnergy1" btnText="upgrade" unlocker="techEnergy1" />
-                        <buildable id="upgradeEnergy2" btnText="upgrade" unlocker="techEnergy2" />
+                        <buildable v-if="!(showDoneTechs == false && data['techStorage'].count > 0)" id="techStorage" btnText="unlock" />
+                        <buildable v-if="!(showDoneTechs == false && data['techEnergy1'].count > 0)" id="techEnergy1" btnText="unlock" />
+                        <buildable v-if="!(showDoneTechs == false && data['techOil'].count > 0)" id="techOil" btnText="unlock" unlocker="techStorage" />
+                        <buildable v-if="!(showDoneTechs == false && data['techEnergy2'].count > 0)" id="techEnergy2" btnText="unlock" unlocker="techEnergy1" />
+                        <buildable v-if="!(showDoneTechs == false && data['techTier2'].count > 0)" id="techTier2" btnText="unlock" unlocker="techEnergy1" />
+                        <buildable v-if="!(showDoneTechs == false && data['techDestruction'].count > 0)" id="techDestruction" btnText="unlock" unlocker="techTier2" />
+                        <buildable v-if="!(showDoneTechs == false && data['techFuel1'].count > 0)" id="techFuel1" btnText="unlock" unlocker="techTier2" />
+                        <buildable v-if="!(showDoneTechs == false && data['techFuel2'].count > 0)" id="techFuel2" btnText="unlock" unlocker="techFuel1" />
+                        <buildable v-if="!(showDoneTechs == false && data['techFuel3'].count > 0)" id="techFuel3" btnText="unlock" unlocker="techFuel2" />
+                        <buildable v-if="!(showDoneTechs == false && data['techScience2'].count > 0)" id="techScience2" btnText="unlock" unlocker="techFuel1" />
+                        <buildable v-if="!(showDoneTechs == false && data['techScience3'].count > 0)" id="techScience3" btnText="unlock" unlocker="techScience2" />
+                        <buildable v-if="!(showDoneTechs == false && data['techScience4'].count > 0)" id="techScience4" btnText="unlock" unlocker="techScience3" />
+                        <buildable v-if="!(showDoneTechs == false && data['techEnergyStorage1'].count > 0)" id="techEnergyStorage1" btnText="unlock" unlocker="upgradeEnergy2" />
+                        <buildable v-if="!(showDoneTechs == false && data['techEnergyStorage2'].count > 0)" id="techEnergyStorage2" btnText="unlock" unlocker="techEnergyStorage1" />
+                        <buildable v-if="!(showDoneTechs == false && data['techEnergyStorage3'].count > 0)" id="techEnergyStorage3" btnText="unlock" unlocker="techEnergyStorage2" />
+                        <buildable v-if="!(showDoneTechs == false && data['techEnergyStorage4'].count > 0)" id="techEnergyStorage4" btnText="unlock" unlocker="techEnergyStorage4" />
+                        <buildable v-if="!(showDoneTechs == false && data['techPlasma1'].count > 0)" id="techPlasma1" btnText="unlock" unlocker="techPlasma0" />
+                        <buildable v-if="!(showDoneTechs == false && data['techPlasma2'].count > 0)" id="techPlasma2" btnText="unlock" unlocker="techPlasma1" />
+                        <buildable v-if="!(showDoneTechs == false && data['techPlasmaStorage1'].count > 0)" id="techPlasmaStorage1" btnText="unlock" unlocker="techPlasma1" />
+                        <buildable v-if="!(showDoneTechs == false && data['techPlasmaStorage2'].count > 0)" id="techPlasmaStorage2" btnText="unlock" unlocker="techPlasmaStorage1" />
+                        <buildable v-if="!(showDoneTechs == false && data['techEmc1'].count > 0)" id="techEmc1" btnText="unlock" unlocker="techEmc0" />
+                        <buildable v-if="!(showDoneTechs == false && data['techMeteorite0'].count > 0)" id="techMeteorite0" btnText="unlock" unlocker="techEmc1" />
+                        <buildable v-if="!(showDoneTechs == false && data['techMeteorite1'].count > 0)" id="techMeteorite1" btnText="unlock" unlocker="wonderMeteorite1" />
+                        <buildable v-if="!(showDoneTechs == false && data['techMeteorite2'].count > 0)" id="techMeteorite2" btnText="unlock" unlocker="techMeteorite1" />
+                        <buildable v-if="!(showDoneTechs == false && data['techDyson1'].count > 0)" id="techDyson1" btnText="unlock" unlocker="techDyson0" />
+                        <buildable v-if="!(showDoneTechs == false && data['techDyson2'].count > 0)" id="techDyson2" btnText="unlock" unlocker="techDyson1" />
+                        <buildable v-if="!(showDoneTechs == false && data['techNanoswarm1'].count > 0)" id="techNanoswarm1" btnText="unlock" unlocker="techNanoswarm0" />
+                        <buildable v-if="!(showDoneTechs == false && data['upgradeTier2'].count > 0)" id="upgradeTier2" btnText="upgrade" unlocker="techTier2" />
+                        <buildable v-if="!(showDoneTechs == false && data['upgradeEnergy1'].count > 0)" id="upgradeEnergy1" btnText="upgrade" unlocker="techEnergy1" />
+                        <buildable v-if="!(showDoneTechs == false && data['upgradeEnergy2'].count > 0)" id="upgradeEnergy2" btnText="upgrade" unlocker="techEnergy2" />
                         <buildable id="boostProduction" btnText="boost" />
                         <buildable id="boostScience" btnText="boost" />
                         <buildable id="boostEnergy" btnText="boost" />
@@ -596,6 +596,12 @@
                                             <option value="60">{{ $t('1minute') }}</option>
                                         </select>
                                     </div>
+                                    <div class="col-12 mt-2">
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="checkbox" id="checkEmcShortcut" v-model="showEmcShortcut" @click="setDisplayEmcShortcut(!showEmcShortcut)" />
+                                            <label class="form-check-label small" for="checkEmcShortcut">{{ $t('showEmcShortcut') }}</label>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </card>
@@ -626,14 +632,20 @@
 
                     <!-- DYSON PANE -->
                     <pane id="dysonPane" icon="dyson.png" :descs="['dysonPane_desc']">
-                        <buildable id="segment" btnText="build" />
-                        <buildable id="dysonT1" btnText="build" />
-                        <buildable id="dysonT2" btnText="build" />
-                        <buildable id="dysonT3" btnText="build" />
+                        <buildable id="segment" btnText="build" collapse="true" />
+                        <buildable id="dysonT1" btnText="build" collapse="true" />
+                        <buildable id="dysonT2" btnText="build" collapse="true" />
+                        <buildable id="dysonT3" btnText="build" collapse="true" />
+                    </pane>
+
+                    <!-- NANOSWARM PANE -->
+                    <pane id="nanoswarmPane" icon="nanoswarm.png">
+                        <buildable id="nanoswarm" btnText="build" />
                     </pane>
 
                     <!-- ANTIMATTER PANE -->
                     <pane id="antimatterPane" icon="antimatter.png" :descs="['antimatterPane_desc']" pinnable="antimatter">
+                        <resource id="antimatter" />
                         <buildable id="antimatterT1" btnText="build" />
                     </pane>
 
@@ -646,9 +658,9 @@
                     <!-- SPACESHIP PANE -->
                     <pane id="spaceshipPane" icon="spaceship.png" :descs="['spaceshipPane_desc']">
                         <buildable id="spaceship" btnText="build" />
-                        <buildable id="shield" btnText="build" />
-                        <buildable id="engine" btnText="build" />
-                        <buildable id="aero" btnText="build" />
+                        <buildable id="shield" btnText="build" calc="true" />
+                        <buildable id="engine" btnText="build" calc="true" />
+                        <buildable id="aero" btnText="build" calc="true" />
                     </pane>
 
                     <!-- MILITARY PANE -->
@@ -659,6 +671,12 @@
                         <buildable id="shipT3" btnText="build" />
                         <buildable id="shipT4" btnText="build" />
                         <buildable id="shipT5" btnText="build" />
+                    </pane>
+
+                    <!-- TERRAFORMING PANE -->
+                    <pane id="terraformingPane" icon="terraforming.png" :descs="['terraformingPane_desc']">
+                        <buildable id="probe" btnText="build" />
+                        <buildable id="terraformer" btnText="build" />
                     </pane>
 
                     <!-- INTERSTELLAR CARNELIAN PANE -->
@@ -712,9 +730,32 @@
                         <star id="star21601"  /> <star id="star63801"  /> <star id="star187202" />
                     </pane>
 
+                    <!-- INTERSTELLAR OVERLORD PANE -->
+                    <pane id="interstellarOverlordPane" icon="overlord.png" :descs="['interstellarOverlordPane_desc']">
+                        <card id="overlordStatues">
+                            <div class="col-12">
+                                <small>{{ 150 - getStatuesCount }} {{ $t('remainingStatues') }}</small>
+                                <div class="progress">
+                                    <div class="progress-bar progress-bar-striped progress-bar-animated" :style="'width: ' + ((getStatuesCount / 150) * 100) + '%'">
+                                        <div class="small">
+                                            <span>{{ (getStatuesCount / 150) * 100 }}%</span>
+                                            <span class="ms-1">{{ getStatuesCount }}</span>
+                                            <small>/150</small>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-12 text-end">
+                                <button class="btn btn-warning" :class="{ 'disabled':getStatuesCount < 150 }" @click="overlordModal.show()">
+                                    {{ $t('meetOverlord') }}
+                                </button>
+                            </div>
+                        </card>
+                    </pane>
+
                     <!-- DARKMATTER PANE -->
                     <pane id="darkmatterPane" icon="darkmatter.png" :descs="['darkmatterPane_desc1', 'darkmatterPane_desc2', 'darkmatterPane_desc3', 'darkmatterPane_desc4', 'darkmatterPane_desc5']">
-                        <card id="darkmatter" :descs="['darkmatter_desc']">
+                        <card id="darkmatter" :descs="['darkmatter_desc']" checked="true">
                             <div class="col-12">
                                 <div class="heading-6">{{ $t('dmWonders') }} <span class="text-light">{{ getDMWonders }}</span></div>
                                 <div class="small"><span>{{ $t('dmWonders_desc') }}</span></div>
@@ -736,11 +777,15 @@
                                 <div class="small"><span>{{ $t('dmSwarms_desc') }}</span></div>
                             </div>
                         </card>
-                        <card id="rebirth" :descs="['rebirth_desc']">
+                        <card id="rebirth" :descs="['rebirth_desc']" checked="true">
+                            <div class="col-12 small">
+                                <div class="text-white">{{ $t('rebirth_nb1') }}</div>
+                                <div :class="{ 'text-white':data['dysonT3'].count > 0, 'text-danger':data['dysonT3'].count < 1 }">{{ $t('rebirth_nb2') }}</div>
+                            </div>
                             <div class="col-12">
                                 <div class="row g-1 justify-content-end">
                                     <div class="col-auto">
-                                        <button class="btn btn-warning" @click="rebirthModal.show()">{{ $t('rebirth') }}</button>
+                                        <button class="btn btn-warning" :class="{ 'disabled':data['dysonT3'].count < 1 }" @click="rebirthModal.show()">{{ $t('rebirth') }}</button>
                                     </div>
                                 </div>
                             </div>
@@ -788,6 +833,7 @@
                     <pane id="stargazeMovitonPane" icon="moviton.png" :descs="['stargazeMovitonPane_desc']">
                         <buildable id="upgradeFuel1" btnText="activate" />
                         <buildable id="upgradeSpaceship" btnText="activate" />
+                        <buildable id="techPlasmaStorage4" btnText="activate" />
                         <buildable id="techMeteorite3" btnText="activate" />
                         <buildable id="techMeteorite4" btnText="activate" />
                     </pane>
@@ -799,7 +845,7 @@
                     </pane>
 
                     <!-- ULTRITE PANE -->
-                    <pane id="ultritePane" icon="ultrite.png" :descs="['ultritePane_desc']">
+                    <pane id="ultritePane" icon="ultrite.png" :descs="['ultritePane_desc1', 'ultritePane_desc2', 'ultritePane_desc3', 'ultritePane_desc4', 'ultritePane_desc5']">
                         <card id="ultrite" :descs="['ultrite_desc']" checked="true">
                             <div class="col-12">
                                 <div class="heading-6">{{ $t('ulStars') }} <span class="text-light">{{ getULStars }}</span></div>
@@ -810,15 +856,18 @@
                                 <div class="small"><span>{{ $t('ulDarkmatter_desc') }}</span></div>
                             </div>
                             <div class="col-12">
-                                <div class="heading-6">{{ $t('ulSpheres') }} <span class="text-light">{{ getULSpheres }}</span></div>
-                                <div class="small"><span>{{ $t('ulSpheres_desc') }}</span></div>
+                                <div class="heading-6">{{ $t('ulStatues') }} <span class="text-light">{{ getULStatues }}</span></div>
+                                <div class="small"><span>{{ $t('ulStatues_desc') }}</span></div>
                             </div>
                         </card>
                         <card id="enlighten" :descs="['enlighten_desc']" checked="true">
+                            <div class="col-12 small">
+                                <div :class="{ 'text-white':getOwnedStarCount >= 10, 'text-danger':getOwnedStarCount < 10 }">{{ $t('enlighten_nb1') }}</div>
+                            </div>
                             <div class="col-12">
                                 <div class="row g-1 justify-content-end">
                                     <div class="col-auto">
-                                        <button class="btn btn-warning" @click="enlightenModal.show()">{{ $t('enlighten') }}</button>
+                                        <button class="btn btn-warning" :class="{ 'disabled':getOwnedStarCount < 10 }" @click="enlightenModal.show()" >{{ $t('enlighten') }}</button>
                                     </div>
                                 </div>
                             </div>
@@ -845,12 +894,38 @@
                                 </div>
                             </div>
                         </card>
+                        <card v-if="titanSwapingCount < 1" id="titanSwaping" checked="true" :descs="['titanSwaping_desc']">
+                            <div v-if="getCurrentTitan.length > 0" class="col-12">
+                                <small class="text-light">{{ $t('titanSource') }}</small>
+                                <select class="form-control" v-model="titanSource">
+                                    <option></option>
+                                    <option v-for="item in getCurrentTitan" :key="item" :value="item">{{ $t(item) }}</option>
+                                </select>
+                            </div>
+                            <div v-if="getCurrentTitan.length > 0" class="col-12">
+                                <small class="text-light">{{ $t('titanDestination') }}</small>
+                                <select class="form-control" v-model="titanDestination">
+                                    <option></option>
+                                    <option v-for="item in getNotCurrentTitan" :key="item" :value="item">{{ $t(item) }}</option>
+                                </select>
+                            </div>
+                            <div v-if="getCurrentTitan.length > 0" class="col-12 text-end">
+                                <button class="btn" @click="swapTitan({ 'source':titanSource, 'destination':titanDestination })">
+                                    {{ $t('swap') }}
+                                </button>
+                            </div>
+                        </card>
                     </pane>
 
                     <!-- UPGRADES PANE -->
                     <pane id="upgradesPane" icon="upgrades.png">
-                        <buildable id="techNanoswarm0" btnText="activate" />
+                        <buildable id="overlordProgram" btnText="activate" />
+                        <buildable id="advUpgradeStorage1" btnText="activate" />
+                        <buildable id="shipSpeedEnhancement" btnText="activate" />
+                        <buildable id="shipDefenceEnhancement" btnText="activate" />
+                        <buildable id="shipPowerEnhancement" btnText="activate" />
                         <buildable id="techAutoStorageUpgrade" btnText="activate" />
+                        <buildable id="techNanoswarm0" btnText="activate" />
                     </pane>
                     <!-- DONATING PANE -->
                     <pane id="donatingPane" icon="donating.png" :descs="['donatingPane_desc1', 'donatingPane_desc2']">
@@ -1066,10 +1141,64 @@
 
                     <!-- HELP PANE -->
                     <pane id="helpPane" icon="help.png" :descs="['helpPane_desc']">
-                        <card id="help1" :descs="['help1_desc1']" checked="true" />
-                        <card id="help2" :descs="['help2_desc1', 'help2_desc2']" checked="true" />
-                        <card id="help3" :descs="['help3_desc1']" checked="true" />
-                        <card id="help4" :descs="['help4_desc1']" checked="true" />
+                        <card id="helpStep1Title" :descs="['helpStep1Text1']" :checked="data['science'].unlocked == true">
+                            <div class="col-12">
+                                <div class="tip tip-normal">
+                                    <b class="text-uppercase">{{ $t('tip') }}</b>
+                                    {{ $t('helpStep1Tip1') }}
+                                </div>
+                            </div>
+                        </card>
+                        <card v-if="data['science'].unlocked == true" id="helpStep2Title" :descs="['helpStep2Text1']" :checked="data['wonderPrecious0'].unlocked == true">
+                            <div class="col-12">
+                                <div class="tip tip-normal">
+                                    <b class="text-uppercase">{{ $t('tip') }}</b>
+                                    {{ $t('helpStep2Tip1') }}
+                                </div>
+                            </div>
+                        </card>
+                        <card v-if="data['wonderPrecious0'].unlocked == true" id="helpStep3Title" :descs="['helpStep3Text1']" :checked="data['techDyson0'].unlocked == true">
+                            <div class="col-12">
+                                <div class="tip tip-normal">
+                                    <b class="text-uppercase">{{ $t('tip') }}</b>
+                                    {{ $t('helpStep3Tip1') }}
+                                </div>
+                            </div>
+                            <div class="col-12">
+                                <div class="tip tip-normal">
+                                    <b class="text-uppercase">{{ $t('tip') }}</b>
+                                    {{ $t('helpStep3Tip2') }}
+                                </div>
+                            </div>
+                        </card>
+                        <card v-if="data['techDyson0'].unlocked == true" id="helpStep4Title" :descs="['helpStep4Text1']" :checked="data['segment'].unlocked == true">
+                            <div class="col-12">
+                                <div class="tip tip-normal">
+                                    <b class="text-uppercase">{{ $t('tip') }}</b>
+                                    {{ $t('helpStep4Tip1') }}
+                                </div>
+                            </div>
+                        </card>
+                        <card v-if="data['segment'].unlocked == true" id="helpStep5Title" :descs="['helpStep5Text1']" :checked="data['antimatter'].unlocked == true">
+                        </card>
+                        <card v-if="data['antimatter'].unlocked == true" id="helpStep6Title" :descs="['helpStep6Text1']" :checked="data['segment'].unlocked == true">
+                        </card>
+                        <card v-if="data['ultrite'].unlocked == true" id="helpStep7Title" :descs="['helpStep7Text1']" :checked="data['ultrite'].unlocked == true">
+                            <div class="col-12">
+                                <div class="tip tip-normal">
+                                    <b class="text-uppercase">{{ $t('tip') }}</b>
+                                    {{ $t('helpStep7Tip1') }}
+                                </div>
+                            </div>
+                        </card>
+                        <card v-if="data['ultrite'].unlocked == true" id="helpStep8Title" :descs="['helpStep8Text1']">
+                            <div class="col-12">
+                                <div class="tip tip-normal">
+                                    <b class="text-uppercase">{{ $t('tip') }}</b>
+                                    {{ $t('helpStep8Tip1') }}
+                                </div>
+                            </div>
+                        </card>
                     </pane>
 
                     <!-- OPTIONS PANE -->
@@ -1107,8 +1236,16 @@
                         <card id="notifications" checked="true">
                             <div class="col-12">
                                 <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" id="checkRoadmap" v-model="showRoadmap" @click="setDisplayRoadmap(!showRoadmap)" />
+                                    <label class="form-check-label small" for="checkRoadmap">{{ $t('showRoadmap') }}</label>
+                                </div>
+                                <div class="form-check">
                                     <input class="form-check-input" type="checkbox" id="checkPinnedItems" v-model="showPinnedItems" @click="setDisplayPinnedItems(!showPinnedItems)" />
                                     <label class="form-check-label small" for="checkPinnedItems">{{ $t('showPinnedItems') }}</label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" id="checkDoneTechs" v-model="showDoneTechs" @click="setDisplayDoneTechs(!showDoneTechs)" />
+                                    <label class="form-check-label small" for="checkDoneTechs">{{ $t('showDoneTechs') }}</label>
                                 </div>
                                 <div class="form-check">
                                     <input class="form-check-input" type="checkbox" id="checkHideLocked" v-model="showLockedItems" @click="setDisplayLockedItems(!showLockedItems)" />
@@ -1203,6 +1340,7 @@
                                     <div class="col-auto"><small class="text-donor">Automaton_2000</small></div>
                                     <div class="col-auto"><small class="text-donor">Gar the Blind Chipmunk</small></div>
                                     <div class="col-auto"><small class="text-donor">Aegis</small></div>
+                                    <div class="col-auto"><small class="text-donor">FatBlock</small></div>
                                 </div>
                             </div>
                         </card>
@@ -1334,17 +1472,17 @@
             </div>
 
             <!-- ACHIEVEMENT TOAST -->
-            <div id="toastAchievement" class="toast hide fade bg-success cursor-hover" @click="setActivePane('achievementPane')" role="alert">
+            <div id="toastAchievement" class="toast hide fade bg-success cursor-hover" role="alert">
                 <div class="toast-body text-light">
                     <div class="row">
-                        <div class="col">
+                        <div class="col" @click="setActivePane('achievementPane')" >
                             <strong>{{ $t('toastAchievement_title') }}</strong>
                         </div>
                         <div class="col-auto">
-                            <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+                            <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close" ></button>
                         </div>
                     </div>
-                    <div class="small">{{ $t('toastAchievement_text') }}</div>
+                    <div class="small" @click="setActivePane('achievementPane')" >{{ $t('toastAchievement_text') }}</div>
                 </div>
             </div>
 
@@ -1537,7 +1675,7 @@
                                 <div class="col small">
                                     <div class="text-normal">{{ $t('chance') }}</div>
                                     <div v-if="data[activeStar].spy <= 2" class="text-light">???</div>
-                                    <div v-if="data[activeStar].spy > 2" class="text-light">{{ getInvadeChance(activeStar) * 100 }}%</div>
+                                    <div v-if="data[activeStar].spy > 2" class="text-light">{{ Math.round(getInvadeChance(activeStar) * 100) }}%</div>
                                 </div>
                             </div>
                         </div>
@@ -1690,7 +1828,16 @@
                 <div class="modal-body">
                     <div class="row g-2">
                         <div class="col-12">
-                            <span class="h6 text-light">{{ $t('segmentModal') }}</span>
+                            <div class="row g-1 align-items-center">
+                                <div class="col">
+                                    <span class="h6 text-light">{{ $t('segmentModal') }}</span>
+                                </div>
+                                <div class="col-auto">
+                                    <button class="btn" data-bs-dismiss="modal" aria-label="Close">
+                                        <i class="fas fa-fw fa-times"></i>
+                                    </button>
+                                </div>
+                            </div>
                         </div>
                         <div class="col-12">
                             <calc-segment />
@@ -1708,10 +1855,54 @@
                 <div class="modal-body">
                     <div class="row g-2">
                         <div class="col-12">
-                            <span class="h6 text-light">{{ $t(calcId) }} {{ $t('calcModal') }}</span>
+                            <div class="row g-1 align-items-center">
+                                <div class="col">
+                                    <span class="h6 text-light">{{ $t(calcId) }} {{ $t('calcModal') }}</span>
+                                </div>
+                                <div class="col-auto">
+                                    <button class="btn" data-bs-dismiss="modal" aria-label="Close">
+                                        <i class="fas fa-fw fa-times"></i>
+                                    </button>
+                                </div>
+                            </div>
                         </div>
                         <div class="col-12">
                             <calc-building :id="calcId" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- OVERLORD MODAL -->
+    <div v-if="loaded" id="overlordModal" class="modal fade">
+        <div class="modal-dialog modal-dialog-scrollable" role="dialog">
+            <div class="modal-content">
+                <div class="modal-body">
+                    <div v-if="defeat != true" class="row g-2">
+                        <div class="col-12">
+                            <span class="h6 text-normal">{{ $t('overlordModal') }}</span>
+                        </div>
+                        <div class="col-12">
+                            <span class="text-light">{{ $t('overlordModal_text1') }}</span>
+                        </div>
+                        <div class="col-12 text-end">
+                            <button class="btn" @click="defeat = true">{{ $t('next') }}</button>
+                        </div>
+                    </div>
+                    <div v-if="defeat == true" class="row g-2">
+                        <div class="col-12">
+                            <span class="h6 text-normal">{{ $t('overlordModal') }}</span>
+                        </div>
+                        <div class="col-12">
+                            <span class="text-light">{{ $t('overlordModal_text2') }}</span>
+                        </div>
+                        <div class="col-12">
+                            <span class="text-light">{{ $t('overlordModal_text3') }}</span>
+                        </div>
+                        <div class="col-12 text-end">
+                            <button class="btn" data-bs-dismiss="modal" aria-label="Close">{{ $t('endOfGame') }}</button>
                         </div>
                     </div>
                 </div>
@@ -1726,7 +1917,173 @@
                 <div class="modal-body">
                     <div class="row g-2">
                         <div class="col-12">
-                            <span class="h6 text-light">{{ $t('changeLog') }}</span>
+                            <div class="row g-1 align-items-center">
+                                <div class="col">
+                                    <span class="h6 text-light">{{ $t('changeLog') }}</span>
+                                </div>
+                                <div class="col-auto">
+                                    <button class="btn" data-bs-dismiss="modal" aria-label="Close">
+                                        <i class="fas fa-fw fa-times"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-12 border-top">
+                            <div class="text-light">v1.29.1 - 2021-07-21</div>
+                            <ul class="small">
+                                <li>FIX: now option in EMC pane to display EMC shortcut on upgrade storage card is taken into account (made by eliannelavoie)</li>
+                                <li>FIX: now EMC shortcut on upgrade storage card is hidden if EMC is unlocked (made by eliannelavoie)</li>
+                            </ul>
+                        </div>
+                        <div class="col-12 border-top">
+                            <div class="text-light">v1.29.0 - 2021-07-21</div>
+                            <ul class="small">
+                                <li>FIX: now upgrade storage button is displayed on pinned resource (made by eliannelavoie)</li>
+                                <li>NEW: option in EMC pane to display EMC shortcut on upgrade storage card (made by eliannelavoie)</li>
+                                <li>NEW: EMC shortcut on upgrade storage card is displayed to convert resource (made by eliannelavoie)</li>
+                            </ul>
+                        </div>
+                        <div class="col-12 border-top">
+                            <div class="text-light">v1.28.6 - 2021-07-19</div>
+                            <ul class="small">
+                                <li>FIX: now overlord statues progress bar is displayed well</li>
+                                <li>FIX: now padding to display scroll bar on left side pane is larger</li>
+                            </ul>
+                        </div>
+                        <div class="col-12 border-top">
+                            <div class="text-light">v1.28.5 - 2021-07-18</div>
+                            <ul class="small">
+                                <li>FIX: (again) now bribery remains after rebirth and enlightenment</li>
+                                <li>FIX: now hydrogen, helium, and ice can be unlocked in any order</li>
+                            </ul>
+                        </div>
+                        <div class="col-12 border-top">
+                            <div class="text-light">v1.28.4 - 2021-07-16</div>
+                            <ul class="small">
+                                <li>FIX: now bribery remains after rebirth and enlightenment</li>
+                                <li>FIX: now empty storage timer displays '> 48h'</li>
+                                <li>FIX: now QRS is taken into account in achievements</li>
+                            </ul>
+                        </div>
+                        <div class="col-12 border-top">
+                            <div class="text-light">v1.28.3 - 2021-07-15</div>
+                            <ul class="small">
+                                <li>FIX: now invade chance computing is fixed</li>
+                                <li>FIX: now dyson segment and items are collapsable</li>
+                            </ul>
+                        </div>
+                        <div class="col-12 border-top">
+                            <div class="text-light">v1.28.2 - 2021-07-13</div>
+                            <ul class="small">
+                                <li>FIX: now EMC interval is saved and loaded</li>
+                                <li>FIX: now antimatter is purple when affected by rift</li>
+                                <li>FIX: now antimatter indicates the time taken for full storage</li>
+                                <li>FIX: now rift is taken into account for auto-storage</li>
+                            </ul>
+                        </div>
+                        <div class="col-12 border-top">
+                            <div class="text-light">v1.28.1 - 2021-07-12</div>
+                            <ul class="small">
+                                <li>FIX: spaceship parts cannot be built if spaceship is already built</li>
+                            </ul>
+                        </div>
+                        <div class="col-12 border-top">
+                            <div class="text-light">v1.28.0 - 2021-07-12</div>
+                            <ul class="small">
+                                <li>FIX: spaceship parts cannot be built if spaceship is already built</li>
+                                <li>FIX: nanoswarm is not applied on consumption</li>
+                                <li>FIX: added close button on calculators</li>
+                                <li>FIX: option to show roadmap and done techs are saved</li>
+                                <li>FIX: T5 machines unlocked if meteorite wonder is already activated</li>
+                                <li>FIX: auto-storage occurs when storage is full (rift is not taken into account)</li>
+                                <li>NEW: grey out the enlighten button if you don't have 1à conquered stars at least</li>
+                                <li>NEW: grey out the titan swapping button if you don't have any titan</li>
+                            </ul>
+                        </div>
+                        <div class="col-12 border-top">
+                            <div class="text-light">v1.27.1 - 2021-07-09</div>
+                            <ul class="small">
+                                <li>FIX: QoL DM upgrades are locked after enlighenment</li>
+                            </ul>
+                        </div>
+                        <div class="col-12 border-top">
+                            <div class="text-light">v1.27.0 - 2021-07-09</div>
+                            <ul class="small">
+                                <li>FIX: now auto emc is working fine in background</li>
+                                <li>FIX: chemical plant boost is applied on production only</li>
+                                <li>FIX: some typos (thx to silent1b)</li>
+                                <li>NEW: option to show/hide the Overlord roadmap</li>
+                                <li>NEW: QoL DM upgrades are not reset after enlighenment</li>
+                            </ul>
+                        </div>
+                        <div class="col-12 border-top">
+                            <div class="text-light">v1.26.1 - 2021-07-08</div>
+                            <ul class="small">
+                                <li>FIX: various accessibility issues</li>
+                            </ul>
+                        </div>
+                        <div class="col-12 border-top">
+                            <div class="text-light">v1.26.0 - 2021-07-08</div>
+                            <ul class="small">
+                                <li>FIX: compute costs after titan swaping</li>
+                                <li>FIX: building calculator costs were wrong</li>
+                                <li>NEW: overlord roadmap to conquer the universe</li>
+                                <li>NEW: option to display/hide researched techs</li>
+                            </ul>
+                        </div>
+                        <div class="col-12 border-top">
+                            <div class="text-light">v1.25.0 - 2021-07-07</div>
+                            <ul class="small">
+                                <li>FIX: hard reset does nothing</li>
+                                <li>FIX: ship costs computed after failed invasion</li>
+                                <li>NEW: added titan swaping ability</li>
+                                <li>NEW: grey out the rebirth button when you can't rebirth yet</li>
+                                <li>NEW: added plasma storage tier 4 + moviton dark matter upgrade to unlock it</li>
+                            </ul>
+                        </div>
+                        <div class="col-12 border-top">
+                            <div class="text-light">v1.24.0 - 2021-07-06</div>
+                            <ul class="small">
+                                <li>FIX: dimension rift is taken into account in wonder costs</li>
+                                <li>FIX: dimension rift is taken into account in calculators</li>
+                                <li>CHANGE: updated ways to gain ultrite</li>
+                                <li>NEW: added calculators on spaceship parts</li>
+                            </ul>
+                        </div>
+                        <div class="col-12 border-top">
+                            <div class="text-light">v1.23.0 - 2021-07-05</div>
+                            <ul class="small">
+                                <li>FIX: nanoswarm pane is displayed</li>
+                                <li>NEW: close button in change log modal</li>
+                                <li>NEW: overlord appreciation program as ultrite upgrade</li>
+                                <li>NEW: terraforming ships</li>
+                                <li>NEW: overloard statues</li>
+                                <li>NEW: the end of the game</li>
+                            </ul>
+                        </div>
+                        <div class="col-12 border-top">
+                            <div class="text-light">v1.22.0 - 2021-07-02</div>
+                            <ul class="small">
+                                <li>FIX: auto-storage upgrade works on all resources (again)</li>
+                                <li>FIX: display storage upgrade button only when tech storage is done</li>
+                                <li>FIX: removed tooltip on storage upgrade button on left side</li>
+                                <li>CHANGE: updated cost of nanoswarm and auto upgrade storage ultrite prices</li>
+                                <li>NEW: display resource count in specific color when your store resource in another dimension</li>
+                                <li>NEW: advanced storage discount ultrite upgrade</li>
+                                <li>NEW: 3 ship enhancement ultrite upgrades</li>
+                            </ul>
+                        </div>
+                        <div class="col-12 border-top">
+                            <div class="text-light">v1.21.0 - 2021-07-02</div>
+                            <ul class="small">
+                                <li>FIX: now quasar redirection system is working well</li>
+                                <li>FIX: dimensional rift is taken into account in storage cap displaying</li>
+                                <li>FIX: dimensional rift is taken into account in EMC</li>
+                                <li>FIX: multy-buy buttons are displayed on 1 row</li>
+                                <li>FIX: auto-storage upgrade works on all resources</li>
+                                <li>NEW: small button to upgrade storage in left side menu</li>
+                                <li>NEW: dyson items achievements</li>
+                            </ul>
                         </div>
                         <div class="col-12 border-top">
                             <div class="text-light">v1.20.3 - 2021-07-01</div>
@@ -2021,7 +2378,7 @@ export default {
 
             loaded: false,
             sidebarOpen: false,
-
+            defeat: false,
             fastInterval: null,
             slowInterval: null,
             ghInterval: null,
@@ -2040,6 +2397,8 @@ export default {
             showToastAchievement: true,
             showLockedItems: false,
             showPinnedItems: false,
+            showDoneTechs: true,
+            showRoadmap: true,
 
             compressed: null,
             newCompanyName: null,
@@ -2058,8 +2417,9 @@ export default {
             calcModal: null,
             enlightenModal: null,
             enlightenSelected: null,
+            overlordModal: null,
 
-            currentRelease: '1.20.3',
+            currentRelease: '1.29.1',
             ghLatestRelease: null,
 
             login: null,
@@ -2070,6 +2430,10 @@ export default {
 
             selectedEmcAmount: null,
             selectedAutoEmcInterval: null,
+            showEmcShortcut: null,
+
+            titanSource: null,
+            titanDestination: null,
         }
     },
     computed: {
@@ -2077,17 +2441,18 @@ export default {
 
             'data', 'companyName', 'locale', 'activePane', 'lastUpdateTime', 'autoSaveInterval', 'timeSinceAutoSave', 'rank',
             'resAchievements', 'prodAchievements', 'newAchievement',
-            'notifAutoSave', 'notifAchievement', 'displayLockedItems', 'displayPinnedItems',
+            'notifAutoSave', 'notifAchievement', 'displayLockedItems', 'displayPinnedItems', 'displayDoneTechs', 'displayRoadmap',
             'username', 'token',
-            'emcAmount', 'autoEmcInterval', 'timeSinceAutoEmc',
-            'stats', 'resources', 'pinned',
+            'emcAmount', 'autoEmcInterval', 'displayEmcShortcut', 'timeSinceAutoEmc',
+            'stats', 'resources', 'pinned', 'titanSwapingCount',
         ]),
         ...mapGetters([
 
             'isNotif', 'hasNotif',
             'getThreat', 'getSpyChance', 'getInvadeChance', 'getStarPower', 'getStarDefense', 'getStarSpeed',
             'getDMWonders', 'getDMSpheres', 'getDMResearches', 'getDMRank', 'getDMSwarms', 'getPotentialDM',
-            'getULStars', 'getULDarkmatter', 'getULSpheres', 'getPotentialUL',
+            'getULStars', 'getULDarkmatter', 'getULStatues', 'getPotentialUL',
+            'getStorageCap', 'getStatuesCount', 'getCurrentTitan', 'getNotCurrentTitan', 'getOwnedStarCount',
         ]),
     },
     created() {
@@ -2097,8 +2462,8 @@ export default {
         ...mapMutations([
 
             'setLocale', 'setActivePane', 'setLastUpdateTime', 'setTimeSinceAutoSave', 'setCompanyName', 'setAutoSaveInterval',
-            'setNotifAutoSave', 'setNotifAchievement', 'setDisplayLockedItems', 'setUsername', 'setToken', 'setEmcAmount', 'setTimeSinceAutoEmc', 'setAutoEmcInterval',
-            'setDisplayPinnedItems',
+            'setNotifAutoSave', 'setNotifAchievement', 'setDisplayLockedItems', 'setUsername', 'setToken', 'setEmcAmount', 'setTimeSinceAutoEmc', 'setAutoEmcInterval', 'setDisplayEmcShortcut',
+            'setDisplayPinnedItems', 'setDisplayDoneTechs', 'setDisplayRoadmap',
         ]),
         ...mapActions([
 
@@ -2106,7 +2471,7 @@ export default {
             'computeProdValues', 'produceResources', 'updateTimers', 'checkBoosts', 'updateAchievements', 'save',
             'setActiveShip', 'spy', 'invade', 'absorb',
             'rebirth', 'performAutoEmc', 'enlighten',
-            'performAutoStorageUpgrade',
+            'performAutoStorageUpgrade', 'swapTitan',
         ]),
         momentFormat(date, fmt) {
             return moment(date).format(fmt)
@@ -2148,7 +2513,9 @@ export default {
                 this.showToastAchievement = this.notifAchievement
                 this.showLockedItems = this.displayLockedItems
                 this.showPinnedItems = this.displayPinnedItems
-
+                this.showDoneTechs = this.displayDoneTechs
+                this.showRoadmap = this.displayRoadmap
+                this.showEmcShortcut = this.displayEmcShortcut
                 element = document.getElementById('toastAchievement')
                 this.toastAchievement = new Toast(element)
 
@@ -2195,6 +2562,9 @@ export default {
 
                 element = document.getElementById('enlightenModal')
                 this.enlightenModal = new Modal(element)
+
+                element = document.getElementById('overlordModal')
+                this.overlordModal = new Modal(element)
             })
         },
         fastUpdate() {
@@ -2206,6 +2576,8 @@ export default {
                 return
             }
 
+            if (delta < (1 / 60)) return
+
             this.setLastUpdateTime(currentTime)
             this.setTimeSinceAutoSave(this.timeSinceAutoSave + delta)
             this.setTimeSinceAutoEmc(this.timeSinceAutoEmc + delta)
@@ -2216,11 +2588,9 @@ export default {
             this.updateTimers()
             this.checkBoosts()
 
-            let timeLeft = this.autoEmcInterval - (this.timeSinceAutoEmc * 1000)
-            if (timeLeft < 100) {
-                this.performAutoEmc()
-                this.setTimeSinceAutoEmc(0)
-            }
+            let autoEmcCount = Math.floor((this.timeSinceAutoEmc * 1000) / this.autoEmcInterval)
+            for (let i = 0; i < autoEmcCount; i++) this.performAutoEmc()
+            if (autoEmcCount > 0) this.setTimeSinceAutoEmc(0)
         },
         slowUpdate() {
 
@@ -2336,6 +2706,8 @@ export default {
             this.loaded = true
 
             localStorage.removeItem('ngsave')
+            localStorage.removeItem('ngsavecrypted')
+
             window.location.reload()
         },
         onSave() {
@@ -2376,6 +2748,7 @@ export default {
         delete this.segmentModal
         delete this.calcModal
         delete this.enlightenModal
+        delete this.overlordModal
         clearInterval(this.fastInterval)
         clearInterval(this.slowInterval)
         clearInterval(this.ghInterval)

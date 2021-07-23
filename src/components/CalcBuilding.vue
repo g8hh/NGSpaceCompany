@@ -12,13 +12,13 @@
                     <small class="text-light">{{ $t(cost.id) }}</small>
                 </div>
                 <div class="col-auto">
-                    <small class="text-uppercase" :class="{ 'text-light':costTo(bracket, cost.count, data[id].count, id) <= data[cost.id].storage, 'text-danger':costTo(bracket, cost.count, data[id].count, id) > data[cost.id].storage }">{{ numeralFormat(costTo(bracket, cost.count, data[id].count, id).toPrecision(4), '0.[000]a') }}</small>
+                    <small class="text-uppercase" :class="{ 'text-light':costTo(bracket, cost.count, data[id].count, cost.id) <= data[cost.id].storage, 'text-excess':costTo(bracket, cost.count, data[id].count, cost.id) <= getStorageCap(cost.id) && costTo(bracket, cost.count, data[id].count, cost.id) > data[cost.id].storage, 'text-danger':costTo(bracket, cost.count, data[id].count, cost.id) > getStorageCap(cost.id) }">{{ numeralFormat(costTo(bracket, cost.count, data[id].count, cost.id).toPrecision(4), '0.[000]a') }}</small>
                 </div>
                 <div class="col-auto text-end" style="width:75px">
                     <small v-if="data[cost.id].prod <= 0" class="text-normal">---</small>
-                    <small v-if="costTo(bracket, cost.count, data[id].count, id) <= data[cost.id].count" class="text-success"><i class="fas fa-fw fa-check"></i></small>
-                    <small v-if="costTo(bracket, cost.count, data[id].count, id) > data[cost.id].count && timerTo(bracket, cost.count, data[id].count, cost.id) > (3600 * 24 * 2)" class="text-timer">{{ $t('bigTimer') }}</small>
-                    <small v-if="costTo(bracket, cost.count, data[id].count, id) > data[cost.id].count && timerTo(bracket, cost.count, data[id].count, cost.id) > 0 && timerTo(bracket, cost.count, data[id].count, cost.id) <= (3600 * 24 * 2)" class="text-timer" role="timer">{{ numeralFormat(timerTo(bracket, cost.count, data[id].count, cost.id), '00:00:00') }}</small>
+                    <small v-if="costTo(bracket, cost.count, data[id].count, cost.id) <= data[cost.id].count" class="text-success"><i class="fas fa-fw fa-check"></i></small>
+                    <small v-if="costTo(bracket, cost.count, data[id].count, cost.id) > data[cost.id].count && timerTo(bracket, cost.count, data[id].count, cost.id) > (3600 * 24 * 2)" class="text-timer">{{ $t('bigTimer') }}</small>
+                    <small v-if="costTo(bracket, cost.count, data[id].count, cost.id) > data[cost.id].count && timerTo(bracket, cost.count, data[id].count, cost.id) > 0 && timerTo(bracket, cost.count, data[id].count, cost.id) <= (3600 * 24 * 2)" class="text-timer" role="timer">{{ numeralFormat(timerTo(bracket, cost.count, data[id].count, cost.id), '00:00:00') }}</small>
                 </div>                
             </div>
         </div>
@@ -26,19 +26,24 @@
 </template>
 
 <script>
-import { mapState } from 'vuex'
+import { mapState, mapGetters } from 'vuex'
 
 export default {
     props: [ 'id' ],
-    data() {
-        return {
-            brackets: [5, 25, 75, 150, 250],
-        }
-    },
     computed: {
         ...mapState([
             'data',
         ]),
+        ...mapGetters([
+        
+            'getStorageCap',
+        ]),
+        brackets() {
+            if (this.id == 'shield') return [50]
+            else if (this.id == 'engine') return [25]
+            else if (this.id == 'aero') return [15]
+            else return [5, 25, 75, 150, 250]
+        },
     },
     methods: {
         countTo(limit) {

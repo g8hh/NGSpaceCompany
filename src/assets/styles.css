@@ -5,7 +5,7 @@
 html, body, #app { width: 100%; height: 100%; }
 
 body {
-    color: #8c949a; font-family: 'Inter', sans-serif; font-size: .875rem; text-rendering: optimizeLegibility;
+    color: #9aa4ab; font-family: 'Inter', sans-serif; font-size: .875rem; text-rendering: optimizeLegibility;
     background-color: #2c3444;
 }
 
@@ -91,9 +91,10 @@ body {
 .text-danger { color: #f50000!important; }
 .text-success { color: #00f500!important; }
 .text-light { color: #f5f5f5!important; }
-.text-normal { color: #8c949a!important; }
+.text-normal { color: #9aa4ab!important; }
 .text-timer { color: #f5f500!important; }
 .text-donor { color: #f500f5!important; }
+.text-excess { color: #e65cfd!important; }
 
 .cursor-hover:hover { cursor: pointer; }
 
@@ -178,7 +179,7 @@ body {
 /* -------------------------------------------------------------------------- */
 
 button {
-    color: #8c949a; background-color: transparent;
+    color: #9aa4ab; background-color: transparent;
     border: 0;
     padding: 0;
 }
@@ -190,6 +191,10 @@ button {
 }
 
 .btn:hover, .btn:focus { color: #f5f5f5; box-shadow: 0 0 0 0.25rem rgba(255,255,255,.25); border: 1px solid rgba(255,255,255,1); }
+
+.btn-small {
+    padding: .125rem .25rem;
+}
 
 .btn-close { font-size: .875em; }
 
@@ -264,8 +269,13 @@ button {
 
 /* -------------------------------------------------------------------------- */
 
-.table { color: #8c949a; border-color: rgba(255,255,255,.25); margin-bottom: 0; }
+.table { color: #9aa4ab; border-color: rgba(255,255,255,.25); margin-bottom: 0; }
 .table > :not(caption) > * > * { padding: .25rem .5rem; }
 .table > :not(:last-child) > :last-child > * { border-bottom-color: inherit; }
+
+/* -------------------------------------------------------------------------- */
+
+.tip { font-size: .875em; padding: .25rem .5rem; border-left: 3px solid rgba(255,255,255,.125); background: rgba(255,255,255,.125); border-radius: 3px 0 0 3px; }
+.tip-normal { color: rgb(0,188,212); border-color: rgba(0,188,212,.5); background: rgba(0,188,212,.125); }
 
 /* -------------------------------------------------------------------------- */

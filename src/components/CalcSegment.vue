@@ -13,7 +13,7 @@
                     <small class="text-light">{{ $t('titanium') }}</small>
                 </div>
                 <div class="col-auto">
-                    <small class="text-uppercase" :class="{ 'text-light':costTo50.titanium.count <= data['titanium'].storage, 'text-danger':costTo50.titanium.count > data['titanium'].storage }">{{ numeralFormat(costTo50.titanium.count.toPrecision(4), '0.[000]a') }}</small>
+                    <small class="text-uppercase" :class="{ 'text-light':costTo50.titanium.count <= data['titanium'].storage, 'text-excess':costTo50.titanium.count <= getStorageCap('titanium') && costTo50.titanium.count > data['titanium'].storage, 'text-danger':costTo50.titanium.count > getStorageCap('titanium') }">{{ numeralFormat(costTo50.titanium.count.toPrecision(4), '0.[000]a') }}</small>
                 </div>
                 <div class="col-auto text-end" style="width:75px">
                     <small v-if="data['titanium'].prod <= 0" class="text-normal">---</small>
@@ -31,7 +31,7 @@
                     <small class="text-light">{{ $t('gold') }}</small>
                 </div>
                 <div class="col-auto">
-                    <small class="text-uppercase" :class="{ 'text-light':costTo50.gold.count <= data['gold'].storage, 'text-danger':costTo50.gold.count > data['gold'].storage }">{{ numeralFormat(costTo50.gold.count.toPrecision(4), '0.[000]a') }}</small>
+                    <small class="text-uppercase" :class="{ 'text-light':costTo50.gold.count <= data['gold'].storage, 'text-excess':costTo50.gold.count <= getStorageCap('gold') && costTo50.gold.count > data['gold'].storage, 'text-danger':costTo50.gold.count > getStorageCap('gold') }">{{ numeralFormat(costTo50.gold.count.toPrecision(4), '0.[000]a') }}</small>
                 </div>
                 <div class="col-auto text-end" style="width:75px">
                     <small v-if="data['gold'].prod <= 0" class="text-normal">---</small>
@@ -49,7 +49,7 @@
                     <small class="text-light">{{ $t('silicon') }}</small>
                 </div>
                 <div class="col-auto">
-                    <small class="text-uppercase" :class="{ 'text-light':costTo50.silicon.count <= data['silicon'].storage, 'text-danger':costTo50.silicon.count > data['silicon'].storage }">{{ numeralFormat(costTo50.silicon.count.toPrecision(4), '0.[000]a') }}</small>
+                    <small class="text-uppercase" :class="{ 'text-light':costTo50.silicon.count <= data['silicon'].storage, 'text-excess':costTo50.silicon.count <= getStorageCap('silicon') && costTo50.silicon.count > data['silicon'].storage, 'text-danger':costTo50.silicon.count > getStorageCap('silicon') }">{{ numeralFormat(costTo50.silicon.count.toPrecision(4), '0.[000]a') }}</small>
                 </div>
                 <div class="col-auto text-end" style="width:75px">
                     <small v-if="data['silicon'].prod <= 0" class="text-normal">---</small>
@@ -67,7 +67,7 @@
                     <small class="text-light">{{ $t('meteorite') }}</small>
                 </div>
                 <div class="col-auto">
-                    <small class="text-uppercase" :class="{ 'text-light':costTo50.meteorite.count <= data['meteorite'].storage, 'text-danger':costTo50.meteorite.count > data['meteorite'].storage }">{{ numeralFormat(costTo50.meteorite.count.toPrecision(4), '0.[000]a') }}</small>
+                    <small class="text-uppercase" :class="{ 'text-light':costTo50.meteorite.count <= data['meteorite'].storage, 'text-excess':costTo50.meteorite.count <= getStorageCap('meteorite') && costTo50.meteorite.count > data['meteorite'].storage, 'text-danger':costTo50.meteorite.count > getStorageCap('meteorite') }">{{ numeralFormat(costTo50.meteorite.count.toPrecision(4), '0.[000]a') }}</small>
                 </div>
                 <div class="col-auto text-end" style="width:75px">
                     <small v-if="data['meteorite'].prod <= 0" class="text-normal">---</small>
@@ -85,7 +85,7 @@
                     <small class="text-light">{{ $t('ice') }}</small>
                 </div>
                 <div class="col-auto">
-                    <small class="text-uppercase" :class="{ 'text-light':costTo50.ice.count <= data['ice'].storage, 'text-danger':costTo50.ice.count > data['ice'].storage }">{{ numeralFormat(costTo50.ice.count.toPrecision(4), '0.[000]a') }}</small>
+                    <small class="text-uppercase" :class="{ 'text-light':costTo50.ice.count <= data['ice'].storage, 'text-excess':costTo50.ice.count <= getStorageCap('ice') && costTo50.ice.count > data['ice'].storage, 'text-danger':costTo50.ice.count > getStorageCap('ice') }">{{ numeralFormat(costTo50.ice.count.toPrecision(4), '0.[000]a') }}</small>
                 </div>
                 <div class="col-auto text-end" style="width:75px">
                     <small v-if="data['ice'].prod <= 0" class="text-normal">---</small>
@@ -109,7 +109,7 @@
                     <small class="text-light">{{ $t('titanium') }}</small>
                 </div>
                 <div class="col-auto">
-                    <small class="text-uppercase" :class="{ 'text-light':costTo100.titanium.count <= data['titanium'].storage, 'text-danger':costTo100.titanium.count > data['titanium'].storage }">{{ numeralFormat(costTo100.titanium.count.toPrecision(4), '0.[000]a') }}</small>
+                    <small class="text-uppercase" :class="{ 'text-light':costTo100.titanium.count <= data['titanium'].storage, 'text-excess':costTo100.titanium.count <= getStorageCap('titanium') && costTo100.titanium.count > data['titanium'].storage, 'text-danger':costTo100.titanium.count > getStorageCap('titanium') }">{{ numeralFormat(costTo100.titanium.count.toPrecision(4), '0.[000]a') }}</small>
                 </div>
                 <div class="col-auto text-end" style="width:75px">
                     <small v-if="data['titanium'].prod <= 0" class="text-normal">---</small>
@@ -127,7 +127,7 @@
                     <small class="text-light">{{ $t('gold') }}</small>
                 </div>
                 <div class="col-auto">
-                    <small class="text-uppercase" :class="{ 'text-light':costTo100.gold.count <= data['gold'].storage, 'text-danger':costTo100.gold.count > data['gold'].storage }">{{ numeralFormat(costTo100.gold.count.toPrecision(4), '0.[000]a') }}</small>
+                    <small class="text-uppercase" :class="{ 'text-light':costTo100.gold.count <= data['gold'].storage, 'text-excess':costTo100.gold.count <= getStorageCap('gold') && costTo100.gold.count > data['gold'].storage, 'text-danger':costTo100.gold.count > getStorageCap('gold') }">{{ numeralFormat(costTo100.gold.count.toPrecision(4), '0.[000]a') }}</small>
                 </div>
                 <div class="col-auto text-end" style="width:75px">
                     <small v-if="data['gold'].prod <= 0" class="text-normal">---</small>
@@ -145,7 +145,7 @@
                     <small class="text-light">{{ $t('silicon') }}</small>
                 </div>
                 <div class="col-auto">
-                    <small class="text-uppercase" :class="{ 'text-light':costTo100.silicon.count <= data['silicon'].storage, 'text-danger':costTo100.silicon.count > data['silicon'].storage }">{{ numeralFormat(costTo100.silicon.count.toPrecision(4), '0.[000]a') }}</small>
+                    <small class="text-uppercase" :class="{ 'text-light':costTo100.silicon.count <= data['silicon'].storage, 'text-excess':costTo100.silicon.count <= getStorageCap('silicon') && costTo100.silicon.count > data['silicon'].storage, 'text-danger':costTo100.silicon.count > getStorageCap('silicon') }">{{ numeralFormat(costTo100.silicon.count.toPrecision(4), '0.[000]a') }}</small>
                 </div>
                 <div class="col-auto text-end" style="width:75px">
                     <small v-if="data['silicon'].prod <= 0" class="text-normal">---</small>
@@ -163,7 +163,7 @@
                     <small class="text-light">{{ $t('meteorite') }}</small>
                 </div>
                 <div class="col-auto">
-                    <small class="text-uppercase" :class="{ 'text-light':costTo100.meteorite.count <= data['meteorite'].storage, 'text-danger':costTo100.meteorite.count > data['meteorite'].storage }">{{ numeralFormat(costTo100.meteorite.count.toPrecision(4), '0.[000]a') }}</small>
+                    <small class="text-uppercase" :class="{ 'text-light':costTo100.meteorite.count <= data['meteorite'].storage, 'text-excess':costTo100.meteorite.count <= getStorageCap('meteorite') && costTo100.meteorite.count > data['meteorite'].storage, 'text-danger':costTo100.meteorite.count > getStorageCap('meteorite') }">{{ numeralFormat(costTo100.meteorite.count.toPrecision(4), '0.[000]a') }}</small>
                 </div>
                 <div class="col-auto text-end" style="width:75px">
                     <small v-if="data['meteorite'].prod <= 0" class="text-normal">---</small>
@@ -181,7 +181,7 @@
                     <small class="text-light">{{ $t('ice') }}</small>
                 </div>
                 <div class="col-auto">
-                    <small class="text-uppercase" :class="{ 'text-light':costTo100.ice.count <= data['ice'].storage, 'text-danger':costTo100.ice.count > data['ice'].storage }">{{ numeralFormat(costTo100.ice.count.toPrecision(4), '0.[000]a') }}</small>
+                    <small class="text-uppercase" :class="{ 'text-light':costTo100.ice.count <= data['ice'].storage, 'text-excess':costTo100.ice.count <= getStorageCap('ice') && costTo100.ice.count > data['ice'].storage, 'text-danger':costTo100.ice.count > getStorageCap('ice') }">{{ numeralFormat(costTo100.ice.count.toPrecision(4), '0.[000]a') }}</small>
                 </div>
                 <div class="col-auto text-end" style="width:75px">
                     <small v-if="data['ice'].prod <= 0" class="text-normal">---</small>
@@ -205,7 +205,7 @@
                     <small class="text-light">{{ $t('titanium') }}</small>
                 </div>
                 <div class="col-auto">
-                    <small class="text-uppercase" :class="{ 'text-light':costTo250.titanium.count <= data['titanium'].storage, 'text-danger':costTo250.titanium.count > data['titanium'].storage }">{{ numeralFormat(costTo250.titanium.count.toPrecision(4), '0.[000]a') }}</small>
+                    <small class="text-uppercase" :class="{ 'text-light':costTo250.titanium.count <= data['titanium'].storage, 'text-excess':costTo250.titanium.count <= getStorageCap('titanium') && costTo250.titanium.count > data['titanium'].storage, 'text-danger':costTo250.titanium.count > getStorageCap('titanium') }">{{ numeralFormat(costTo250.titanium.count.toPrecision(4), '0.[000]a') }}</small>
                 </div>
                 <div class="col-auto text-end" style="width:75px">
                     <small v-if="data['titanium'].prod <= 0" class="text-normal">---</small>
@@ -223,7 +223,7 @@
                     <small class="text-light">{{ $t('gold') }}</small>
                 </div>
                 <div class="col-auto">
-                    <small class="text-uppercase" :class="{ 'text-light':costTo250.gold.count <= data['gold'].storage, 'text-danger':costTo250.gold.count > data['gold'].storage }">{{ numeralFormat(costTo250.gold.count.toPrecision(4), '0.[000]a') }}</small>
+                    <small class="text-uppercase" :class="{ 'text-light':costTo250.gold.count <= data['gold'].storage, 'text-excess':costTo250.gold.count <= getStorageCap('gold') && costTo250.gold.count > data['gold'].storage, 'text-danger':costTo250.gold.count > getStorageCap('gold') }">{{ numeralFormat(costTo250.gold.count.toPrecision(4), '0.[000]a') }}</small>
                 </div>
                 <div class="col-auto text-end" style="width:75px">
                     <small v-if="data['gold'].prod <= 0" class="text-normal">---</small>
@@ -241,7 +241,7 @@
                     <small class="text-light">{{ $t('silicon') }}</small>
                 </div>
                 <div class="col-auto">
-                    <small class="text-uppercase" :class="{ 'text-light':costTo250.silicon.count <= data['silicon'].storage, 'text-danger':costTo250.silicon.count > data['silicon'].storage }">{{ numeralFormat(costTo250.silicon.count.toPrecision(4), '0.[000]a') }}</small>
+                    <small class="text-uppercase" :class="{ 'text-light':costTo250.silicon.count <= data['silicon'].storage, 'text-excess':costTo250.silicon.count <= getStorageCap('silicon') && costTo250.silicon.count > data['silicon'].storage, 'text-danger':costTo250.silicon.count > getStorageCap('silicon') }">{{ numeralFormat(costTo250.silicon.count.toPrecision(4), '0.[000]a') }}</small>
                 </div>
                 <div class="col-auto text-end" style="width:75px">
                     <small v-if="data['silicon'].prod <= 0" class="text-normal">---</small>
@@ -259,7 +259,7 @@
                     <small class="text-light">{{ $t('meteorite') }}</small>
                 </div>
                 <div class="col-auto">
-                    <small class="text-uppercase" :class="{ 'text-light':costTo250.meteorite.count <= data['meteorite'].storage, 'text-danger':costTo250.meteorite.count > data['meteorite'].storage }">{{ numeralFormat(costTo250.meteorite.count.toPrecision(4), '0.[000]a') }}</small>
+                    <small class="text-uppercase" :class="{ 'text-light':costTo250.meteorite.count <= data['meteorite'].storage, 'text-excess':costTo250.meteorite.count <= getStorageCap('meteorite') && costTo250.meteorite.count > data['meteorite'].storage, 'text-danger':costTo250.meteorite.count > getStorageCap('meteorite') }">{{ numeralFormat(costTo250.meteorite.count.toPrecision(4), '0.[000]a') }}</small>
                 </div>
                 <div class="col-auto text-end" style="width:75px">
                     <small v-if="data['meteorite'].prod <= 0" class="text-normal">---</small>
@@ -277,7 +277,7 @@
                     <small class="text-light">{{ $t('ice') }}</small>
                 </div>
                 <div class="col-auto">
-                    <small class="text-uppercase" :class="{ 'text-light':costTo250.ice.count <= data['ice'].storage, 'text-danger':costTo250.ice.count > data['ice'].storage }">{{ numeralFormat(costTo250.ice.count.toPrecision(4), '0.[000]a') }}</small>
+                    <small class="text-uppercase" :class="{ 'text-light':costTo250.ice.count <= data['ice'].storage, 'text-excess':costTo250.ice.count <= getStorageCap('ice') && costTo250.ice.count > data['ice'].storage, 'text-danger':costTo250.ice.count > getStorageCap('ice') }">{{ numeralFormat(costTo250.ice.count.toPrecision(4), '0.[000]a') }}</small>
                 </div>
                 <div class="col-auto text-end" style="width:75px">
                     <small v-if="data['ice'].prod <= 0" class="text-normal">---</small>
@@ -292,12 +292,15 @@
 </template>
 
 <script>
-import { mapState } from 'vuex'
+import { mapState, mapGetters } from 'vuex'
 
 export default {
     computed: {
         ...mapState([
             'data',
+        ]),
+        ...mapGetters([
+            'getStorageCap',
         ]),
 
         countTo50: function() { return 50 - this.data['segment'].count },

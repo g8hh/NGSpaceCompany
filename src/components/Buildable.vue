@@ -7,15 +7,15 @@
                     <i class="fas fa-fw fa-lock text-muted"></i>
                 </div>
                 
-                <div v-if="data[id].unlocked && data[id].max && data[id].count >= data[id].max" class="timeline-marker">
+                <div v-if="(data[id].unlocked && data[id].max && data[id].count >= data[id].max) || (spaceshipParts.includes(id) && data['spaceship'].count > 0)" class="timeline-marker">
                     <i class="fas fa-fw fa-check text-success"></i>
                 </div>
                 
-                <div v-if="(data[id].unlocked && data[id].max && data[id].count < data[id].max) || (data[id].unlocked && !data[id].max)" class="timeline-marker">                
+                <div v-if="(spaceshipParts.includes(id) && data[id].count < data[id].max && data['spaceship'].count < 1) || (!spaceshipParts.includes(id) && data[id].unlocked && data[id].max && data[id].count < data[id].max) || (data[id].unlocked && !data[id].max)" class="timeline-marker">                
                     
                     <i v-if="!collapse" class="fas fa-fw fa-lock-open"></i>
                     
-                    <button v-if="collapse" @click="toggleCollapsed(id)">
+                    <button v-if="collapse" @click="toggleCollapsed(id)" aria-label="Collapse button">
                         <i class="fas fa-fw fa-lock-open"></i>
                     </button>
                     
@@ -34,7 +34,7 @@
                     </span>
                 </div>
                 
-                <div v-if="data[id].unlocked && data[id].max && data[id].count >= data[id].max" class="card card-body">
+                <div v-if="(data[id].unlocked && data[id].max && data[id].count >= data[id].max) || (spaceshipParts.includes(id) && data['spaceship'].count > 0)" class="card card-body">
                     <div class="row g-1">
                         <div class="col">
                             <span class="h6 text-light mb-0">{{ $t(data[id].id) }}</span>
@@ -48,7 +48,7 @@
                     </div>
                 </div>
                 
-                <div v-if="(data[id].unlocked && data[id].max && data[id].count < data[id].max) || (data[id].unlocked && !data[id].max)" class="card card-body">
+                <div v-if="(spaceshipParts.includes(id) && data[id].count < data[id].max && data['spaceship'].count < 1) || (!spaceshipParts.includes(id) && data[id].unlocked && data[id].max && data[id].count < data[id].max) || (data[id].unlocked && !data[id].max)" class="card card-body">
                     <div v-if="isCollapsed(id)" class="row g-3">
                         <div class="col-12 col-md-6">
                             <div class="row g-1">
@@ -159,15 +159,21 @@
                                 <div v-if="data[id].storage && data[id].storage.count > 0" class="col-12">
                                     <div class="heading-6">{{ $t('storage') }}</div>
                                     <div class="row g-1">
-                                        <div class="col-auto d-flex align-items-center">
-                                            <img :src="require(`../assets/interface/${data[id].storage.id}.png`)" width="12" height="12" />
-                                        </div>
                                         <div class="col">
-                                            <small class="text-light">{{ $t(data[id].storage.id) }}</small>
+                                            <button class="text-light small" @click="setActivePane(data[id].storage.id + 'Pane')">
+                                                <div class="row g-1">
+                                                    <div class="col-auto d-flex align-items-center">
+                                                        <img :src="require(`../assets/interface/${data[id].storage.id}.png`)" width="12" height="12" :alt="$t(data[id].storage.id) + ' icon'" />
+                                                    </div>
+                                                    <div class="col">
+                                                        <span class="text-light">{{ $t(data[id].storage.id) }}</span>
+                                                    </div>
+                                                </div>
+                                            </button>
                                         </div>
                                         <div class="col-auto">
-                                            <small v-if="data[id].storage.id != 'energy'" class="text-success">+{{ numeralFormat(data[id].storage.count.toPrecision(4), '0.[000]a') }}</small>
-                                            <small v-if="data[id].storage.id == 'energy'" class="text-success">+{{ numeralFormat((data[id].storage.count * (1 + (0.01 * data['boostEnergyStorage'].count))).toPrecision(4), '0.[000]a') }}</small>
+                                            <small v-if="data[id].storage.id != 'energy'" class="text-success text-uppercase">+{{ numeralFormat(data[id].storage.count.toPrecision(4), '0.[000]a') }}</small>
+                                            <small v-if="data[id].storage.id == 'energy'" class="text-success text-uppercase">+{{ numeralFormat((data[id].storage.count * (1 + (0.01 * data['boostEnergyStorage'].count))).toPrecision(4), '0.[000]a') }}</small>
                                         </div>
                                     </div>
                                 </div>
@@ -175,11 +181,17 @@
                                 <div v-if="data[id].outputs" class="col-12">
                                     <div class="heading-6">{{ $t('production') }}</div>
                                     <div v-for="output in data[id].outputs" :key="output.id" class="row g-1">
-                                        <div class="col-auto d-flex align-items-center">
-                                            <img :src="require(`../assets/interface/${output.id}.png`)" width="12" height="12" />
-                                        </div>
                                         <div class="col">
-                                            <small class="text-light">{{ $t(output.id) }}</small>
+                                            <button class="text-light small" @click="setActivePane(output.id + 'Pane')">
+                                                <div class="row g-1">
+                                                    <div class="col-auto d-flex align-items-center">
+                                                        <img :src="require(`../assets/interface/${output.id}.png`)" width="12" height="12" :alt="$t(output.id) + ' icon'" />
+                                                    </div>
+                                                    <div class="col">
+                                                        <span class="text-light">{{ $t(output.id) }}</span>
+                                                    </div>
+                                                </div>
+                                            </button>
                                         </div>
                                         <div class="col-auto">
                                             <small class="text-success text-uppercase">+{{ numeralFormat((output.count * data[output.id].boost).toPrecision(4), '0.[000]a') }}</small>
@@ -187,11 +199,17 @@
                                         </div>
                                     </div>
                                     <div v-for="input in data[id].inputs" :key="input.id" class="row g-1">
-                                        <div class="col-auto d-flex align-items-center">
-                                            <img :src="require(`../assets/interface/${input.id}.png`)" width="12" height="12" />
-                                        </div>
                                         <div class="col">
-                                            <small class="text-light">{{ $t(input.id) }}</small>
+                                            <button class="text-light small" @click="setActivePane(input.id + 'Pane')">
+                                                <div class="row g-1">
+                                                    <div class="col-auto d-flex align-items-center">
+                                                        <img :src="require(`../assets/interface/${input.id}.png`)" width="12" height="12" :alt="$t(input.id) + ' icon'" />
+                                                    </div>
+                                                    <div class="col">
+                                                        <span class="text-light">{{ $t(input.id) }}</span>
+                                                    </div>
+                                                </div>
+                                            </button>
                                         </div>
                                         <div class="col-auto">
                                             <small v-if="input.id == 'energy'" class="text-warning text-uppercase">-{{ numeralFormat((input.count * (1 - (0.01 * data['boostEnergy'].count))).toPrecision(4), '0.[000]a') }}</small>
@@ -210,21 +228,22 @@
                                 
                                 <div class="col-12">
                                     <div v-if="id != 'segment'" class="row g-1 justify-content-end">
-                                        <div v-if="multibuy == true && data[id].count < 5" class="col-auto"><button class="btn" @click="build({id:id, upto:5})">= 5</button></div>
-                                        <div v-if="multibuy == true && data[id].count < 25" class="col-auto"><button class="btn" @click="build({id:id, upto:25})">= 25</button></div>
-                                        <div v-if="multibuy == true && data[id].count < 75" class="col-auto"><button class="btn" @click="build({id:id, upto:75})">= 75</button></div>
-                                        <div v-if="multibuy == true && data[id].count < 150" class="col-auto"><button class="btn" @click="build({id:id, upto:150})">= 150</button></div>
-                                        <div v-if="multibuy == true && data[id].count < 250" class="col-auto"><button class="btn" @click="build({id:id, upto:250})">= 250</button></div>
+                                        <div v-if="multibuy == true && data[id].count < 5" class="col-auto"><button class="btn px-2" @click="build({id:id, upto:5})">= 5</button></div>
+                                        <div v-if="multibuy == true && data[id].count < 25" class="col-auto"><button class="btn px-2" @click="build({id:id, upto:25})">= 25</button></div>
+                                        <div v-if="multibuy == true && data[id].count < 75" class="col-auto"><button class="btn px-2" @click="build({id:id, upto:75})">= 75</button></div>
+                                        <div v-if="multibuy == true && data[id].count < 150" class="col-auto"><button class="btn px-2" @click="build({id:id, upto:150})">= 150</button></div>
+                                        <div v-if="multibuy == true && data[id].count < 250" class="col-auto"><button class="btn px-2" @click="build({id:id, upto:250})">= 250</button></div>
                                         <div v-if="id == 'dysonT1'" class="col-auto"><button class="btn" @click="build({id:'segment', upto:50});build({id:'dysonT1', count:1});">{{ $t('btnDysonT1') }}</button></div>
                                         <div v-if="id == 'dysonT2'" class="col-auto"><button class="btn" @click="build({id:'segment', upto:100});build({id:'dysonT2', count:1});">{{ $t('btnDysonT2') }}</button></div>
                                         <div v-if="id == 'dysonT3'" class="col-auto"><button class="btn" @click="build({id:'segment', upto:250});build({id:'dysonT3', count:1});">{{ $t('btnDysonT3') }}</button></div>
-                                        <div class="col-auto"><button class="btn" @click="build({id:id, count:1})">{{ $t(btnText) }}<span v-if="data[id].max != 1"> 1</span></button></div>
+                                        <div v-if="multibuy == true" class="col-auto"><button class="btn px-2" @click="build({id:id, count:1})">+ 1</button></div>
+                                        <div v-if="multibuy != true" class="col-auto"><button class="btn" @click="build({id:id, count:1})">{{ $t(btnText) }}</button></div>
                                     </div>
                                     <div v-if="id == 'segment'" class="row g-1 justify-content-end">
-                                        <div class="col-auto"><button class="btn" @click="build({id:id, upto:50})">= 50</button></div>
-                                        <div class="col-auto"><button class="btn" @click="build({id:id, upto:100})">= 100</button></div>
-                                        <div class="col-auto"><button class="btn" @click="build({id:id, upto:250})">= 250</button></div>
-                                        <div class="col-auto"><button class="btn" @click="build({id:id, count:1})">{{ $t(btnText) }} 1</button></div>
+                                        <div class="col-auto"><button class="btn px-2" @click="build({id:id, upto:50})">= 50</button></div>
+                                        <div class="col-auto"><button class="btn px-2" @click="build({id:id, upto:100})">= 100</button></div>
+                                        <div class="col-auto"><button class="btn px-2" @click="build({id:id, upto:250})">= 250</button></div>
+                                        <div class="col-auto"><button class="btn px-2" @click="build({id:id, count:1})">+ 1</button></div>
                                     </div>
                                 </div>
                                 
@@ -252,6 +271,7 @@ export default {
         return {
             selected: null,
             automated: null,
+            spaceshipParts: ['shield', 'engine', 'aero'],
         }
     },
     created() {
@@ -271,7 +291,7 @@ export default {
             'build', 'destroy', 'switchNano',
         ]),
         ...mapMutations([
-            'toggleCollapsed', 'setAutoStorageUpgrade',
+            'toggleCollapsed', 'setAutoStorageUpgrade', 'setActivePane',
         ]),
     },
 }
