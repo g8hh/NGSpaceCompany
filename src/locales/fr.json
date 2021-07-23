@@ -1068,6 +1068,7 @@
     "costs": "Coûts",
     "bigTimer": "> 48h",
     "selectEmcAmount": "Choisissez un montant",
+    "showEmcShortcut": "Afficher le raccourci CEM",
     "changeLog": "Change Log",
     "notEnoughInputCount": "Pas de production, pas assez de",
     "notEnoughInputStorage": "Pas de production, stockage trop petit",

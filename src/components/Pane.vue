@@ -14,7 +14,7 @@
                                         <h5 class="text-light mb-0" role="heading">{{ $t(id) }}</h5>
                                     </div>
                                     <div v-if="displayPinnedItems == true && pinnable" class="col-auto">
-                                        <button class="btn" @click="togglePinned({id:id, icon:icon, resId:pinnable})">
+                                        <button class="btn" @click="togglePinned({id:id, icon:icon, resId:pinnable, buildingStorageId:shortcutBuildingStorageId })">
                                             <i class="fas fa-fw fa-thumbtack" :class="{ 'text-normal':!isPinned(id) }"></i>
                                         </button>
                                     </div>
@@ -38,7 +38,7 @@
 import { mapState, mapMutations, mapGetters } from 'vuex'
 
 export default {
-    props: [ 'id', 'icon', 'descs', 'pinnable' ],
+    props: [ 'id', 'icon', 'descs', 'pinnable', 'shortcutBuildingStorageId' ],
     computed: {
         ...mapState([
             'displayPinnedItems',
