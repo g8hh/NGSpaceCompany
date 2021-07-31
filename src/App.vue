@@ -117,7 +117,7 @@
                     </sidenav-group>
 
                     <sidenav-group id="stargazeHeading" :unlocked="data['darkmatter'].unlocked">
-                        <sidenav-item id="darkmatterPane" icon="darkmatter.png" :unlocked="data['darkmatter'].unlocked" :count="data['darkmatter'].count" :potential="getPotentialDM" />
+                        <sidenav-item id="darkmatterPane" icon="darkmatter.png" :unlocked="data['darkmatter'].unlocked" :count="darkmatter" :potential="getPotentialDM" />
                         <sidenav-item id="stargazeCarnelianPane" icon="carnelian.png" :unlocked="data['darkmatter'].unlocked" :opinion="data['carnelian'].opinion" />
                         <sidenav-item id="stargazePrasnianPane" icon="prasnian.png" :unlocked="data['darkmatter'].unlocked" :opinion="data['prasnian'].opinion" />
                         <sidenav-item id="stargazeHyacinitePane" icon="hyacinite.png" :unlocked="data['darkmatter'].unlocked" :opinion="data['hyacinite'].opinion" />
@@ -127,7 +127,7 @@
                     </sidenav-group>
 
                     <sidenav-group id="enlightenmentHeading" :unlocked="data['ultrite'].unlocked">
-                        <sidenav-item id="ultritePane" icon="ultrite.png" :unlocked="data['ultrite'].unlocked" :count="data['ultrite'].count" :potential="getPotentialUL" />
+                        <sidenav-item id="ultritePane" icon="ultrite.png" :unlocked="data['ultrite'].unlocked" :count="ultrite" :potential="getPotentialUL" />
                         <sidenav-item id="titansPane" icon="titans.png" :unlocked="data['ultrite'].unlocked" />
                         <sidenav-item id="upgradesPane" icon="upgrades.png" :unlocked="data['ultrite'].unlocked" />
                     </sidenav-group>
